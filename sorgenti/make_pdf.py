@@ -94,7 +94,7 @@ class Diagram(Flowable):
 
 story = []
 story.append(Paragraph('Motore per avventure testuali: documento di design', h1))
-story.append(Paragraph('4 novembre 2026', sub))
+story.append(Paragraph('7 novembre 2026', sub))
 
 
 def H(t):
@@ -360,6 +360,20 @@ BL(["**Nel core.** Due proprietà facoltative, quindi il formato resta 2: «buia
 H("La guida nell'app e l'app in inglese (versione 50)")
 P("**Guida.** C'è una scheda nuova, **Guida**, con la guida divisa in 13 sezioni che si aprono e si chiudono, e un indice in cima per saltare all'argomento. Il bottone **?** in alto apre direttamente la sezione della scheda in cui ci si trova (dalla scheda Oggetti, la sezione Oggetti). Il testo della guida è nell'app in italiano e in inglese.")
 P("**Lingua dell'app.** Il bottone **IT/EN** in alto cambia la lingua dell'interfaccia: schede, bottoni, spiegazioni, controlli, modelli di regola, guida. La scelta viene ricordata; per applicarla la pagina si ricarica (il progetto è già salvato). È indipendente dalla lingua del gioco: con l'app in inglese si può scrivere un'avventura in italiano, e viceversa. Tecnicamente i testi dell'interfaccia restano scritti in italiano nel codice e passano da una funzione T(), che li cerca in un dizionario inglese di circa 800 voci incluso nella pagina; i testi del gioco (core, risposte predefinite, esempio) non passano da lì.")
+H('Pubblicazione su GitHub Pages (fatto)')
+P("L'app è nel repository pubblico **Linobob/avventure** (licenza MIT): il file `index.html` è l'app intera, in una sola pagina, e GitHub Pages la serve all'indirizzo linobob.github.io/avventure/. Il repository contiene anche i giochi d'esempio compilati (cartella esempi), i documenti in PDF (documenti) e tutti i sorgenti (sorgenti): compilatori, interpreti in assembly, assemblatori ed emulatori di prova, test.")
+BL(["**Una sola fonte.** La pagina pubblicata si prepara con lo script `pubblica.py`, che rigenera il motore, copia l'app in `index.html`, ricompila gli esempi (C64, Spectrum, Web, italiano e inglese) e crea l'elenco `NOVITA.md`.",
+    "**Pagina adatta ai telefoni.** Dentro Claude la pagina riceve da sola la larghezza del telefono; fuori no. Lo script la avvolge in un documento completo, con il tag «viewport», così sul telefono non appare più come un sito da computer rimpicciolito.",
+    "**Link per tornare al sito.** In alto a sinistra c'è «← Linobob», come nelle altre pagine del sito personale. Compare solo nella versione pubblicata.",
+    "**Elenco delle novità.** Il bottone ✦ in alto apre l'elenco di ciò che è stato aggiunto dopo la prima pubblicazione sul repository (italiano e inglese). Si aggiorna a mano a ogni modifica, in un blocco dell'app che lo script riporta anche in `NOVITA.md`."])
+H('Salvare i file su iPhone e iPad (fatto)')
+P("Su iPhone e iPad (da iOS 18.2) i download che partono da un indirizzo «blob», cioè un file creato dalla pagina stessa, spesso non arrivano nell'app File: è un difetto di Safari e di altri browser, segnalato in molte discussioni. L'app lo aggira usando il **pannello Condividi** di iOS: quando si salva un file (core .json, gioco .html, .prg, .tap) compare un riquadro con «Salva» e «Annulla»; toccando «Salva» si apre il pannello e si sceglie «Salva su File». Il riquadro serve perché iOS apre il pannello solo dopo un tocco diretto. Sugli altri dispositivi il salvataggio non cambia.")
+H('Combinare due oggetti (fatto)')
+P("Nuovo modello di regola **«Combinare due oggetti»**: «combina corda con gancio» fa sparire i due oggetti e ne crea uno nuovo, che va con il giocatore. Non serve nessun motore nuovo: è una regola a due oggetti, con tre azioni (sposta il primo fuori dal gioco, sposta il secondo fuori dal gioco, sposta il risultato con il giocatore) e il messaggio.")
+BL(["**Che cosa chiede.** Il comando (se manca, aggiunge «combina» con i sinonimi unisci e assembla), i due oggetti, che cosa ne nasce (un oggetto nuovo, con nome, riga dell'elenco e descrizione, oppure uno già preparato fuori dal gioco), il messaggio, se il giocatore deve avere con sé tutti e due e il messaggio per quando non li ha.",
+    "**I due ordini.** Una regola vale per un ordine solo («combina A con B»), quindi il modello può crearne due, anche per «combina B con A» (spunta attiva di default).",
+    "**Oggetti fuori dal gioco.** Per far nascere l'oggetto serve un posto dove stia prima: nella scheda di un oggetto, «Dove si trova all'inizio» ha ora la voce **«Fuori dal gioco (una regola lo fa comparire)»**. Prima valeva solo per gli argomenti di conversazione. Il formato del core non cambia (il valore «nessuno» era già previsto) e i compilatori C64 e Spectrum lo trattavano già come «non c'è». Il pannello Controlli avvisa se un oggetto parte fuori dal gioco e nessuna regola lo fa comparire.",
+    "**Prove.** Sul gioco d'esempio, combinando chiave e moneta compare l'amuleto con entrambi gli ordini; Web, C64 e Spectrum danno le stesse risposte, e l'esplorazione completa del gioco resta di 30.024 situazioni."])
 H('Spostare regole, eventi e passi (versione 47)')
 P("Nelle schede Regole, Eventi e Soluzione, oltre ai bottoni «Su» e «Giù» (un posto alla volta), ogni elemento ha un menu **«Sposta in…»**: elenca tutte le posizioni possibili («In cima», «Prima della 5: parla giardiniere», «In fondo») e sposta l'elemento subito, in un solo passaggio. Dopo lo spostamento la scheda resta aperta e la pagina scorre fino a lei. L'ordine delle regole conta, perché scatta la prima che va bene: per questo il menu mostra il riassunto della regola davanti alla quale ci si mette.")
 H('Modelli di regola (fatto)')
