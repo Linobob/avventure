@@ -12,7 +12,7 @@ intest = '<!doctype html>\n<html lang="it">\n<head>\n<meta charset="utf-8">\n<me
 # Elenco delle novità (stesso blocco che mostra il pulsante ✦ dell'app), leggibile anche su GitHub.
 import json, re
 _n = json.loads(re.search(r'<script type="application/json" id="novita">(.*?)</script>', open(os.path.join(S, 'authoring.html'), encoding='utf-8').read(), re.S).group(1).replace('<\\/', '</'))
-righe = ['# Novità / What\'s new', '', 'Dalla prima pubblicazione sul repository (7 novembre 2026), dalla più recente. / Since the first publication on the repository, most recent first.', '']
+righe = ['# Novità / What\'s new', '', 'Le novità del motore e dell\'app, dalla più recente. / What\'s new in the engine and the app, most recent first.', '']
 for x in _n:
     righe += ['## ' + x['it'][0] + ' (' + x['d'] + ')', '', x['it'][1], '', '*' + x['en'][0] + ':* ' + x['en'][1], '']
 open(os.path.join(R, 'NOVITA.md'), 'w', encoding='utf-8').write('\n'.join(righe))
