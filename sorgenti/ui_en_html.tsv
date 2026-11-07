@@ -1,0 +1,127 @@
+Annulla modifica	Undo
+Ripristina	Redo
+Applica	Apply
+Apri da un file…	Open from a file…
+Authoring avventure	Adventure authoring
+Comando	Command
+Compila	Build
+Controlli	Checks
+Core dei dati in JSON	Core data as JSON
+Duplica quello aperto	Duplicate the open one
+Guida	Guide
+Guida di questa scheda	Guide for this tab
+I tuoi progetti	Your projects
+Il core completo. Qui puoi modificare anche ciò che i moduli non mostrano ancora: porte, usi, uscite nascoste, finale, vocabolario e testi.	The complete core. Here you can also edit what the forms do not show yet: doors, uses, hidden exits, ending, vocabulary and texts.
+Il core in JSON	The core as JSON
+Il core resta salvato in questo browser. Per portarlo altrove, o per tenerne una copia, salvalo in un file; per riprenderlo, aprilo da un file.	The core stays saved in this browser. To take it elsewhere, or to keep a copy, save it to a file; to bring it back, open it from a file.
+Invia	Send
+Mappa	Map
+Nuovo dall'esempio	New from the example
+Nuovo progetto vuoto	New empty project
+Nuovo progetto vuoto in inglese	New empty project in English
+Ogni progetto è un'avventura a sé, salvata in questo browser. Il nome del progetto è il titolo del gioco: lo cambi nella scheda Stanze. Le modifiche si salvano da sole e Annulla vale per il progetto aperto.	Each project is a separate adventure, saved in this browser. The project name is the game's title: you change it in the Rooms tab. Changes are saved automatically and Undo applies to the open project.
+Parole	Words
+Prova	Play
+Regole	Rules
+Ripristina l'esempio	Restore the example
+Salva e apri	Save and open
+Salva in un file (.json)	Save to a file (.json)
+Sezioni	Sections
+Soluzione	Solution
+Sostituisci il core attuale	Replace the current core
+Stanze	Rooms
+Tema: automatico. Tocca per cambiare	Theme: automatic. Tap to change
+Torna al core di prima	Back to the previous core
+Web, Commodore 64 e ZX Spectrum	Web, Commodore 64 and ZX Spectrum
+es. prendi chiave	e.g. take key
+Lingue	Languages
+Oggetti	Objects
+avviso	warning
+avvisi	warnings
+azione	action
+azioni	actions
+condizione	condition
+condizioni	conditions
+errore	error
+errori	errors
+evento	event
+eventi	events
+frammento	fragment
+frammenti	fragments
+nota	note
+note	notes
+oggetto	object
+oggetti	objects
+parola mancante	missing word
+parole mancanti	missing words
+regola	rule
+regole	rules
+stanza	room
+stanze	rooms
+testo resta	text remains
+testi restano	texts remain
+testo è stato tradotto	text was translated
+testi sono stati tradotti	texts were translated
+testo	text
+testi	texts
+traduzione è	translation is
+traduzioni sono	translations are
+uscita	exit
+uscite	exits
+variabile	variable
+variabili	variables
+voce del vocabolario manca	vocabulary entry is missing
+voci del vocabolario mancano	vocabulary entries are missing
+voce del vocabolario	vocabulary entry
+voci del vocabolario	vocabulary entries
+voce	entry
+voci	entries
+con 	with 
+ problemi.	 problems.
+è aperto	is open
+è chiuso	is closed
+è acceso	is lit
+è spento	is unlit
+è qui nella stanza	is here in the room
+ce l'hai con te	you have it with you
+è qui o ce l'hai	is here or you have it
+vale	equals
+non vale	does not equal
+è almeno	is at least
+è al massimo	is at most
+ da tradurre	 to translate
+ da fare	 to do
+»: va conservato così com'è.	»: it must be kept exactly as it is.
+ testi da tradurre	 texts to translate
+ voci del vocabolario mancanti	 vocabulary entries missing
+, nessun errore	, no errors
+oggetto: 	object: 
+variabile: 	variable: 
+parole	words
+completo	complete
+complete	complete
+KB di 	KB of 
+ KB di 	 KB of 
+ con 	 with 
+ di 	 of 
+descrizione	description
+dentro 	inside 
+es. spingi	e.g. push
+ verbi	 verbs
+ direzioni	 directions
+ frasi	 sentences
+verso	to
+(qualsiasi)	(any)
+(nessuno)	(none)
+ (verso 	 (to 
+ se 	 if 
+ usata 	 used 
+ volta	 time
+ volte	 times
+ (tutte).	 (all).
+circa 	about 
+ byte	 bytes
+aperta	open
+inizio	start
+Salva per C64 (.prg)	Save for C64 (.prg)
+Salva per Spectrum (.tap)	Save for Spectrum (.tap)

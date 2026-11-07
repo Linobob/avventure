@@ -1,0 +1,14 @@
+const {chromium}=require('playwright');const fs=require('fs');
+(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:1600}});const errs=[];p.on('pageerror',e=>errs.push(e.message));
+await p.goto('file://'+process.cwd()+'/authoring.html');await p.evaluate(()=>localStorage.clear());await p.reload();await p.waitForTimeout(300);
+await p.evaluate(()=>{CORE.oggetti.push({id:'guardia',nome:'guardia',sinonimi:[],etichetta:'una guardia',descrizione:'Una guardia severa.',dove:'giardino',prendibile:false,personaggio:true});
+ CORE.regole=CORE.regole.filter(r=>!(r.quando.verbo==='dai'));CORE.oggetti.find(o=>o.id==='mela').dove='giardino';});
+await p.click('.scheda[data-tab=regole]');await p.evaluate(()=>{aperte.add('p-modelli');ridisegna()});
+await p.locator('#p-regole details.p-modelli select').first().selectOption('blocca');await p.waitForTimeout(200);
+const M='#p-regole details.p-modelli label.campo';
+await p.locator(M+':has-text("Chi blocca") select').selectOption('guardia');await p.waitForTimeout(100);
+await p.locator(M+':has-text("Quale uscita") select').selectOption('giardino|sud');await p.waitForTimeout(100);
+await p.locator(M+':has-text("Che cosa serve") select').selectOption('mela');await p.waitForTimeout(200);
+await p.click('#p-regole details.p-modelli button.primario');await p.waitForTimeout(300);
+console.log('val',await p.evaluate(()=>JSON.stringify(validaCore(CORE))),'ctrl',await p.evaluate(()=>controlli(CORE).filter(x=>x.g!=='info').map(x=>x.t.slice(0,80))));
+fs.writeFileSync('blk_core.json',await p.evaluate(()=>JSON.stringify(CORE)));console.log(errs);await b.close()})();

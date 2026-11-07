@@ -1,0 +1,233 @@
+500	HTML, a single file
+501	Includes the whole core, like the C64 version: rooms, conditional exits, objects with states, description fragments and rules, with auto-repeating keyboard. The .tap file loads with LOAD "" in any emulator, or with a tape player.
+502	 · memory free for the data up to
+503	Direct saving is not available here.
+504	Zip ready: the .tap file is inside.
+505	Save for Spectrum (.zip with .tap)
+506	ZX Spectrum
+507	Includes the whole core: rooms, conditional exits, objects with states, description fragments and rules. The game wraps lines between words by itself. The file loads with LOAD"*",8,1 or can be dropped into an emulator (VICE).
+508	Not included yet:
+509	Zip ready: the .prg file is inside.
+510	Save for C64 (.zip with .prg)
+511	Commodore 64
+512	default sentence
+513	to review
+514	to translate
+515	Rooms
+516	Objects
+517	Rules
+518	Game responses
+519	Game language
+520	text remains
+521	texts remain
+522	vocabulary entry is missing
+523	vocabulary entries are missing
+524	translation is
+525	translations are
+526	 to review
+527	⚠ Incomplete translation:
+528	✓ Complete translation.
+529	One core for all languages: rooms, objects, rules and solution stay the same, languages change only texts and words. Every built game has a single language, chosen in the Play and Build tabs.
+530	Base language
+531	The language you write the core in
+532	It decides the game's default responses and the word for restarting. The responses you have not changed switch to the new language; your own texts stay as they are.
+533	% of the texts
+534	missing word
+535	missing words
+536	+ Add the translation into
+537	Translations
+538	No translations yet.
+539	For now the program knows Italian and English; more languages will come later.
+540	Translation into
+541	Show
+542	Only texts to translate or review
+543	All texts
+544	Everything is translated here. Choose "All texts" to review them.
+545	all translated
+546	Delete the translation into
+547	⚠ The original contains «
+548	no placeholder
+549	In
+550	-
+551	-
+552	The original has changed. It used to be: «
+553	Empty = the game uses the default sentence in
+554	The translation is still fine
+555	-
+556	Words the game ignores
+557	Words that join two objects
+558	Vocabulary
+559	The words the player types in
+560	, separated by commas: one word each, the first is the main one (shown on the quick buttons). Phrasal verbs already work by writing only the verb: in "pick up lamp" "up" is a direction and in "look at door" "at" joins, and the game skips them.
+561	+ Fill in with suggested words (
+562	Other words
+563	Synonyms
+564	Adjectives
+565	Object words
+566	The name the player uses for the object: a single word. Labels and descriptions are translated in the Objects section above.
+567	Translate from
+568	 into
+569	 the texts and words of a text adventure (a game where you type commands such as "take key").
+570	Fill in only the fields "traduzione", "parole", "etichetta", "nome", "sinonimi" and "aggettivi". Do not change "chiave", "contesto", "originale" or the other fields.
+571	Reply with this same JSON, complete and valid, with no comments and no other text before or after.
+572	Keep the tone, the person (usually the second: "you") and the tense of the original. Keep placeholders such as {0} and line breaks exactly.
+573	"contesto" says where the text appears. Object labels have the indefinite article and end up in a list ("You can see: a key and a table.").
+574	If there is "traduzione_precedente", the original has changed: update that translation. If "traduzione" is already filled in, check it and fix it only if needed.
+575	Commands, directions, prepositions, ignored words, names, synonyms and adjectives are words the player types: one word each, lowercase, with no spaces or apostrophes, at most 15 letters. The first word of a command or a direction is the main one; add common synonyms and abbreviations.
+576	For phrasal verbs (in English "pick up", "look at") write only the verb: the particle is already a direction or a preposition and the game skips it.
+577	"nome" is the object's main name (a noun); "aggettivi" tell apart objects with the same name. The "etichetta" of a direction is how it is written in the list of exits.
+578	On vintage computers (Commodore 64, ZX Spectrum) the only accented letters available are à è é ì ò ù and their capitals: avoid other special symbols.
+579	I can't find a JSON object in the text.
+580	The JSON is not valid:
+581	The JSON is not a translation for this program.
+582	The file is a translation into
+583	, not into
+584	» is not a single word, skipped.
+585	Text «
+586	»: no longer in the core, skipped.
+587	: the placeholders such as {0} do not match, skipped.
+588	Command «
+589	»: does not exist in the core, skipped.
+590	Direction «
+591	»: does not exist in the core, skipped.
+592	Prepositions
+593	Ignored words
+594	Object «
+595	», name
+596	», synonyms
+597	», adjectives
+598	Paste the model's answer here (the complete JSON)
+599	Reply to import
+600	Nothing new to import.
+601	Ready to import:
+602	vocabulary entry
+603	vocabulary entries
+604	text was translated
+605	texts were translated
+606	 from an original that has changed in the meantime: they will be marked "to review".
+607	… and
+608	Import
+609	Cancel
+610	Only what is missing or to review
+611	Export a file with the texts and words to translate and the instructions for the model. Give it to Claude (or another model), then paste the answer here or open it as a file: before importing it, the program checks it and shows you what changes. After importing, read the translation over above.
+612	Direct saving is not available here: use "Copy".
+613	). Try "Copy".
+614	Export (.json)
+615	Copied: paste it into the chat with the model.
+616	I can't copy from here: use "Export".
+617	Copy
+618	Import the answer
+619	Check
+620	Open a file…
+621	Assisted translation
+622	export and import
+623	Core
+624	Ending and solution
+625	Texts
+626	Languages
+627	Retro systems
+628	And
+629	the exit
+630	 of «
+631	a description fragment of «
+632	rule
+633	event
+634	» cannot be reached through any exit from the start.
+635	» has no exits: the player would be stuck there.
+636	» has no description yet.
+637	» has about
+638	 characters of description and fragments: on retro systems it takes more than one screen.
+639	Event
+640	 is tied to «
+641	», which cannot be reached.
+642	» is a dark room but no object gives light: the player would never see anything (tick "Gives light when lit" on a lantern or similar).
+643	» gives light when lit, but no rule lights it: it can never be used (use the template "Turn on and off").
+644	» is a conversation topic but no rule uses it: talking about it leads nowhere (use the template "Ask a character about a topic").
+645	» is inside a container that opens and closes, but no rule opens it: it will never be seen (create the rules with the template "Container that opens and closes").
+646	» is in «
+647	», which cannot be reached, and no rule moves it: it is never found.
+648	The word «
+649	) is among the words the game ignores: the player won't be able to use it.
+650	» has no description: "look" answers with a generic sentence.
+651	» is a character but no rule answers it: talking to it or giving it something leads nowhere (use the templates "Talk to a character" and "Give an object to a character").
+652	Rule
+653	 gives something to «
+654	», but «
+655	» is missing from the words that join two objects: the player won't be able to type it (add it from the character's card).
+656	For
+657	» must be
+658	, but no rule
+659	 it (action «
+660	»): it will never happen.
+661	step
+662	 of the solution
+663	The command «
+664	» has no rules: it always answers "Nothing happens".
+665	») never fires: rule
+666	») comes before it and always answers.
+667	 uses a second object ("with"), but the vocabulary has no words that join two objects: it never fires.
+668	 is about «
+669	», which is never found.
+670	the command «
+671	the direction «
+672	a linking word
+673	an ignored word
+674	an object name
+675	» has more than one meaning:
+676	The variable «
+677	» is never used.
+678	 the variable «
+679	, but no action changes it and it is always
+680	: it will never happen.
+681	» is changed but no condition tests it.
+682	No rule ends the game ("End of the game" action): there is no way to win.
+683	The solution is empty: in the Solution tab you can write the steps and have them verified.
+684	The solution does not end with the step "End of the game".
+685	: contains «
+686	», which becomes «?» on retro systems.
+687	The translation into
+688	 is at
+689	All the checks on the core in one place: errors that block the game, warnings about things you probably did not mean, and information. Tapping "Go" opens the place to fix.
+690	✓ No errors and no warnings
+691	All
+692	Only errors and warnings
+693	-
+694	-
+695	Go
+696	Nothing to report.
+697	How much memory the built game uses (program, interpreter, font and data) compared with what is available. The Web game has no such limit.
+698	Commodore 64:
+699	ZX Spectrum:
+700	Memory on retro systems
+701	cannot be calculated
+702	too large
+703	at most
+704	The check that the solution really leads to the end, and the dead ends, are in the Solution tab.
+705	Variables:
+706	The game cannot be played while there are problems:
+707	◐ Auto
+708	☀ Light
+709	☾ Dark
+710	Theme:
+711	-
+712	-
+713	Essential parts of the core are missing (format, rooms, objects, vocabulary, texts).
+714	Applied, but there are problems:
+715	Copied
+716	Selected: copy it by hand
+717	Tap again: you lose your changes
+718	Restore the example
+719	Direct saving is not available here: use "Copy" and paste the text into a .json file.
+720	» is not a valid JSON file (
+721	» does not look like a core for this program: format 2, rooms, objects, vocabulary or texts are missing.
+722	Found «
+723	untitled
+724	 It has
+725	 to fix later (the first:
+726	 No problems.
+727	Import cancelled.
+728	Core replaced. If you made a mistake, you can go back to the previous one.
+729	Restored the previous core.
+730	-
+731	-
+732	-

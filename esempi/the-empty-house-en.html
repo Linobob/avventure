@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Empty House</title>
+<style>
+:root { --bg: #f3f2fa; --panel: #ffffff; --fg: #1d1a3a; --muted: #625d8a; --line: #d6d3ea; --accent: #4b3ab0; --accent-fg: #ffffff; --echo: #4b3ab0; --room: #2b2370; --stanza: #1d5fa8; --oggetto: #1f7a3a; --uscita: #0b7480; --err: #a3262a; --mono: ui-monospace, Menlo, Consolas, "Courier New", monospace; --ui: system-ui, -apple-system, "Segoe UI", sans-serif; color-scheme: light dark; }
+@media (prefers-color-scheme: dark) { :root { --bg: #0e0c1b; --panel: #19162e; --fg: #ece9fb; --muted: #a8a3cc; --line: #2e2a4c; --accent: #a99df5; --accent-fg: #181240; --echo: #a99df5; --room: #e6e08a; --stanza: #8dbbf3; --oggetto: #82d79c; --uscita: #6fd0da; --err: #ff9b94; } }
+html, body { height: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.5 var(--ui); padding: 12px max(16px, env(safe-area-inset-right, 0px)) 12px max(16px, env(safe-area-inset-left, 0px)); box-sizing: border-box; }
+.app { width: 100%; max-width: 46rem; height: 100%; margin: 0 auto; display: flex; flex-direction: column; min-height: 0; }
+h1 { margin: 0 0 10px; font-size: 1.1rem; font-weight: 600; line-height: 1.25; }
+.registro { flex: 1; min-height: 0; overflow-y: auto; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; font-family: var(--mono); font-size: 0.95rem; line-height: 1.55; }
+.riga { margin: 0 0 0.7em; white-space: pre-wrap; overflow-wrap: anywhere; }
+.riga.titolo { font-weight: 600; }
+.riga.stanza { color: var(--room); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.2em; }
+.riga.eco { color: var(--echo); margin-top: 1em; }
+.riga.elenco { color: var(--muted); }
+.riga.stanza { color: var(--stanza); }
+.riga.oggetti { color: var(--oggetto); }
+.riga.uscite { color: var(--uscita); }
+.riga.errore { color: var(--err); }
+.riga.eco { color: var(--fg); font-weight: 650; border-left: 3px solid var(--accent); padding-left: 8px; }
+.rapidi { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.rapido { font: 500 0.9rem var(--mono); color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 0 14px; min-height: 40px; cursor: pointer; }
+.comando { display: flex; gap: 8px; margin-top: 10px; }
+.comando label { position: absolute; left: -9999px; }
+.comando input { flex: 1; min-width: 0; height: 46px; box-sizing: border-box; padding: 0 12px; font: 400 16px var(--mono); color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+.comando button { height: 46px; padding: 0 18px; font: 600 0.95rem var(--ui); cursor: pointer; color: var(--accent-fg); background: var(--accent); border: 0; border-radius: 8px; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+</head>
+<body>
+<main class="app">
+<h1 id="titolo"></h1>
+<div class="registro" id="registro" role="log" aria-live="polite"></div>
+<div class="rapidi" id="rapidi"></div>
+<form class="comando" id="modulo" autocomplete="off">
+<label for="cmd">Comando</label>
+<input id="cmd" type="text" enterkeyhint="send" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="scrivi un comando">
+<button type="button" id="invia">Invia</button>
+</form>
+</main>
+<script type="text/plain" id="core" data-k="2773580787" data-z="1">
+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
+Mh4=
+</script>
+<script>
+
+// Toglie apostrofi e punteggiatura, tiene le lettere accentate (per mostrare la parola com'era scritta).
+const base = s => String(s).toLowerCase().replace(/[’'`]/g, ' ').replace(/[^\p{L}\p{N} ]/gu, ' ').replace(/\s+/g, ' ').trim();
+// Come base, senza accenti (per confrontare le parole).
+const norm = s => base(s).normalize('NFD').replace(/[̀-ͯ]/g, '');
+
+function indicizza(c) {
+  const verbo = new Map(), dir = new Map(), nomi = new Map(), agg = new Map(), aggDi = new Map(), prep = new Set((c.vocabolario.preposizioni || []).map(norm));
+  const ign = new Set((c.vocabolario.ignora || []).map(norm));
+  const cp = chiaviParole(c);
+  for (const [k, ws] of Object.entries(c.vocabolario.verbi)) (cp ? [k, ...ws] : ws).forEach(w => verbo.set(norm(w), k));
+  for (const [k, ws] of Object.entries(c.vocabolario.direzioni)) (cp ? [k, ...ws] : ws).forEach(w => dir.set(norm(w), k));
+  for (const o of c.oggetti) {
+    [o.nome, ...(o.sinonimi || [])].forEach(w => {
+      const n = norm(w);
+      if (!nomi.has(n)) nomi.set(n, new Set());
+      nomi.get(n).add(o.id);
+    });
+    aggDi.set(o.id, new Set());
+    (o.aggettivi || []).forEach(w => { const n = norm(w); if (n) { agg.set(n, true); aggDi.get(o.id).add(n); } });
+  }
+  return { verbo, dir, ign, nomi, agg, aggDi, prep };
+}
+
+function creaPartita(c) {
+  const pos = {};
+  c.oggetti.forEach(o => { pos[o.id] = o.dove; });
+  const vars = {};
+  (c.variabili || []).forEach(v => { vars[v.id] = v.iniziale || 0; });
+  (c.eventi || []).forEach((e, i) => { if (e.una_volta) vars['_ev' + i] = 0; });
+  return { stanza: c.inizio, pos, aperti: [], attivi: [], finito: false, vars };
+}
+
+// Frasi di risposta predefinite per lingua: valgono quando il core non ne ha una sua.
+const TESTI_LINGUA = {
+  it: { non_capisco: 'Non capisco.', parola_sconosciuta: 'Non conosco la parola «{0}».', dove_andare: 'Dove vuoi andare?', nessuna_uscita: 'Di là non si passa.',
+    uscita_bloccata: 'Di là non puoi passare.', cosa_prendere: 'Cosa vuoi prendere?', cosa_lasciare: 'Cosa vuoi lasciare?', non_presente: 'Qui non vedi niente del genere.',
+    quale_intendi: 'Quale intendi? Sii più preciso, per esempio con un aggettivo.', non_hai: 'Non hai niente del genere con te.', gia_in_mano: "Ce l'hai già con te.",
+    non_prendibile: 'Non puoi prendere questo oggetto.', preso: 'Preso.', lasciato: 'Lasciato.', inventario_vuoto: 'Non hai niente con te.', inventario: 'Hai con te: {0}.',
+    qui_vedi: 'Qui vedi: {0}.', uscite: 'Uscite: {0}.', niente_succede: 'Non succede niente.', gioco_finito: 'Il gioco è finito. Scrivi «ricomincia» per rigiocare.',
+    ricomincia: 'Premi Invio per ricominciare.', descrizione_vuota: 'Non noti nulla di particolare.', congiunzione: 'e',
+    dentro: 'Dentro c\'è: {0}.', vuoto: 'Dentro non c\'è niente.', cosa_mettere: 'Cosa vuoi mettere, e dove?', non_contenitore: 'Non puoi metterlo lì dentro.',
+    contenitore_chiuso: 'È chiuso.', messo: 'Fatto.',
+    qui_personaggio: 'Qui c\'è {0}.', qui_personaggi: 'Qui ci sono {0}.', no_personaggio: 'Non sembra d\'accordo.',
+    tempo_passa: 'Il tempo passa.', aiuto: 'Scrivi i comandi in italiano: per esempio «guarda», «prendi chiave», «apri porta con chiave», «nord», «inventario». Puoi scrivere «ripeti» per rifare l\'ultimo comando e «prendi tutto» per raccogliere ogni cosa.',
+    niente_da_prendere: 'Non c\'è niente da prendere.', niente_da_lasciare: 'Non hai niente da lasciare.',
+    buio: 'È buio pesto: non riesci a vedere niente.' },
+  en: { non_capisco: "I don't understand.", parola_sconosciuta: "I don't know the word \"{0}\".", dove_andare: 'Where do you want to go?', nessuna_uscita: "You can't go that way.",
+    uscita_bloccata: "You can't get through that way.", cosa_prendere: 'What do you want to take?', cosa_lasciare: 'What do you want to drop?', non_presente: "You can't see any such thing here.",
+    quale_intendi: 'Which one do you mean? Be more specific, for example with an adjective.', non_hai: "You aren't carrying anything like that.", gia_in_mano: 'You already have it.',
+    non_prendibile: "You can't take that.", preso: 'Taken.', lasciato: 'Dropped.', inventario_vuoto: "You aren't carrying anything.", inventario: 'You are carrying: {0}.',
+    qui_vedi: 'You can see: {0}.', uscite: 'Exits: {0}.', niente_succede: 'Nothing happens.', gioco_finito: 'The game is over. Type "restart" to play again.',
+    ricomincia: 'Press Enter to play again.', descrizione_vuota: 'You see nothing special.', congiunzione: 'and',
+    dentro: 'Inside: {0}.', vuoto: "There's nothing inside.", cosa_mettere: 'What do you want to put, and where?', non_contenitore: "You can't put it in there.",
+    contenitore_chiuso: "It's closed.", messo: 'Done.',
+    qui_personaggio: 'Here is {0}.', qui_personaggi: 'Here are {0}.', no_personaggio: "That wouldn't go down well.",
+    tempo_passa: 'Time passes.', aiuto: 'Type your commands in English: for example "look", "take key", "open door with key", "north", "inventory". Type "again" to repeat the last command and "take all" to pick everything up.',
+    niente_da_prendere: 'There is nothing to take.', niente_da_lasciare: "You aren't carrying anything to drop.",
+    buio: "It is pitch black. You can't see a thing." }
+};
+// Parole dell'interfaccia del gioco per lingua (la parola per ricominciare e le scritte della pagina Web).
+const LINGUE_UI = {
+  it: { nome: 'Italiano', ricomincia: 'ricomincia', comando: 'Comando', scrivi: 'scrivi un comando', invia: 'Invia', titolo: 'Avventura', vecchio: 'Non riesco a leggere i dati del gioco: questo browser è troppo vecchio.' },
+  en: { nome: 'English', ricomincia: 'restart', comando: 'Command', scrivi: 'type a command', invia: 'Send', titolo: 'Adventure', vecchio: "Can't read the game data: this browser is too old." }
+};
+const linguaDi = c => (c.lingua && TESTI_LINGUA[c.lingua]) ? c.lingua : 'it';
+const ui = c => LINGUE_UI[linguaDi(c)];
+const testo = (c, chiave, ...a) => String(c.testi[chiave] ?? TESTI_LINGUA[linguaDi(c)][chiave] ?? TESTI_LINGUA.it[chiave] ?? chiave).replace(/\{(\d)\}/g, (_, i) => a[+i]);
+const elenca = (c, v) => v.length < 2 ? v.join('') : v.slice(0, -1).join(', ') + ' ' + testo(c, 'congiunzione') + ' ' + v.at(-1);
+// Nei core vecchi l'identificativo di un comando o di una direzione è anche una parola che il gioco capisce;
+// con "chiavi_parole": false (core in inglese e traduzioni) contano solo le parole elencate.
+const chiaviParole = c => c.vocabolario.chiavi_parole !== false;
+const parola = (c, gruppo, k) => chiaviParole(c) ? k : ((c.vocabolario[gruppo] || {})[k] || [])[0] || k;
+const nomeDir = (c, d) => (c.vocabolario.etichette_direzioni || {})[d] || parola(c, 'direzioni', d);
+const etichetta = (o, st) => (st.aperti.includes(o.id) && o.etichetta_aperta) || (st.attivi.includes(o.id) && o.etichetta_attiva) || o.etichetta || o.nome;
+const descr = (o, st) => (st.aperti.includes(o.id) && o.descrizione_aperta) || (st.attivi.includes(o.id) && o.descrizione_attiva) || o.descrizione;
+const verso = u => typeof u === 'object' ? u.a : u;
+
+function stanzaCorrente(c, st) { return c.stanze.find(s => s.id === st.stanza); }
+
+// Una condizione guarda lo stato di un oggetto oppure la stanza in cui si trova il giocatore.
+const AZIONI_VARIABILE = ['imposta', 'aumenta', 'diminuisci'];
+const OP_VARIABILE = { '=': (a, b) => a === b, '!=': (a, b) => a !== b, '>=': (a, b) => a >= b, '<=': (a, b) => a <= b };
+// Contenitori: un oggetto può stare dentro un altro (la sua posizione è l'id del contenitore).
+// La posizione «effettiva» risale i contenitori fino a una stanza o all'inventario; dentro un contenitore chiuso non si vede: null.
+const contenitoreAperto = (st, o) => !o.chiudibile || st.aperti.includes(o.id);
+function posEff(c, st, id) {
+  let p = st.pos[id];
+  for (let n = 0; n < 8; n++) {
+    const k = c.oggetti.find(x => x.id === p && x.contenitore);
+    if (!k) return p;
+    if (!contenitoreAperto(st, k)) return null;
+    p = st.pos[k.id];
+  }
+  return null;
+}
+// La riga «Dentro c'è…» di un contenitore aperto (o niente).
+function contenuto(c, st, o) {
+  if (!o || !o.contenitore || !contenitoreAperto(st, o)) return [];
+  const dentro = c.oggetti.filter(x => st.pos[x.id] === o.id && !(x.in_elenco === false && x.dove === o.id)).map(x => etichetta(x, st));
+  return [dentro.length ? { tipo: 'oggetti', testo: testo(c, 'dentro', elenca(c, dentro)) } : { tipo: 'testo', testo: testo(c, 'vuoto') }];
+}
+function condizione(c, st, se) {
+  if (se.stanza) return st.stanza === se.stanza;
+  if (se.variabile) return (OP_VARIABILE[se.op] || (() => false))((st.vars || {})[se.variabile] || 0, se.valore);
+  const o = c.oggetti.find(x => x.id === se.oggetto);
+  if (!o) return false;
+  const dove = posEff(c, st, o.id);
+  switch (se.stato) {
+    case 'aperto': return st.aperti.includes(o.id);
+    case 'chiuso': return !st.aperti.includes(o.id);
+    case 'acceso': return st.attivi.includes(o.id);
+    case 'spento': return !st.attivi.includes(o.id);
+    case 'qui': return dove === st.stanza;
+    case 'con_te': return dove === 'inventario';
+    case 'a_portata': return dove === st.stanza || dove === 'inventario';
+  }
+  return false;
+}
+const tutte = (c, st, lista) => (lista || []).every(x => condizione(c, st, x));
+
+// Un'uscita può avere condizioni (se), un testo se è bloccata (bloccata) e può restare nascosta finché non è disponibile.
+const uscitaDisponibile = (c, st, u) => typeof u !== 'object' || tutte(c, st, u.se);
+const uscitaVisibile = (c, st, u) => uscitaDisponibile(c, st, u) || !(typeof u === 'object' && u.nascosta);
+const usciteVisibili = (c, st) => Object.entries(stanzaCorrente(c, st).uscite || {}).filter(([, u]) => uscitaVisibile(c, st, u));
+
+// Una stanza «buia» si vede solo con una fonte di luce accesa (oggetto con «luce») nella stanza o con te.
+function senzaLuce(c, st) {
+  const s = stanzaCorrente(c, st);
+  if (!s || !s.buia) return false;
+  return !c.oggetti.some(o => o.luce && st.attivi.includes(o.id) && [st.stanza, 'inventario'].includes(posEff(c, st, o.id)));
+}
+function descriviStanza(c, st) {
+  if (senzaLuce(c, st)) return [{ tipo: 'testo', testo: testo(c, 'buio') }];
+  const s = stanzaCorrente(c, st);
+  const frammenti = (s.frammenti || []).filter(f => tutte(c, st, f.se)).map(f => f.testo);
+  const righe = [{ tipo: 'stanza', testo: s.nome }, { tipo: 'testo', testo: [s.descrizione, ...frammenti].join(' ') }];
+  const presenti = c.oggetti.filter(o => st.pos[o.id] === st.stanza && !(o.in_elenco === false && o.dove === st.stanza));
+  const qui = presenti.filter(o => !o.personaggio).map(o => etichetta(o, st));
+  if (qui.length) righe.push({ tipo: 'oggetti', testo: testo(c, 'qui_vedi', elenca(c, qui)) });
+  const chi = presenti.filter(o => o.personaggio).map(o => etichetta(o, st));
+  if (chi.length) righe.push({ tipo: 'oggetti', testo: testo(c, chi.length > 1 ? 'qui_personaggi' : 'qui_personaggio', elenca(c, chi)) });
+  const vis = usciteVisibili(c, st);
+  vis.forEach(([, u]) => { if (typeof u === 'object' && u.rivelazione && uscitaDisponibile(c, st, u)) righe.push({ tipo: 'testo', testo: u.rivelazione }); });
+  const us = vis.map(([d]) => nomeDir(c, d));
+  if (us.length) righe.push({ tipo: 'uscite', testo: testo(c, 'uscite', us.join(', ')) });
+  return righe;
+}
+
+// Gli oggetti presenti (in `dove`) che corrispondono alle parole: almeno un nome tra quelle date, e tutti gli aggettivi.
+// Se più oggetti rispondono allo stesso nome (o solo agli aggettivi) il comando è ambiguo: si chiede «Quale intendi?».
+// `tollera`: nelle regole l'ambiguità non blocca, vale come «nessun oggetto».
+const AMBIGUO = { ambiguo: true };
+function trovaOggetto(c, idx, st, parole, dove, tollera, conArg) {
+  const np = parole.filter(w => idx.nomi.has(w)), ap = parole.filter(w => !idx.nomi.has(w) && idx.agg.has(w));
+  if (!np.length && !ap.length) return null;
+  if (dove.includes(st.stanza) && senzaLuce(c, st)) dove = dove.filter(x => x !== st.stanza);
+  const cand = c.oggetti.filter(o => (dove.includes(posEff(c, st, o.id)) || (conArg && o.argomento)) &&
+    (!np.length || np.some(w => idx.nomi.get(w).has(o.id))) &&
+    ap.every(w => idx.aggDi.get(o.id).has(w)));
+  const amb = np.length ? np.some(w => cand.filter(o => idx.nomi.get(w).has(o.id)).length > 1) : cand.length > 1;
+  if (amb) { if (tollera) return null; throw AMBIGUO; }
+  return cand[0] || null;
+}
+
+// Regole: quando il giocatore scrive un comando, se valgono le condizioni, succedono le azioni.
+const tipoAzione = a => Object.keys(a)[0];
+function applicaAzione(c, st, a, out) {
+  const t = tipoAzione(a);
+  if (t === 'dire') out.push({ tipo: 'testo', testo: a.dire });
+  else if (t === 'sposta') st.pos[a.sposta.oggetto] = a.sposta.a;
+  else if (t === 'apri') { if (!st.aperti.includes(a.apri)) st.aperti.push(a.apri); }
+  else if (t === 'chiudi') { const i = st.aperti.indexOf(a.chiudi); if (i >= 0) st.aperti.splice(i, 1); }
+  else if (t === 'accendi') { if (!st.attivi.includes(a.accendi)) st.attivi.push(a.accendi); }
+  else if (t === 'spegni') { const i = st.attivi.indexOf(a.spegni); if (i >= 0) st.attivi.splice(i, 1); }
+  else if (t === 'descrivi') descriviStanza(c, st).forEach(r => out.push(r));
+  else if (t === 'fine') { out.push({ tipo: 'titolo', testo: a.fine }); st.finito = true; }
+  else if (AZIONI_VARIABILE.includes(t)) {
+    const v = (c.variabili || []).find(x => x.id === a[t].variabile), max = v && v.massimo !== undefined ? v.massimo : 255;
+    const ora = st.vars[a[t].variabile] || 0;
+    st.vars[a[t].variabile] = t === 'imposta' ? Math.min(a[t].valore, max) : t === 'aumenta' ? Math.min(max, ora + a[t].di) : Math.max(0, ora - a[t].di);
+  }
+}
+// Esegue le azioni in ordine; se una ha aperto un contenitore, alla fine mostra che cosa c'è dentro.
+function eseguiAzioni(c, st, azioni, out) {
+  let aperto = null;
+  (azioni || []).forEach(a => { applicaAzione(c, st, a, out); if (tipoAzione(a) === 'apri') aperto = a.apri; });
+  if (aperto) contenuto(c, st, c.oggetti.find(o => o.id === aperto)).forEach(r => out.push(r));
+}
+// Eventi d'ingresso: scattano dopo la descrizione della stanza in cui si entra, tutti quelli che combaciano, nell'ordine.
+function ingresso(c, st, out) {
+  (c.eventi || []).forEach((e, i) => {
+    if (st.finito || (e.stanza && e.stanza !== st.stanza)) return;
+    if (e.una_volta && st.vars['_ev' + i]) return;
+    if (!tutte(c, st, e.se)) return;
+    if (e.una_volta) st.vars['_ev' + i] = 1;
+    eseguiAzioni(c, st, e.allora, out);
+  });
+}
+// Inizio della partita: stato iniziale, descrizione della prima stanza ed eventi d'ingresso.
+function apriPartita(c) {
+  const st = creaPartita(c), out = [];
+  descriviStanza(c, st).forEach(r => out.push(r));
+  ingresso(c, st, out);
+  return { st, out };
+}
+// Prima regola che combacia col comando e le cui condizioni sono vere. Restituisce true se ha agito.
+function provaRegole(c, st, verbo, o1, o2, out) {
+  for (const r of c.regole || []) {
+    const q = r.quando || {};
+    if (q.verbo !== verbo) continue;
+    if (q.oggetto && !(o1 && o1.id === q.oggetto)) continue;
+    if (q.con && !(o2 && o2.id === q.con)) continue;
+    if (tutte(c, st, r.se)) {
+      eseguiAzioni(c, st, r.allora, out);
+      return true;
+    }
+    if (r.altrimenti) { out.push({ tipo: 'testo', testo: r.altrimenti }); return true; }
+  }
+  return false;
+}
+
+// Esegue un comando. Non modifica lo stato ricevuto: restituisce le righe da mostrare e il nuovo stato.
+function esegui(c, idx, stato, input) {
+  try { return eseguiComando(c, idx, stato, input); }
+  catch (e) {
+    if (e !== AMBIGUO) throw e;
+    return { out: [{ tipo: 'errore', testo: testo(c, 'quale_intendi') }], st: { stanza: stato.stanza, pos: { ...stato.pos }, aperti: [...stato.aperti], attivi: [...stato.attivi], finito: stato.finito, vars: { ...stato.vars }, ultimo: stato.ultimo } };
+  }
+}
+function eseguiComando(c, idx, stato, input) {
+  const out = [];
+  const di = (tipo, t) => out.push({ tipo, testo: t });
+  const st = { stanza: stato.stanza, pos: { ...stato.pos }, aperti: [...stato.aperti], attivi: [...stato.attivi], finito: stato.finito, vars: { ...stato.vars }, ultimo: stato.ultimo };
+
+  const orig = base(input).split(' ').filter(Boolean);
+  const toks = norm(input).split(' ').filter(Boolean);
+  if (!toks.length) return { out, st };
+  if (st.finito) { di('testo', testo(c, 'gioco_finito')); return { out, st }; }
+
+  const ignota = toks.findIndex(w => !(idx.verbo.has(w) || idx.dir.has(w) || idx.ign.has(w) || idx.prep.has(w) || idx.nomi.has(w) || idx.agg.has(w)));
+  if (ignota >= 0) { di('errore', testo(c, 'parola_sconosciuta', orig[ignota])); return { out, st }; }
+
+  const [p, ...resto] = toks;
+  let verbo, args;
+  if (idx.dir.has(p) && !idx.verbo.has(p)) { verbo = 'vai'; args = toks; }
+  else if (idx.verbo.has(p)) { verbo = idx.verbo.get(p); args = resto; }
+  else { di('errore', testo(c, 'non_capisco')); return { out, st }; }
+  // «ripeti» rifa l'ultimo comando (che non è mai «ripeti» stesso)
+  if (verbo === 'ripeti') {
+    if (!stato.ultimo) { di('testo', testo(c, 'niente_succede')); return { out, st }; }
+    return eseguiComando(c, idx, stato, stato.ultimo);
+  }
+  st.ultimo = input;
+  const nomiArgs = args.filter(w => !idx.ign.has(w));
+
+  // una preposizione separa i due oggetti solo se prima c'è già un nome o un aggettivo («turn on lamp» = «turn lamp on»)
+  const k = args.findIndex((w, i) => idx.prep.has(w) && args.slice(0, i).some(x => idx.nomi.has(x) || idx.agg.has(x)));
+  let p1 = (k < 0 ? args : args.slice(0, k)).filter(w => !idx.ign.has(w) && !idx.prep.has(w));
+  let p2 = (k < 0 ? [] : args.slice(k + 1)).filter(w => !idx.ign.has(w) && !idx.prep.has(w));
+  // dopo la preposizione solo aggettivi («chiave di ferro»): fanno parte del primo oggetto
+  if (p2.length && !p2.some(w => idx.nomi.has(w))) { p1 = p1.concat(p2); p2 = []; }
+  const princ = p1.length ? p1 : p2;   // le parole dell'oggetto di cui si parla (prima della preposizione, o dopo se prima non c'è niente)
+  {
+    let o1 = p1.length ? trovaOggetto(c, idx, st, p1, [st.stanza, 'inventario'], true, true) : null;
+    let o2 = p2.length ? trovaOggetto(c, idx, st, p2, [st.stanza, 'inventario'], true, true) : null;
+    // «parla con anna della chiave» e «chiedi della chiave ad anna» sono la stessa cosa: prima l'argomento, poi il personaggio
+    if (o1 && o2 && o1.personaggio && o2.argomento) [o1, o2] = [o2, o1];
+    if (provaRegole(c, st, verbo, o1, o2, out)) return { out, st };
+  }
+
+  if (verbo === 'inventario') {
+    const mio = c.oggetti.filter(o => st.pos[o.id] === 'inventario').map(o => etichetta(o, st));
+    if (mio.length) di('oggetti', testo(c, 'inventario', elenca(c, mio))); else di('testo', testo(c, 'inventario_vuoto'));
+  } else if (verbo === 'guarda') {
+    if (!princ.length) descriviStanza(c, st).forEach(r => out.push(r));
+    else {
+      const o = trovaOggetto(c, idx, st, princ, [st.stanza, 'inventario']);
+      if (o) { di('testo', descr(o, st) || testo(c, 'descrizione_vuota')); contenuto(c, st, o).forEach(r => out.push(r)); }
+      else di('errore', testo(c, 'non_presente'));
+    }
+  } else if (verbo === 'vai') {
+    const w = args.find(x => idx.dir.has(x));
+    if (!w) di('errore', testo(c, 'dove_andare'));
+    else {
+      const u = (stanzaCorrente(c, st).uscite || {})[idx.dir.get(w)];
+      if (!u || !uscitaVisibile(c, st, u)) di('errore', testo(c, 'nessuna_uscita'));
+      else if (!uscitaDisponibile(c, st, u)) { if (typeof u === 'object' && u.bloccata) di('testo', u.bloccata); else di('errore', testo(c, 'uscita_bloccata')); }
+      else { st.stanza = verso(u); descriviStanza(c, st).forEach(r => out.push(r)); ingresso(c, st, out); }
+    }
+  } else if (verbo === 'prendi') {
+    if (!princ.length) di('errore', testo(c, 'cosa_prendere'));
+    else if (cercaTutto(c, idx, st, princ)) azioniTutto(c, st, 'prendi', out);
+    else {
+      const o = trovaOggetto(c, idx, st, princ, [st.stanza]);
+      if (o) {
+        if (o.prendibile && !o.personaggio) { st.pos[o.id] = 'inventario'; di('testo', testo(c, 'preso')); }
+        else di('errore', testo(c, o.personaggio ? 'no_personaggio' : 'non_prendibile'));
+      } else {
+        const m = trovaOggetto(c, idx, st, princ, ['inventario']);
+        if (m && st.pos[m.id] !== 'inventario') { if (m.prendibile && !m.personaggio) { st.pos[m.id] = 'inventario'; di('testo', testo(c, 'preso')); } else di('errore', testo(c, m.personaggio ? 'no_personaggio' : 'non_prendibile')); }
+        else if (m) di('errore', testo(c, 'gia_in_mano'));
+        else di('errore', testo(c, 'non_presente'));
+      }
+    }
+  } else if (verbo === 'lascia') {
+    if (!princ.length) di('errore', testo(c, 'cosa_lasciare'));
+    else if (cercaTutto(c, idx, st, princ)) azioniTutto(c, st, 'lascia', out);
+    else {
+      const o = trovaOggetto(c, idx, st, princ, ['inventario']);
+      if (o) { st.pos[o.id] = st.stanza; di('testo', testo(c, 'lasciato')); }
+      else di('errore', testo(c, 'non_hai'));
+    }
+  } else if (verbo === 'metti') {
+    // metti X in Y: X deve essere con te, Y un contenitore presente e aperto (e non dentro X)
+    const x = p1.length ? trovaOggetto(c, idx, st, p1, ['inventario']) : null;
+    if (!p1.length || !p2.length) di('errore', testo(c, 'cosa_mettere'));
+    else if (!x) di('errore', testo(c, 'non_hai'));
+    else {
+      const y = trovaOggetto(c, idx, st, p2, [st.stanza, 'inventario']);
+      let dentroX = false;
+      for (let p = y && y.id, n = 0; p && n < 9; p = st.pos[p], n++) if (p === x.id) dentroX = true;
+      if (!y) di('errore', testo(c, 'non_presente'));
+      else if (!y.contenitore || dentroX) di('errore', testo(c, 'non_contenitore'));
+      else if (!contenitoreAperto(st, y)) di('errore', testo(c, 'contenitore_chiuso'));
+      else { st.pos[x.id] = y.id; di('testo', testo(c, 'messo')); }
+    }
+  } else if (verbo === 'aspetta') {
+    di('testo', testo(c, 'tempo_passa'));
+  } else if (verbo === 'aiuto') {
+    di('testo', testo(c, 'aiuto'));
+  } else {
+    const o = princ.length ? trovaOggetto(c, idx, st, princ, [st.stanza, 'inventario'], false, true) : true;
+    if (o) di('testo', testo(c, 'niente_succede')); else di('errore', testo(c, 'non_presente'));
+  }
+  return { out, st };
+}
+
+// «prendi tutto» / «lascia tutto»: le parole indicano l'oggetto speciale «tutto»?
+function cercaTutto(c, idx, st, parole) {
+  const o = trovaOggetto(c, idx, st, parole, [], true, true);
+  return !!(o && o.tutto);
+}
+// Prende (o lascia) ogni oggetto che si può: uno per riga, «etichetta: Preso.»; le regole del singolo oggetto valgono come sempre.
+function azioniTutto(c, st, verbo, out) {
+  const prendi = verbo === 'prendi';
+  const buio = prendi && senzaLuce(c, st);
+  const cand = buio ? [] : c.oggetti.filter(o => !o.argomento && !o.personaggio && (prendi ? st.pos[o.id] === st.stanza && o.prendibile && !(o.in_elenco === false && o.dove === st.stanza) : st.pos[o.id] === 'inventario'));
+  if (!cand.length) { out.push({ tipo: 'errore', testo: testo(c, prendi ? 'niente_da_prendere' : 'niente_da_lasciare') }); return; }
+  for (const o of cand) {
+    const et = etichetta(o, st), tmp = [];
+    if (provaRegole(c, st, verbo, o, null, tmp)) { if (tmp.length) tmp[0] = { ...tmp[0], testo: et + ': ' + tmp[0].testo }; tmp.forEach(r => out.push(r)); }
+    else { st.pos[o.id] = prendi ? 'inventario' : st.stanza; out.push({ tipo: 'testo', testo: et + ': ' + testo(c, prendi ? 'preso' : 'lasciato') }); }
+    if (st.finito) break;
+  }
+}
+
+// Comandi rapidi per il telefono: le uscite della stanza, più guarda e inventario.
+function comandiRapidi(c, st) {
+  if (st.finito) return [{ comando: ui(c).ricomincia, etichetta: ui(c).ricomincia }];
+  const us = usciteVisibili(c, st).map(([d]) => ({ comando: parola(c, 'direzioni', d), etichetta: nomeDir(c, d) }));
+  const g = parola(c, 'verbi', 'guarda'), i = parola(c, 'verbi', 'inventario');
+  return [...us, { comando: g, etichetta: g }, { comando: i, etichetta: i }];
+}
+
+
+
+</script>
+<script>
+// I dati del gioco sono compressi e rimescolati, così non si leggono aprendo il sorgente della pagina.
+function leggiDati(nodo) {
+  var b = atob(nodo.textContent.replace(/[^A-Za-z0-9+/=]/g, '')), dati = new Uint8Array(b.length), x = Number(nodo.dataset.k) >>> 0;
+  for (var i = 0; i < b.length; i++) { x = (Math.imul(x, 1103515245) + 12345) >>> 0; dati[i] = b.charCodeAt(i) ^ (x >>> 24); }
+  var testo = nodo.dataset.z === '1'
+    ? new Response(new Blob([dati]).stream().pipeThrough(new DecompressionStream('deflate'))).text()
+    : Promise.resolve(new TextDecoder().decode(dati));
+  return testo.then(JSON.parse);
+}
+leggiDati(document.getElementById('core')).then(function (CORE) {
+  var IDX = indicizza(CORE), ST, U = ui(CORE);
+  var registro = document.getElementById('registro');
+  document.getElementById('titolo').textContent = CORE.titolo || U.titolo;
+  document.querySelector('label[for=cmd]').textContent = U.comando;
+  document.getElementById('cmd').placeholder = U.scrivi;
+  document.getElementById('invia').textContent = U.invia;
+  function riga(tipo, t) {
+    var p = document.createElement('p');
+    p.className = 'riga ' + tipo;
+    p.textContent = t;
+    registro.appendChild(p);
+    registro.scrollTop = registro.scrollHeight;
+  }
+  function rapidi() {
+    var box = document.getElementById('rapidi');
+    box.textContent = '';
+    comandiRapidi(CORE, ST).forEach(function (r) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'rapido';
+      b.textContent = r.etichetta;
+      b.addEventListener('click', function () { invia(r.comando); });
+      box.appendChild(b);
+    });
+  }
+  function avvia() {
+    var ap = apriPartita(CORE);
+    ST = ap.st;
+    registro.textContent = '';
+    if (CORE.introduzione) riga('testo', CORE.introduzione);
+    ap.out.forEach(function (r) { riga(r.tipo, r.testo); });
+    rapidi();
+    registro.scrollTop = 0;
+  }
+  function invia(t) {
+    t = t.trim();
+    if (!t) return;
+    riga('eco', '> ' + t);
+    if (ST.finito && norm(t) === norm(ui(CORE).ricomincia)) { avvia(); return; }
+    var r = esegui(CORE, IDX, ST, t);
+    ST = r.st;
+    r.out.forEach(function (x) { riga(x.tipo, x.testo); });
+    rapidi();
+  }
+  // niente invio di modulo: alcuni visualizzatori (pagine in riquadro isolato) lo bloccano; si usano il tasto Invio e il clic
+  function manda() {
+    var c = document.getElementById('cmd');
+    var t = c.value;
+    c.value = '';
+    invia(t);
+    c.focus();
+  }
+  document.getElementById('cmd').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.keyCode === 13) { e.preventDefault(); manda(); }
+  });
+  document.getElementById('invia').addEventListener('click', manda);
+  document.getElementById('modulo').addEventListener('submit', function (e) { e.preventDefault(); manda(); });
+  avvia();
+}).catch(function () {
+  document.getElementById('registro').textContent = (LINGUE_UI[document.documentElement.lang] || LINGUE_UI.it).vecchio;
+});
+</script>
+</body>
+</html>

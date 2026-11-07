@@ -1,0 +1,15 @@
+__pycache__/
+sorgenti/engine_new.js
+sorgenti/*.json
+!sorgenti/ui_lista.json
+sorgenti/la-casa-vuota.html
+sorgenti/the-empty-house-en.html
+sorgenti/*.png
+sorgenti/dl_*
+sorgenti/c64/*.bin
+sorgenti/c64/*.prg
+sorgenti/c64/*.zip
+sorgenti/c64/simboli.json
+sorgenti/zx/*.bin
+sorgenti/zx/*.tap
+sorgenti/zx/simboli.json

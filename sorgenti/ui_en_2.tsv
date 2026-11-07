@@ -1,0 +1,250 @@
+250	Increase a variable
+251	Decrease a variable
+252	(empty rule)
+253	Text
+254	Ending text
+255	Value
+256	By how much
+257	Remove action
+258	+ Add action
+259	Command
+260	Object
+261	…with (second object)
+262	When the player types
+263	Only if
+264	They must all be true. If there are none, the rule always applies.
+265	Then
+266	Otherwise
+267	If the conditions are not true, say (optional)
+268	↑ Up
+269	↓ Down
+270	 (basic)
+271	Open or unlock with another object
+272	A door, a chest or a gate that opens with a key or another object. Creates 3 rules: already open, opened with the right object, and the answer when it is missing.
+273	What opens
+274	With what (the key)
+275	When it opens
+276	If it is already open
+277	If the player does not have the object
+278	If they try to open it with nothing
+279	The object to open and the one that opens it must be different.
+280	The vocabulary has no words that join two objects (for example "with"): add them in the Words tab.
+281	Turn on and off
+282	A lantern, a radio, a switch. With the same command to turn on and off (for example "use") it creates 2 rules that alternate; with two different commands it creates 4, with the answers "already on / off".
+283	What
+284	Command to turn on
+285	Command to turn off
+286	When it turns on
+287	When it turns off
+288	If it is already on
+289	If it is already off
+290	Afterwards, describe the room again (useful for lights)
+291	Container that opens and closes
+292	A box, a trunk, a drawer: the contents can be seen and taken only when it is open. Marks the object as a container that opens and closes and creates the rules to open it (2) and, if you like, to close it again (2 more). When it opens, the game says by itself what is inside. For a locked container use "Open or unlock with another object" instead.
+293	Command to open
+294	Command to close
+295	When it closes
+296	If it is already closed
+297	-
+298	Use two different commands to open and close.
+299	Talk to a character (changing answers)
+300	The character answers differently the first time, the second, and from the third on. Creates 3 rules (or 2 if you leave the second answer empty) and a variable that counts the times. If missing, it adds the new command.
+301	With whom
+302	The first time
+303	The second time (optional)
+304	From then on
+305	-
+306	Dialogue with
+307	Give an object to a character (and get something)
+308	"give apple to Anna": the object goes to the character and leaves the game; optionally the character gives another object back, which ends up with the player. Creates a rule. The joining words, such as "to", are needed.
+309	What is given
+310	To whom
+311	What you get back (optional)
+312	When you give it
+313	If you don't have it with you
+314	-
+315	The object and the character must be different.
+316	The object received must be a different one.
+317	Ask a character about a topic
+318	"ask about the house", "talk to anna about the key": the character answers about a topic, something you can talk about even if it is not there. Creates the topic (if new) and a rule: it answers if the character is in the room, otherwise it says the fallback sentence. With several characters in the room, the one chosen here answers.
+319	Who answers
+320	About what
+321	Name of the topic (one word)
+322	What it answers
+323	If the character is not here
+324	-
+325	-
+326	The name of the topic must be a single word.
+327	There is already an object called «
+328	»: choose another name for the topic, or turn that object into a topic from its card.
+329	A character blocking an exit
+330	A guard in front of a door, someone barring the path: the exit can be used only after the character has stepped aside, which happens when the player does the chosen action (giving it an object, showing it something, talking to it). Creates a rule, adds to the exit the condition "the character has stepped aside" and gives the character a description for when it has moved (its "open" variant). The character is placed in the exit's room.
+331	Who blocks
+332	Which exit
+333	Command that convinces it
+334	What the player needs (optional)
+335	That object goes to the character and leaves the game
+336	When the player tries to pass
+337	When it steps aside
+338	If the player does not have the object (optional)
+339	How it appears afterwards, in the room's list
+340	There are no exits: first create an exit in a room.
+341	The character and the object must be different.
+342	Eat, drink or use up
+343	An object that is used and then leaves the game: an apple, a potion, a ticket. Creates a rule.
+344	It must be
+345	in the player's hands
+346	even just in the room
+347	When it is used up
+348	If they don't have it
+349	An object that cannot be taken (with your own message)
+350	Instead of "You can't take that", the game answers with a sentence written for that object. Creates a rule.
+351	Response
+352	Use an object (with another, in a place)
+353	The most flexible template: a command on an object, optionally with a second object and only in one room, with a result of your choice: just a text, open or light something, move an object, make the used one disappear, end the game. Creates a rule.
+354	On what
+355	…with (optional)
+356	Only in this room (optional)
+357	The player must carry the objects named
+358	What happens
+359	Just an answer
+360	An object opens
+361	An object lights up
+362	An object changes place
+363	The object used disappears
+364	The game ends
+365	Which object
+366	Where it goes
+367	Response (or ending text)
+368	If the conditions are not true (optional)
+369	The two objects must be different.
+370	The game ends when…
+371	The ending of the adventure: the player brings an object to a place, and drops it there or simply enters. Creates a rule (if dropped) or an entry event (if entering is enough).
+372	How
+373	drops the object in that room
+374	enters the room with the object
+375	In which room
+376	A special answer to a command
+377	The game answers with your own sentence when the player types a certain command, with one or two objects. Creates a rule.
+378	On what (optional)
+379	The second object also needs the first.
+380	At least
+381	 are needed: create them in the Objects tab.
+382	Fill in «
+383	an event: entering «
+384	the new command «
+385	» in the vocabulary
+386	the exit «
+387	» of «
+388	» can be used only when «
+389	» has stepped aside
+390	» is placed in «
+391	a new conversation topic, «
+392	» (not shown in the game: it helps understand the sentence)
+393	the variable «
+394	» (counts the times you talk)
+395	the words «
+396	» among those that join two objects
+397	» becomes a container that opens and closes
+398	» becomes a character (listed in "Here is…" and cannot be taken)
+399	What do you want to do
+400	(choose a template)
+401	A shortcut for the most common situations: choose the type, fill in a few fields and the app creates the complete rules. New rules go to the bottom of the list and are edited like the others; if there are already rules for the same sentence (for example "talk gardener"), the new ones go right before them, so they really fire.
+402	Create
+403	-
+404	It will create
+405	with the player
+406	disappears from the game
+407	 (new command, added to the words)
+408	(no exits)
+409	(a new topic)
+410	(does not close again)
+411	close (new command, added to the words)
+412	-
+413	entry event
+414	entry events
+415	: check and edit them below.
+416	New rule from template
+417	shortcuts for common cases
+418	 not used yet
+419	Starting value
+420	Maximum value
+421	To delete it, first remove the conditions and actions that use it.
+422	Delete the variable
+423	A variable is a number from 0 to 255 that the game remembers: for example attempts made, points or how many times you have talked to someone. It is tested in the rules' conditions and changed with the actions "Set", "Increase" and "Decrease". A small maximum keeps the solution check fast.
+424	+ New variable
+425	Variables
+426	When the player enters
+427	(every room)
+428	Only the first time
+429	When
+430	They must all be true. If there are none, the event always fires.
+431	Entering
+432	Entering
+433	 · the first time
+434	-
+435	Rules make things happen when the player types a command. The first matching rule applies: if its conditions are not true and there is an "otherwise", it stops there; if not, it moves on to the next rule. If no rule acts, the command does what it would do by default.
+436	+ New rule
+437	Entry events
+438	An event fires when the player enters a room (or at the start of the game, if it starts there), after the description. All the matching ones fire, in order. "Only the first time" is for scenes and encounters. If the event must never repeat under other conditions, use a variable.
+439	+ New event
+440	Take an object
+441	Reach a room
+442	Bring an object to a room
+443	Reach a state
+444	A variable reaches a value
+445	Take
+446	Reach
+447	Bring
+448	-
+449	Note (optional)
+450	Remove
+451	Before verifying, fix these problems:
+452	✓ The solution works: every step is reached, in order, with
+453	 commands in all.
+454	✗ The solution does not work: step
+455	») cannot be reached in any way after the previous steps.
+456	 The exploration is partial, so it might still be possible.
+457	 at command
+458	Show the path's commands
+459	Game situations explored:
+460	 (exploration stopped: the game is very large).
+461	The dead-end check was not done, because the exploration is not complete.
+462	⚠ The game never reaches the end: no playthrough finishes.
+463	✓ No dead ends: from any reachable situation the game can still be finished.
+464	⚠ There are
+465	 situations from which the game can no longer be finished. For example, after these commands:
+466	Exploring the possible games…
+467	Exploring the possible games…
+468	 situations found
+469	The steps to win, at a high level: not exact commands, but things to achieve in order. "Verify" tries every possible game with the same engine as the game and says whether the steps can really be reached and whether there are dead ends. The solution stays in the core but is not built into the game.
+470	+ Add step
+471	Verify the solution
+472	-
+473	-
+474	-
+475	-
+476	-
+477	-
+478	-
+479	-
+480	Here the core becomes a game to share: for the Web, for the Commodore 64 and for the ZX Spectrum. Each platform has its own compiler; the solution stays out of the game.
+481	A single HTML file with the engine and the data inside: it opens in any browser, even offline. The solution is not included.
+482	The core has
+483	: fix them before building.
+484	Building…
+485	Size:
+486	 KB
+487	 · the game's texts cannot be read in the source
+488	Game preview
+489	Direct saving is not available here: use "Copy the code" and paste it into an .html file.
+490	File ready:
+491	Saving cancelled.
+492	Could not save (
+493	). Try "Copy the code".
+494	Save the game (.html)
+495	Preview
+496	Code copied: paste it into a file with the .html extension.
+497	I can't copy from here.
+498	Copy the code
+499	Web game

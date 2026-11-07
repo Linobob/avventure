@@ -1,0 +1,250 @@
+0	The core must be a JSON object.
+1	"formato" must be 2.
+2	" must be a list.
+3	The "vocabolario" with "verbi" and "direzioni" is missing.
+4	The "testi" are missing.
+5	Object "
+6	": the containers form a loop (one inside the other forever).
+7	The starting room "
+8	" does not exist.
+9	Variable
+10	the identifier is missing.
+11	the identifier "
+12	" is used twice.
+13	the maximum value must be a whole number from 0 to 255.
+14	the starting value must be a whole number between 0 and the maximum.
+15	Too many variables: the maximum is
+16	empty condition.
+17	the variable "
+18	the comparison "
+19	the value to compare must be a whole number from 0 to 255.
+20	the room "
+21	the object "
+22	the state "
+23	Room "
+24	": the exit "
+25	" leads to "
+26	", which does not exist.
+27	": the direction "
+28	" is not in the vocabulary.
+29	", exit "
+30	", fragment
+31	": "argomento" must be true or absent.
+32	": a conversation topic cannot be takeable, a character or a container.
+33	": a conversation topic is nowhere ("dove" is "nessuno").
+34	": "nessuno" is valid only for conversation topics.
+35	": it is in "
+36	", which does not exist or is not a container.
+37	": it cannot be inside itself.
+38	": a character cannot be taken.
+39	": a character cannot be with the player.
+40	": "personaggio" must be true or absent.
+41	": a container cannot have the same identifier as a room.
+42	» must be a single word (alternatives go among the synonyms).
+43	": the adjective «
+44	» must be a single word.
+45	The command "
+46	" is missing from the vocabulary.
+47	The basic command "
+48	" has no words.
+49	The direction "
+50	unknown action "
+51	: the object "
+52	: the variable "
+53	: the number must be a whole number from 0 to 255.
+54	Rule
+55	the command "
+56	has no actions.
+57	Event
+58	Solution, step
+59	unknown type "
+60	in the room's list
+61	when open, in the list
+62	when open, description
+63	when lit, in the list
+64	when lit, description
+65	Game title
+66	Introduction, before the first room
+67	 · room name
+68	 · description
+69	 · fragment
+70	 of the description (added when its conditions hold)
+71	 · exit
+72	, when blocked
+73	, when discovered
+74	 · ending text
+75	 · response
+76	 · when the conditions are not true
+77	every room
+78	: entering
+79	Game response:
+80	command «
+81	direction «
+82	object name «
+83	unreadable
+84	Untitled
+85	Open ·
+86	Open
+87	Delete
+88	Created the exit «
+89	» in «
+90	», leading to «
+91	» are both called «
+92	» and no adjective tells them apart: if they are in the same room the player cannot choose between them.
+93	» is not in the list and is not mentioned in the text of «
+94	»: the player would never see it.
+95	✓ The core is valid. Saved on this device.
+96	-
+97	Undo the last change (
+98	Nothing to undo
+99	Redo the undone change (
+100	Nothing to redo
+101	Move to…
+102	At the bottom, after the last
+103	At the top, before 1
+104	Before
+105	-
+106	Tap again to confirm
+107	-
+108	you are in:
+109	Remove condition
+110	+ Add condition
+111	Remove exit
+112	Create exit in the linked room (
+113	✓ In «
+114	» there is already the exit «
+115	» leading back here.
+116	In «
+117	» the exit «
+118	» already exists and leads to «
+119	»: I won't touch it.
+120	The exit can be used only when all the conditions are true.
+121	Hidden until the conditions are true
+122	If blocked, say
+123	When available, add to the description
+124	Remove the conditions
+125	Make the exit conditional (door, light…)
+126	Conditions of this exit
+127	Free exit
+128	Fragment
+129	: shown when all the conditions are true
+130	Text to add to the description
+131	Remove fragment
+132	Name
+133	(no name)
+134	Description
+135	Exits
+136	+ Add exit
+137	Dark room: visible only with a light on
+138	Without light the player reads only «
+139	», cannot see the objects or take them, but can move. You need an object that "gives light" (Objects tab) and a rule that lights it.
+140	Description fragments
+141	They are added to the room text when their conditions are true.
+142	+ Add fragment
+143	✓ This is the starting room: the game begins here.
+144	Start the game here
+145	The starting room cannot be deleted.
+146	Delete room
+147	no exits
+148	-
+149	-
+150	-
+151	The rooms of the game. Tap a room to edit it.
+152	Title and introduction
+153	(untitled)
+154	Game title (also the project name)
+155	Introduction (shown once, before the first room)
+156	-
+157	+ New room
+158	-
+159	The rooms and how they connect. Tap a room to edit it. Solid line: free passage; dashed: exit with conditions, blocked or hidden; arrow: one-way passage.
+160	There are no rooms yet.
+161	Map of the rooms
+162	Open the room
+163	★ start
+164	Main level
+165	Higher up (
+166	Lower down (
+167	Not reachable from the start (red dashed border):
+168	Drawn in an approximate position because the directions don't match:
+169	Exits with special directions, not drawn:
+170	«tutto» (for "take all")
+171	the command «metti»
+172	Inside:
+173	Name (the word the player types, a single one)
+174	Other names, separated by commas
+175	Adjectives, separated by commas
+176	The word «tutto»
+177	Not a real object: it is the word the player types in "take all" and "drop all". If you delete it those two commands stop working.
+178	Conversation topic
+179	Something you can talk about even if it is not there: "ask about the house", "talk to anna about the key". It does not appear in the game and cannot be looked at or taken: it only lets the rules understand the sentence. Use it with the template "Ask a character about a topic".
+180	It is a conversation topic
+181	Delete topic
+182	for "take all"
+183	conversation topic
+184	With you, at the start
+185	Name (the word the player types)
+186	Adjectives, separated by commas (to tell apart objects with the same name)
+187	How it appears in the room's list
+188	Description (when you look at it)
+189	Where it is at the start
+190	Can be taken
+191	Show it in the «You can see» list (untick: mention it in the room description)
+192	Character
+193	A person or creature the player can talk to and trade with. Listed on a separate line ("Here is Anna."), cannot be taken, and its behaviour is decided by the rules: use the templates "Talk to a character" and "Give an object to a character".
+194	It is a character
+195	For "give … to …" and "ask … about …" the vocabulary needs the joining words. Missing:
+196	-
+197	+ Add them
+198	If this object is really something people talk about ("the house", "grandpa") rather than something you see, turn it into a topic: it is in no room and the rules understand it even when it is not there.
+199	Container
+200	Other objects can be put inside: "put key in box". What is inside is seen by looking at it and taken like other objects.
+201	It is a container
+202	For "put … in …" the vocabulary needs the command «metti» and the joining words, such as "in", "into", "from". Missing:
+203	Opens and closes: the contents can be seen and taken only when it is open (you need rules that open it, for example with the template "Container that opens and closes")
+204	If it changes state
+205	Optional, for objects that a rule opens or lights.
+206	When open: in the room's list
+207	When open: description
+208	When lit: in the room's list
+209	When lit: description
+210	Gives light when lit (for dark rooms)
+211	Delete object
+212	with you at the start
+213	 · can be taken
+214	 · container
+215	 · character
+216	The objects of the game. Tap an object to edit it.
+217	-
+218	-
+219	-
+220	+ New object
+221	Name of the new command
+222	New command
+223	A command already exists: «
+224	Add
+225	The words the game understands and the sentences it answers with. For each entry write the words separated by commas.
+226	 basic ·
+227	other words
+228	Words
+229	How it is written in the exits
+230	Words the game ignores (articles, simple prepositions)
+231	Words that join two objects (e.g. "open door with key")
+232	Some common commands are missing, which new games already have:
+233	+ Add them
+234	Commands
+235	Basic commands are built into the engine. New commands work only when you connect them to a rule (Rules tab).
+236	Directions
+237	Ignored and linking words
+238	Response texts
+239	"{0}" is replaced by the game (for example with an object's name): keep it where it is needed.
+240	with you
+241	disappears from the game
+242	Say
+243	Move
+244	Close
+245	Light
+246	Put out
+247	End of the game
+248	Describe the room
+249	Set a variable
