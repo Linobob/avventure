@@ -129,6 +129,7 @@ Una regola dice che cosa succede quando il giocatore scrive un certo comando. È
 | Mangiare, bere o consumare | La mela che sparisce |
 | Un oggetto che non si può prendere | «È troppo pesante» |
 | Usare un oggetto | Con un altro oggetto, solo in una stanza, con un risultato a scelta |
+| Combinare due oggetti | «combina corda con gancio»: i due spariscono e ne nasce uno nuovo (che parte «fuori dal gioco») |
 | Il gioco finisce quando… | Lasciare la moneta in cucina |
 | Una risposta particolare a un comando | Una frase tua per «ascolta» o «salta» |
 

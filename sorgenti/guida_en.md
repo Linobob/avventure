@@ -129,6 +129,7 @@ A rule says what happens when the player types a certain command. It is the hear
 | Eat, drink or use up | The apple that disappears |
 | An object that cannot be taken | "It's far too heavy" |
 | Use an object | With another object, only in one room, with a result of your choice |
+| Combine two objects | "combine rope with hook": both disappear and a new one is made (it starts "out of the game") |
 | The game ends when… | Dropping the coin in the kitchen |
 | A special answer to a command | Your own sentence for "listen" or "jump" |
 

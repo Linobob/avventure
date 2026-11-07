@@ -1,0 +1,17 @@
+const {chromium}=require('playwright');const fs=require('fs');
+(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:844}});const errs=[];
+p.on('pageerror',e=>errs.push(e.message));
+await p.goto('file://'+process.cwd()+'/authoring.html');await p.waitForTimeout(500);
+console.log(await p.evaluate(()=>CORE.oggetti.map(o=>o.id+':'+o.nome+':'+o.dove).join(' | ')), await p.evaluate(()=>JSON.stringify(CORE.vocabolario.preposizioni)));
+await p.click('.scheda[data-tab=regole]');await p.waitForTimeout(300);
+await p.evaluate(()=>{aperte.add('p-modelli');apriModello('combina');MODELLO.v.a='chiave';MODELLO.v.b='moneta';MODELLO.v.nome_ris='amuleto';MODELLO.v.etic_ris='un amuleto';MODELLO.v.desc_ris='Una moneta infilata nella chiave.';ridisegna();});
+await p.waitForTimeout(300);
+console.log(await p.evaluate(()=>document.querySelector('.anteprima-modello').innerText));
+await p.screenshot({path:'/tmp/claude-0/-home-claude/161a621d-f498-5c00-a5b5-29a275f9689e/scratchpad/comb.png'});
+await p.click('.p-modelli button.primario');await p.waitForTimeout(300);
+const r=await p.evaluate(()=>({ogg:CORE.oggetti.filter(o=>o.id==='amuleto'),reg:CORE.regole.slice(0,2),verbo:CORE.vocabolario.verbi.combina,err:validaCore(CORE)}));
+console.log(JSON.stringify(r));
+fs.writeFileSync('core_combina.json',JSON.stringify(await p.evaluate(()=>CORE)));
+await p.click('.scheda[data-tab=controlli]');await p.waitForTimeout(300);
+console.log((await p.evaluate(()=>document.querySelector('#p-controlli, .pannello.attivo, main').innerText)).slice(0,300));
+console.log('errs',errs);await b.close()})();
