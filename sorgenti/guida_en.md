@@ -191,7 +191,7 @@ Each item has **Go**, which opens the place to fix. "Only errors and warnings" h
 
 For each platform the app shows the size and how much memory is left.
 
-**Core.** Besides the projects, the Core tab shows the whole core as JSON. You can edit it by hand and press **Apply**: useful for things the forms do not show yet. **Copy** copies it to the clipboard; **Restore the example** puts "The Empty House" back into the open project.
+**Core.** Besides the projects, the Core tab shows the whole core as JSON. The other tabs edit every part of it; here you can read it, touch it up by hand (for example to change many things at once) and press **Apply**, which checks it. **Copy** copies it to the clipboard; **Restore the example** puts "The Empty House" back into the open project.
 
 ## giocatore | What the player can type
 

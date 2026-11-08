@@ -191,7 +191,7 @@ Ogni voce ha **Vai**, che apre il punto da correggere. Con «Solo errori e avvis
 
 Per ogni piattaforma l'app mostra la dimensione e quanta memoria resta libera.
 
-**Core.** Oltre ai progetti, la scheda Core mostra il core completo in JSON. Lo puoi modificare a mano e premere **Applica**: serve per le cose che i moduli non mostrano ancora. **Copia** lo copia negli appunti; **Ripristina l'esempio** rimette «La casa vuota» nel progetto aperto.
+**Core.** Oltre ai progetti, la scheda Core mostra il core completo in JSON. Le altre schede ne modificano ogni parte; qui lo puoi leggere, ritoccare a mano (per esempio per cambiare molte cose insieme) e premere **Applica**, che lo controlla. **Copia** lo copia negli appunti; **Ripristina l'esempio** rimette «La casa vuota» nel progetto aperto.
 
 ## giocatore | Che cosa può scrivere il giocatore
 
