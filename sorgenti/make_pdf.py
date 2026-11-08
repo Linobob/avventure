@@ -94,7 +94,7 @@ class Diagram(Flowable):
 
 story = []
 story.append(Paragraph('Motore per avventure testuali: documento di design', h1))
-story.append(Paragraph('7 novembre 2026', sub))
+story.append(Paragraph('8 novembre 2026', sub))
 
 
 def H(t):
@@ -432,6 +432,19 @@ BL(["**Pagina «Traduzioni» nell'app:** scegli la lingua; vedi i testi raggrupp
 P("**Compilazione.** Resta una lingua per gioco compilato, come già deciso, senza scelta a runtime: dallo stesso core si compila un gioco per lingua e piattaforma. Nel Web si potrebbe includere più lingue in un solo file, ma sui sistemi retro la memoria lo impedisce, quindi conviene lo stesso comportamento ovunque.")
 P("**Casi particolari.** Gli enigmi che dipendono dalla lingua (giochi di parole, anagrammi, parole d'ordine) non si traducono: per questi una regola può essere valida solo per certe lingue. Le lingue con lettere diverse da quelle dell'inglese (francese, spagnolo, tedesco) richiedono le lettere accentate vere sui sistemi retro, già nell'elenco della prima versione.")
 
+H('Immagini e musica (da fare più avanti)')
+P("Da aggiungere dopo il supporto per le avventure grandi (.d64, testi caricati dal disco e compressi), perché immagini e musica occupano molta più memoria dei testi.")
+P("**Immagini.** Ogni stanza può avere un'immagine (più avanti anche oggetti ed eventi, per esempio una scena). Nel core c'è solo il riferimento all'immagine; i file stanno nel progetto, insieme al core.")
+BL(["**Web:** l'immagine originale, ridimensionata, sopra il testo.",
+    "**Commodore 64:** bitmap multicolore (160×200, 4 colori per blocco di 4×8 pixel, uno in comune) o ad alta risoluzione (320×200, 2 colori per blocco di 8×8). L'immagine occupa la parte alta dello schermo e il testo scorre sotto: con un interrupt di raster lo schermo è diviso tra bitmap in alto e testo in basso.",
+    "**ZX Spectrum:** 256×192 con 2 colori per blocco di 8×8 (più la luminosità). Lo schermo è già tutto bitmap, quindi immagine e testo convivono senza trucchi; il limite è il colore per blocco («attribute clash»).",
+    "**Memoria:** un'immagine a metà schermo costa circa 4-5 KB sul C64 e circa 3,5 KB sullo Spectrum, prima della compressione. Sul C64 le immagini si caricano dal disco quando servono; sullo Spectrum 48K su nastro ne entrano poche, e per molte immagini servono il 128K o un caricamento a più parti."])
+P("**Convertitore automatico nell'app.** Nella scheda della stanza si carica una foto o un disegno e l'app lo converte per ogni sistema, nel browser: ritaglia e ridimensiona, riduce i colori alla tavolozza della macchina, applica il dithering (a scelta: nessuno, ordinato, a diffusione) e rispetta i limiti di colore per blocco. Un'anteprima mostra l'immagine come apparirà davvero su C64 e Spectrum, accanto all'originale, e il pannello della memoria dice quanto spazio occupa. Più avanti si potrà ritoccare a mano il risultato.")
+P("**Musica.** Una musica per il titolo e per il finale, e magari per stanze o eventi. Convertire in automatico un file musicale qualsiasi non è realistico, quindi:")
+BL(["**Web:** un file audio, oppure la stessa musica dei sistemi retro riprodotta nel browser.",
+    "**Commodore 64:** il chip SID. Due strade: importare una musica già pronta nel formato .sid (con il suo player), oppure scriverla in un piccolo editor di note nell'app, che il compilatore traduce per il SID.",
+    "**ZX Spectrum:** il 48K ha solo il beeper, che blocca il programma mentre suona: va bene per titolo e finale, non durante il gioco. Lo Spectrum 128K ha il chip AY, a tre voci, che suona in sottofondo.",
+    "La musica dell'editor di note si compila per tutti i sistemi, così la si scrive una volta sola."])
 H('Questioni aperte')
 P('Decisioni prese:')
 BL(["Gli interpreti per C64 e Spectrum sono in linguaggio macchina (6502 e Z80).",
