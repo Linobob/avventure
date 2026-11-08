@@ -19,6 +19,7 @@
 
 CHROUT = $FFD2
 GETIN  = $FFE4
+PLOT   = $FFF0
 HDR    = $2000
 FONT   = $1C00
 LINE   = $0340
@@ -82,6 +83,20 @@ tcnt   = $C03E
 dtmp   = $C03F
 fdark  = $C1D9
 LAST   = $C2A0
+; uscita a blocchi e pausa a schermo pieno
+pch    = $C2D0
+nlin   = $C2D1
+dflag  = $C2D2
+kwait  = $C2D3
+kk     = $C2D4
+frow   = $C2D5
+skn    = $C2D6
+skl    = $C2D7
+skh    = $C2D8
+tmpd   = $C2D9
+BUF    = $C300
+T_TASTO = 47
+NRIGHE = 24
 vars   = $C180
 slots  = $C1C0
 cs     = $C1C8
@@ -157,6 +172,8 @@ start:  lda #0
         sta $D018
         lda #$C8
         sta $0288
+        lda #$C3
+        sta pu_st+2
         lda #147
         jsr CHROUT
         lda #8
@@ -172,6 +189,10 @@ start:  lda #0
         sta lsmul
         sta LAST
         sta col
+        sta nlin
+        sta dflag
+        sta kwait
+        sta pu_st+1
         sta wlen2
         sta wvis
         tax
@@ -210,11 +231,20 @@ iv1:    cpy HDR+26
         bne iv1
 iv2:    lda #T_INTRO
         jsr prtext
-        jsr describe
+        jsr flushw
+        jsr flushb
+        lda HDR+11
+        and #2
+        beq iv3
+        jsr more
+iv3:    jsr describe
         jsr events
 main:   lda #T_PROMPT
         jsr prtext
         jsr flushw
+        jsr flushb
+        lda #0
+        sta nlin
         jsr readline
         lda #0
         sta col
@@ -233,12 +263,12 @@ flushw: lda wlen2
         cmp #40
         bcc fw_p
         lda #13
-        jsr CHROUT
+        jsr putc
         lda #0
         sta col
 fw_p:   ldx #0
 fw_l:   lda WBUF,x
-        jsr CHROUT
+        jsr putc
         inx
         cpx wlen2
         bne fw_l
@@ -289,12 +319,12 @@ oc_sp:  jsr flushw
         cmp #39
         bcs oc_ret
         lda #32
-        jsr CHROUT
+        jsr putc
         inc col
         jmp oc_ret
 oc_cr:  jsr flushw
         lda #13
-        jsr CHROUT
+        jsr putc
         lda #0
         sta col
 oc_ret: pla
@@ -896,6 +926,322 @@ ds_ok:  lda room
         sta lsmul
         jmp descexits
 
+; ---- uscita del testo: a righe (come la ROM) o a blocchi, con pausa quando lo schermo e' pieno ----
+; HDR+11: bit 0 = a blocchi, bit 1 = attesa di un tasto dopo l'introduzione.
+; putc scrive il carattere A (conserva A, X, Y). A blocchi lo mette in BUF e conta le righe;
+; flushb fa scorrere lo schermo una volta sola, di quanto serve, e poi stampa il blocco.
+putc:   sta pch
+        txa
+        pha
+        tya
+        pha
+        lda dflag
+        bne pu_dir
+        lda HDR+11
+        lsr
+        bcs pu_blk
+pu_dir: lda pch
+        jsr CHROUT
+        cmp #13
+        bne pu_end
+        lda dflag
+        bne pu_end
+        inc nlin
+        lda nlin
+        cmp #NRIGHE
+        bcc pu_end
+        jsr more
+pu_end: pla
+        tay
+        pla
+        tax
+        lda pch
+        rts
+pu_blk: lda pch
+pu_st:  sta BUF
+        inc pu_st+1
+        bne pb1
+        inc pu_st+2
+pb1:    cmp #13
+        bne pb2
+        inc nlin
+        lda nlin
+        cmp #NRIGHE
+        bcc pb2
+        jsr flushb
+        jsr more
+        jmp pu_end
+pb2:    lda pu_st+2
+        cmp #$C7
+        bcc pu_end
+        jsr flushb
+        jmp pu_end
+
+flushb: lda pu_st+1
+        bne fb0
+        lda pu_st+2
+        cmp #$C3
+        beq fb_r
+fb0:    lda $D6
+        clc
+        adc nlin
+        sec
+        sbc #24
+        bcc fb_p
+        beq fb_p
+        cmp #25
+        bcc fb1
+        lda #25
+fb1:    sta kk
+        jsr scrollk
+        lda $D6
+        sec
+        sbc kk
+        bcs fb2
+        lda #0
+fb2:    tax
+        ldy $D3
+        clc
+        jsr PLOT
+fb_p:   lda #1
+        sta dflag
+        lda #0
+        sta fb_ld+1
+        lda #$C3
+        sta fb_ld+2
+fb_l:   lda fb_ld+1
+        cmp pu_st+1
+        bne fb_ld
+        lda fb_ld+2
+        cmp pu_st+2
+        beq fb_e
+fb_ld:  lda BUF
+        jsr CHROUT
+        inc fb_ld+1
+        bne fb_l
+        inc fb_ld+2
+        jmp fb_l
+fb_e:   lda #0
+        sta dflag
+        sta nlin
+        sta pu_st+1
+        lda #$C3
+        sta pu_st+2
+fb_r:   rts
+
+; fa scorrere in su di kk righe (1-25) schermo e colori in un solo passaggio, pulisce le righe liberate
+; e rimette in ordine la tabella delle righe del KERNAL
+scrollk:
+        lda #0
+        sta skl
+        sta skh
+        ldx kk
+sk0:    lda skl
+        clc
+        adc #40
+        sta skl
+        bcc sk0b
+        inc skh
+sk0b:   dex
+        bne sk0
+        lda skl
+        sta s1+1
+        sta s2+1
+        lda skh
+        clc
+        adc #$C8
+        sta s1+2
+        adc #$10
+        sta s2+2
+        lda #0
+        sta d1+1
+        sta d2+1
+        lda #$C8
+        sta d1+2
+        lda #$D8
+        sta d2+2
+        lda #25
+        sec
+        sbc kk
+        sta skn
+        beq sk_c
+sk1:    ldx #39
+s1:     lda $C800,x
+d1:     sta $C800,x
+s2:     lda $D800,x
+d2:     sta $D800,x
+        dex
+        bpl s1
+        ldx #3
+sk_a:   lda sktab,x
+        sta skpp+1
+        lda sktab+4,x
+        sta skpp+2
+        jsr add40
+        dex
+        bpl sk_a
+        dec skn
+        bne sk1
+sk_c:   lda d1+1
+        sta c1+1
+        lda d1+2
+        sta c1+2
+        lda d2+1
+        sta c2+1
+        lda d2+2
+        sta c2+2
+        ldy kk
+sk3:    ldx #39
+sk4:    lda #32
+c1:     sta $C800,x
+        lda $0286
+c2:     sta $D800,x
+        dex
+        bpl sk4
+        lda #<c1
+        sta skpp+1
+        lda #>c1
+        sta skpp+2
+        jsr add40
+        lda #<c2
+        sta skpp+1
+        lda #>c2
+        sta skpp+2
+        jsr add40
+        dey
+        bne sk3
+        lda #0
+        sta skl
+        lda #$C8
+        sta skh
+        ldx #0
+sk5:    lda skh
+        ora #$80
+        sta $D9,x
+        lda skl
+        clc
+        adc #40
+        sta skl
+        bcc sk6
+        inc skh
+sk6:    inx
+        cpx #25
+        bne sk5
+        rts
+; somma 40 all'indirizzo (2 byte) dentro l'istruzione che sta all'indirizzo skpp+1/skpp+2 (+1)
+add40:  stx tmpd
+        ldx #1
+skpp:   lda $FFFF,x
+        clc
+        adc #40
+        jsr skw
+        bcc ad_r
+        inx
+        jsr skr
+        adc #0
+        jsr skw
+ad_r:   ldx tmpd
+        rts
+skr:    lda skpp+1
+        sta skr2+1
+        lda skpp+2
+        sta skr2+2
+skr2:   lda $FFFF,x
+        rts
+skw:    pha
+        lda skpp+1
+        sta skw2+1
+        lda skpp+2
+        sta skw2+2
+        pla
+skw2:   sta $FFFF,x
+        rts
+sktab:  .byte <s1, <d1, <s2, <d2, >s1, >d1, >s2, >d2
+
+; scrive «premi un tasto», aspetta un tasto e cancella la riga (kwait = 1 mentre aspetta: serve ai test)
+more:   lda #1
+        sta dflag
+        lda #T_TASTO
+        jsr prdir
+        lda #1
+        sta kwait
+mo1:    jsr GETIN
+        beq mo1
+        lda #0
+        sta kwait
+        sec
+        jsr PLOT
+        stx frow
+        ldy #0
+        clc
+        jsr PLOT
+        ldy #39
+mo2:    lda #32
+        jsr CHROUT
+        dey
+        bne mo2
+        ldx frow
+        ldy #0
+        clc
+        jsr PLOT
+        lda #0
+        sta dflag
+        lda #1
+        sta nlin
+        rts
+
+; stampa direttamente il messaggio A (senza passare per outc), conservando P1, P2 e xk
+prdir:  asl
+        sta tmpd
+        lda P1
+        pha
+        lda P1+1
+        pha
+        lda P2
+        pha
+        lda P2+1
+        pha
+        lda xk
+        pha
+        lda HDR+8
+        sta P2
+        lda HDR+9
+        sta P2+1
+        ldy tmpd
+        lda (P2),y
+        sta P1
+        iny
+        lda (P2),y
+        sta P1+1
+        ldy #0
+        lda #TKEY
+        sta xk
+pd1:    lda (P1),y
+        eor xk
+        beq pd_e
+        cmp #8
+        bcs pd2
+        tax
+        lda coltab,x
+pd2:    jsr CHROUT
+        lda xk
+        clc
+        adc #TSTEP
+        sta xk
+        iny
+        bne pd1
+pd_e:   pla
+        sta xk
+        pla
+        sta P2+1
+        pla
+        sta P2
+        pla
+        sta P1+1
+        pla
+        sta P1
+        rts
+
 ; legge una riga da tastiera in LINE (massimo 38 caratteri, terminata da 0)
 readline:
         lda #0
@@ -937,7 +1283,7 @@ rldone: ldx llen
         lda #0
         sta LINE,x
         lda #13
-        jsr CHROUT
+        jsr putc
         rts
 
 ; cursore del gioco (il lampeggio del KERNAL e' spento: con GETIN lasciava blocchi colorati a fine riga).

@@ -191,6 +191,8 @@ Ogni voce ha **Vai**, che apre il punto da correggere. Con «Solo errori e avvis
 
 Per ogni piattaforma l'app mostra la dimensione e quanta memoria resta libera.
 
+**Opzioni per C64 e Spectrum.** Sopra le due piattaforme retro, il riquadro delle opzioni sceglie come scorre il testo: **a blocchi** (ogni risposta compare tutta insieme, con un solo scatto) oppure **una riga alla volta** (come il BASIC). In tutti e due i casi, se una risposta è più lunga dello schermo il gioco si ferma e aspetta un tasto. La spunta «Dopo l'introduzione aspetta un tasto» ferma il gioco dopo il titolo e l'introduzione, prima della prima stanza. La frase della pausa («[premi un tasto]») si cambia nella scheda Parole, tra i testi delle risposte. Le opzioni si salvano nel progetto.
+
 **Core.** Oltre ai progetti, la scheda Core mostra il core completo in JSON. Le altre schede ne modificano ogni parte; qui lo puoi leggere, ritoccare a mano (per esempio per cambiare molte cose insieme) e premere **Applica**, che lo controlla. **Copia** lo copia negli appunti; **Ripristina l'esempio** rimette «La casa vuota» nel progetto aperto.
 
 ## giocatore | Che cosa può scrivere il giocatore

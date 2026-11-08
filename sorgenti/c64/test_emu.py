@@ -18,12 +18,17 @@ def run(prg_path, inputs, maxsteps=3000000):
         rts(c)
     class Done(Exception): pass
     def getin(c):
-        if keys:
+        if c.m[0xC2D3] == 1:
+            c.a = 32
+        elif keys:
             k=ord(keys.pop(0)); c.a=k-32 if 97<=k<=122 else k
         else:
             raise Done()
         c.z=int(c.a==0); rts(c)
-    cpu.hooks[0xFFD2]=chrout; cpu.hooks[0xFFE4]=getin
+    def plot(c):
+        if c.c: c.x = 0; c.y = 0
+        rts(c)
+    cpu.hooks[0xFFD2]=chrout; cpu.hooks[0xFFE4]=getin; cpu.hooks[0xFFF0]=plot
     cpu.pc=0x080D; cpu.sp=0xFF
     try:
         for _ in range(maxsteps): cpu.step()

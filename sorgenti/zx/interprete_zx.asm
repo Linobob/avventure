@@ -9,7 +9,20 @@
 ;   +14 regole   +16 tabella uscite con condizioni   +18 nomi delle direzioni   +20 numero di direzioni   +22 frammenti (vedi la versione C64)
 ; Vocabolario: [lunghezza][lettere minuscole][tipo][id] ... 0   (tipo 1 = comando, 2 = direzione, 3 = parola ignorata (id 1 = preposizione), 4 = nome di oggetto, 5 = aggettivo)
 
-HDR    = $9200
+HDR    = $9400
+; uscita a blocchi e pausa a schermo pieno
+pch    = $F420
+nlin   = $F421
+dflag  = $F422
+kwait  = $F423
+frow   = $F424
+kkz    = $F425
+bptr   = $F426
+BUF    = $F500
+T_TASTO = 47
+NRIGHE = 21
+SPOSN  = 23688
+ATTRP  = 23693
 room   = $F000
 verb   = $F001
 dirv   = $F002
@@ -164,6 +177,11 @@ start:  ld hl,udg
         ld (lsmul),a
         ld (LAST),a
         ld (idx),a
+        ld (nlin),a
+        ld (dflag),a
+        ld (kwait),a
+        ld hl,BUF
+        ld (bptr),hl
 in1:    ld a,(HDR+10)
         ld b,a
         ld a,(idx)
@@ -205,11 +223,19 @@ in2:    ld hl,ostate
         ldir
 iv_end: ld a,T_INTRO
         call prtext
+        call flushw
+        call flushb
+        ld a,(HDR+11)
+        and 2
+        call nz,more
         call describe
         call events
 main:   ld a,T_PROMPT
         call prtext
         call flushw
+        call flushb
+        xor a
+        ld (nlin),a
         call readline
         xor a
         ld (col),a
@@ -231,11 +257,9 @@ flushw: ld a,(wlen2)
         cp 32
         jr c,fw_p
         ld a,13
-        rst 16
+        call putc
         xor a
         ld (col),a
-        ld a,255
-        ld (SCRCT),a
 fw_p:   xor a
         ld (fwi),a
 fw_l:   ld a,(fwi)
@@ -244,11 +268,7 @@ fw_l:   ld a,(fwi)
         ld hl,WBUF
         add hl,de
         ld a,(hl)
-        cp 8
-        jr nc,fw_c
-        call setcol
-        jr fw_n
-fw_c:   rst 16
+        call putc
 fw_n:   ld a,(fwi)
         inc a
         ld (fwi),a
@@ -323,15 +343,13 @@ oc_sp:  call flushw
         inc a
         ld (col),a
         ld a,32
-        rst 16
+        call putc
         jr oc_ret
 oc_cr:  call flushw
         ld a,13
-        rst 16
+        call putc
         xor a
         ld (col),a
-        ld a,255
-        ld (SCRCT),a
 oc_ret: pop hl
         pop de
         pop bc
@@ -1974,6 +1992,299 @@ cursor: ld a,'_'
         ret
 
 ; legge una riga da tastiera in LINE (massimo 28 caratteri, terminata da 0)
+; ---- uscita del testo: a righe (come la ROM) o a blocchi, con pausa quando lo schermo e' pieno ----
+; HDR+11: bit 0 = a blocchi, bit 1 = attesa di un tasto dopo l'introduzione.
+; putc scrive il carattere A (codici 0-7 = colore). A blocchi lo mette in BUF e conta le righe;
+; flushb fa scorrere lo schermo una volta sola, di quanto serve, e poi stampa il blocco.
+putc:   ld (pch),a
+        push bc
+        push de
+        push hl
+        ld a,(dflag)
+        or a
+        jr nz,pu_dir
+        ld a,(HDR+11)
+        rra
+        jr c,pu_blk
+pu_dir: ld a,(pch)
+        cp 8
+        jr nc,pu_out
+        call setcol
+        jr pu_end
+pu_out: rst 16
+        ld a,(pch)
+        cp 13
+        jr nz,pu_end
+        ld a,255
+        ld (SCRCT),a
+        ld a,(dflag)
+        or a
+        jr nz,pu_end
+        ld hl,nlin
+        inc (hl)
+        ld a,(hl)
+        cp NRIGHE
+        call nc,more
+pu_end: pop hl
+        pop de
+        pop bc
+        ld a,(pch)
+        ret
+pu_blk: ld hl,(bptr)
+        ld a,(pch)
+        ld (hl),a
+        inc hl
+        ld (bptr),hl
+        cp 13
+        jr nz,pb2
+        ld hl,nlin
+        inc (hl)
+        ld a,(hl)
+        cp NRIGHE
+        jr c,pb2
+        call flushb
+        call more
+        jr pu_end
+pb2:    ld a,(bptr+1)
+        cp $F9
+        call nc,flushb
+        jr pu_end
+
+flushb: ld hl,(bptr)
+        ld de,BUF
+        or a
+        sbc hl,de
+        ret z
+        ld a,(SPOSN+1)
+        ld b,a
+        ld a,24
+        sub b
+        ld (frow),a
+        ld hl,nlin
+        add a,(hl)
+        sub 21
+        jr c,fb_p
+        jr z,fb_p
+        cp 22
+        jr c,fb1
+        ld a,22
+fb1:    ld (kkz),a
+        call scrollk
+        ld a,(kkz)
+        ld b,a
+        ld a,(frow)
+        sub b
+        jr nc,fb2
+        xor a
+fb2:    ld (frow),a
+        ld a,(SPOSN)
+        ld b,a
+        ld a,33
+        sub b
+        call atrc
+fb_p:   ld a,255
+        ld (SCRCT),a
+        ld hl,BUF
+fb_l:   ld de,(bptr)
+        or a
+        sbc hl,de
+        add hl,de
+        jr z,fb_e
+        ld a,(hl)
+        push hl
+        cp 8
+        jr nc,fb_c
+        call setcol
+        jr fb_n
+fb_c:   rst 16
+fb_n:   pop hl
+        inc hl
+        jr fb_l
+fb_e:   ld hl,BUF
+        ld (bptr),hl
+        xor a
+        ld (nlin),a
+        ret
+; stampa AT frow, A
+atrc:   push af
+        ld a,22
+        rst 16
+        ld a,(frow)
+        rst 16
+        pop af
+        rst 16
+        ret
+
+; fa scorrere in su di kkz righe (1-22) le 22 righe in alto (pixel e attributi), poi pulisce quelle liberate
+scrollk:
+        ld c,0
+sk1:    ld a,(kkz)
+        add a,c
+        cp 22
+        jr nc,sk_c
+        ld b,a
+        push bc
+        call rowadr
+        push hl
+        ld a,c
+        call rowadr
+        ex de,hl
+        pop hl
+        ld b,8
+sk2:    push bc
+        push hl
+        push de
+        ld bc,32
+        ldir
+        pop de
+        pop hl
+        inc h
+        inc d
+        pop bc
+        djnz sk2
+        pop bc
+        push bc
+        ld a,b
+        call attadr
+        push hl
+        ld a,c
+        call attadr
+        ex de,hl
+        pop hl
+        ld bc,32
+        ldir
+        pop bc
+        inc c
+        jr sk1
+sk_c:   ld a,c
+        cp 22
+        ret nc
+        push bc
+        call rowadr
+        ld b,8
+sk3:    push bc
+        push hl
+        ld d,h
+        ld e,l
+        inc de
+        ld (hl),0
+        ld bc,31
+        ldir
+        pop hl
+        inc h
+        pop bc
+        djnz sk3
+        pop bc
+        push bc
+        ld a,c
+        call attadr
+        ld a,(ATTRP)
+        ld (hl),a
+        ld d,h
+        ld e,l
+        inc de
+        ld bc,31
+        ldir
+        pop bc
+        inc c
+        jr sk_c
+; indirizzo della prima riga di pixel della riga di testo A
+rowadr: ld l,a
+        and $18
+        or $40
+        ld h,a
+        ld a,l
+        and 7
+        rrca
+        rrca
+        rrca
+        ld l,a
+        ret
+; indirizzo degli attributi della riga A
+attadr: ld l,a
+        ld h,0
+        add hl,hl
+        add hl,hl
+        add hl,hl
+        add hl,hl
+        add hl,hl
+        ld a,h
+        add a,$58
+        ld h,a
+        ret
+
+; scrive «premi un tasto», aspetta un tasto e cancella la riga (kwait = 1 mentre aspetta: serve ai test)
+more:   ld a,1
+        ld (dflag),a
+        ld a,T_TASTO
+        call prdir
+        call waitkey
+        ld a,(SPOSN+1)
+        ld b,a
+        ld a,24
+        sub b
+        ld (frow),a
+        xor a
+        call atrc
+        ld b,31
+mo1:    ld a,32
+        push bc
+        rst 16
+        pop bc
+        djnz mo1
+        xor a
+        call atrc
+        xor a
+        ld (dflag),a
+        inc a
+        ld (nlin),a
+        ret
+waitkey:
+        ld a,1
+        ld (kwait),a
+wk1:    call kscan
+        jr nz,wk1
+wk2:    call kscan
+        jr z,wk2
+wk3:    call kscan
+        jr nz,wk3
+        xor a
+        ld (kwait),a
+        ret
+kscan:  xor a
+        in a,($FE)
+        cpl
+        and $1F
+        ret
+; stampa direttamente il messaggio A (senza passare per outc)
+prdir:  add a,a
+        ld e,a
+        ld d,0
+        ld hl,(HDR+8)
+        add hl,de
+        ld a,(hl)
+        inc hl
+        ld h,(hl)
+        ld l,a
+        ld b,TKEY
+pd1:    ld a,(hl)
+        xor b
+        ret z
+        push hl
+        push bc
+        cp 8
+        jr nc,pd2
+        call setcol
+        jr pd3
+pd2:    rst 16
+pd3:    pop bc
+        pop hl
+        ld a,b
+        add a,TSTEP
+        ld b,a
+        inc hl
+        jr pd1
+
 readline:
         xor a
         ld (llen),a
@@ -2024,7 +2335,7 @@ rl_done:
         ld a,32
         rst 16
         ld a,13
-        rst 16
+        call putc
         ret
 
 ; cerca WORD (lunghezza wlen) nel vocabolario: wtype (0 = sconosciuta) e wid

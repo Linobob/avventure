@@ -2,6 +2,12 @@
 
 Le novità del motore e dell'app, dalla più recente. / What's new in the engine and the app, most recent first.
 
+## Scorrimento del testo su C64 e Spectrum (2026-11-08)
+
+Nella scheda Compila, nuove opzioni per i giochi retro: il testo può scorrere a blocchi (ogni risposta compare tutta insieme, con un solo scatto) o una riga alla volta. Se una risposta è più lunga dello schermo il gioco si ferma e aspetta un tasto, e può aspettare un tasto anche dopo l'introduzione.
+
+*Text scrolling on C64 and Spectrum:* In the Build tab, new options for the retro games: the text can scroll in blocks (each response appears all at once, with a single jump) or one line at a time. If a response is longer than the screen the game stops and waits for a key, and it can also wait for a key after the introduction.
+
 ## Combinare due oggetti (2026-11-07)
 
 Nuovo modello nella scheda Regole: «combina corda con gancio» fa sparire i due oggetti e ne crea uno nuovo, che va con il giocatore. Crea anche la regola con gli oggetti al contrario.

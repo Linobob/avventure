@@ -191,6 +191,8 @@ Each item has **Go**, which opens the place to fix. "Only errors and warnings" h
 
 For each platform the app shows the size and how much memory is left.
 
+**Options for C64 and Spectrum.** Above the two retro platforms, the options box chooses how the text scrolls: **in blocks** (each response appears all at once, with a single jump) or **one line at a time** (like BASIC). Either way, if a response is longer than the screen the game stops and waits for a key. The tick "After the introduction, wait for a key" stops the game after the title and the introduction, before the first room. The pause sentence ("[press a key]") is changed in the Words tab, among the response texts. The options are saved in the project.
+
 **Core.** Besides the projects, the Core tab shows the whole core as JSON. The other tabs edit every part of it; here you can read it, touch it up by hand (for example to change many things at once) and press **Apply**, which checks it. **Copy** copies it to the clipboard; **Restore the example** puts "The Empty House" back into the open project.
 
 ## giocatore | What the player can type
