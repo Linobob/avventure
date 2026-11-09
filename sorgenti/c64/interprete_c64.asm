@@ -1,5 +1,7 @@
 ; Interprete per Commodore 64, passo 4: a capo automatico delle parole, frammenti di descrizione.
-; Licenza MIT. Assemblato con asm6502.py; il compilatore aggiunge il font a $1800 e i dati del gioco a $1C00.
+; Licenza MIT. Assemblato con asm6502.py; il compilatore aggiunge il font a $2000 e i dati del gioco a $2400.
+; Memoria video (banco 3): testo a $C800, font a $D000 (RAM sotto l'I/O, con il negativo a $D400),
+; immagine: bitmap a $E000 e colori a $CC00 (piu' la RAM colore), mostrata in alto con un interrupt di raster.
 ;
 ; Intestazione dei dati (a $0C00):
 ;   +0 stanza iniziale (byte)      +1 numero di stanze (byte)
@@ -20,8 +22,11 @@
 CHROUT = $FFD2
 GETIN  = $FFE4
 PLOT   = $FFF0
-HDR    = $2000
-FONT   = $1C00
+HDR    = $2400
+FONT   = $2000
+; puntatori in pagina zero liberi (BASIC non gira): immagine e destinazione
+IP     = $22
+DST    = $24
 LINE   = $0340
 WORD   = $0370
 P1     = $FB
@@ -95,6 +100,26 @@ skl    = $C2D7
 skh    = $C2D8
 tmpd   = $C2D9
 BUF    = $C300
+; immagini: itop = prima riga del testo (0 = nessuna immagine; sopra c'e' l'immagine e una riga nera), nrig = righe prima della pausa
+itop   = $C2E0
+nrig   = $C2E1
+curl   = $C2E2
+tout   = $C2E4
+irqst  = $C2E5
+imode  = $C2E6
+ibg    = $C2E7
+isplit = $C2E8
+pcol   = $C2E9
+prow   = $C2EA
+px0    = $C2EB
+ifill  = $C2EC
+pcnt   = $C2ED
+cpn    = $C2EE
+pmul   = $C2EF
+rsl    = $C2F0
+rsh    = $C2F1
+stl    = $C2F2
+sth    = $C2F3
 T_TASTO = 47
 NRIGHE = 24
 vars   = $C180
@@ -168,8 +193,7 @@ start:  lda #0
         lda $DD00
         and #$FC
         sta $DD00
-        lda #$2C
-        sta $D018
+        jsr irqoff
         lda #$C8
         sta $0288
         lda #$C3
@@ -182,6 +206,13 @@ start:  lda #0
         sta $CC
         lda HDR
         sta room
+        lda #0
+        sta itop
+        sta tout
+        sta curl
+        sta curl+1
+        lda #NRIGHE
+        sta nrig
         lda #0
         sta fin
         sta rmode
@@ -248,6 +279,7 @@ main:   lda #T_PROMPT
         jsr readline
         lda #0
         sta col
+        sta tout
         lda fin
         beq mn1
         jmp start
@@ -334,8 +366,8 @@ oc_ret: pla
         lda tmpc
         rts
 
-; copia il font del gioco (1024 byte a FONT) in $F000 (sotto il KERNAL, visto dal VIC nel banco 3)
-; e ne prepara la versione in negativo a $F400 per il cursore; lo schermo va a $C800
+; copia il font del gioco (1024 byte a FONT) in $D000 (RAM sotto l'I/O, vista dal VIC nel banco 3)
+; e ne prepara la versione in negativo a $D400 per il cursore; lo schermo va a $C800
 fontinit:
         lda #<FONT
         sta P1
@@ -344,10 +376,13 @@ fontinit:
         lda #0
         sta P2
         sta P3
-        lda #$F0
+        lda #$D0
         sta P2+1
-        lda #$F4
+        lda #$D4
         sta P3+1
+        sei
+        lda #$34
+        sta $01
         ldx #0
 fi_p:   ldy #0
 fi_b:   lda (P1),y
@@ -362,6 +397,9 @@ fi_b:   lda (P1),y
         inx
         cpx #4
         bne fi_p
+        lda #$37
+        sta $01
+        cli
         rts
 
 ; colori per tipo di testo (1 nome stanza, 2 testo, 3 oggetti, 4 uscite, 5 errori, 6 comando del giocatore)
@@ -878,6 +916,7 @@ df4:    dec fc
 
 ; stampa il testo della stanza corrente, gli oggetti presenti e le uscite
 describe:
+        jsr pic
         jsr isdark
         bcc ds_ok
         lda #T_BUIO
@@ -935,20 +974,42 @@ putc:   sta pch
         pha
         tya
         pha
+        lda pch
+        cmp #32
+        bcc pu_t
+        lda #1
+        sta tout
+pu_t:
         lda dflag
         bne pu_dir
         lda HDR+11
         lsr
         bcs pu_blk
 pu_dir: lda pch
-        jsr CHROUT
         cmp #13
+        bne pu_d2
+        ldx itop
+        beq pu_d2
+        ldx $D6
+        cpx #24
+        bne pu_d2
+        lda #1
+        sta kk
+        jsr scrollk
+        ldx #24
+        ldy #0
+        clc
+        jsr PLOT
+        lda #13
+        bne pu_d3
+pu_d2:  jsr CHROUT
+pu_d3:  cmp #13
         bne pu_end
         lda dflag
         bne pu_end
         inc nlin
         lda nlin
-        cmp #NRIGHE
+        cmp nrig
         bcc pu_end
         jsr more
 pu_end: pla
@@ -966,7 +1027,7 @@ pb1:    cmp #13
         bne pb2
         inc nlin
         lda nlin
-        cmp #NRIGHE
+        cmp nrig
         bcc pb2
         jsr flushb
         jsr more
@@ -989,16 +1050,21 @@ fb0:    lda $D6
         sbc #24
         bcc fb_p
         beq fb_p
-        cmp #25
-        bcc fb1
+        sta kk
         lda #25
-fb1:    sta kk
-        jsr scrollk
+        sec
+        sbc itop
+        cmp kk
+        bcs fb1
+        sta kk
+fb1:    jsr scrollk
         lda $D6
         sec
         sbc kk
+        bcc fb1b
+        cmp itop
         bcs fb2
-        lda #0
+fb1b:   lda itop
 fb2:    tax
         ldy $D3
         clc
@@ -1032,18 +1098,21 @@ fb_r:   rts
 ; fa scorrere in su di kk righe (1-25) schermo e colori in un solo passaggio, pulisce le righe liberate
 ; e rimette in ordine la tabella delle righe del KERNAL
 scrollk:
-        lda #0
-        sta skl
-        sta skh
-        ldx kk
-sk0:    lda skl
+        lda itop
+        jsr mul40
+        lda skl
+        sta d1+1
+        sta d2+1
+        lda skh
         clc
-        adc #40
-        sta skl
-        bcc sk0b
-        inc skh
-sk0b:   dex
-        bne sk0
+        adc #$C8
+        sta d1+2
+        adc #$10
+        sta d2+2
+        lda kk
+        clc
+        adc itop
+        jsr mul40
         lda skl
         sta s1+1
         sta s2+1
@@ -1053,16 +1122,11 @@ sk0b:   dex
         sta s1+2
         adc #$10
         sta s2+2
-        lda #0
-        sta d1+1
-        sta d2+1
-        lda #$C8
-        sta d1+2
-        lda #$D8
-        sta d2+2
         lda #25
         sec
         sbc kk
+        sec
+        sbc itop
         sta skn
         beq sk_c
 sk1:    ldx #39
@@ -1128,6 +1192,317 @@ sk6:    inx
         cpx #25
         bne sk5
         rts
+; skl/skh = A * 40
+mul40:  tax
+        lda #0
+        sta skl
+        sta skh
+        cpx #0
+        beq m4r
+m4l:    lda skl
+        clc
+        adc #40
+        sta skl
+        bcc m4b
+        inc skh
+m4b:    dex
+        bne m4l
+m4r:    rts
+
+; ---- immagine della stanza ----
+; HDR+32: tabella, 2 byte per stanza (0 = nessuna). Record: [colonne][righe][1 = multicolore][colore di fondo]
+; [bitmap: 8 byte per blocco, riga per riga][colori dello schermo: 1 byte per blocco][RAM colore: solo multicolore]
+; Se l'immagine cambia: pulisce lo schermo (dopo un tasto, se c'e' testo nuovo da leggere), la disegna in alto,
+; lascia una riga nera e il testo scorre sotto. Senza immagine (o al buio) il testo torna a tutto schermo.
+pic:    lda #0
+        sta IP
+        sta IP+1
+        jsr isdark
+        bcs pi_set
+        lda HDR+32
+        sta pi_t+1
+        lda HDR+33
+        sta pi_t+2
+        ora HDR+32
+        beq pi_set
+        lda room
+        asl
+        tay
+        jsr pi_t
+        sta IP
+        iny
+        jsr pi_t
+        sta IP+1
+pi_set: lda IP
+        cmp curl
+        bne pi_ch
+        lda IP+1
+        cmp curl+1
+        bne pi_ch
+        rts
+pi_t:   lda $FFFF,y
+        rts
+pi_ch:  lda IP
+        sta curl
+        lda IP+1
+        sta curl+1
+        ora IP
+        bne pi_drw
+        sta itop
+        lda #NRIGHE
+        sta nrig
+        jmp irqoff
+pi_drw: jsr flushw
+        jsr flushb
+        lda tout
+        beq pi_c
+        jsr more
+pi_c:   jsr irqoff
+        lda #147
+        jsr CHROUT
+        ldy #0
+        lda (IP),y
+        sta pcol
+        iny
+        lda (IP),y
+        sta prow
+        clc
+        adc #1
+        sta itop
+        lda #NRIGHE
+        sec
+        sbc itop
+        sta nrig
+        lda itop
+        asl
+        asl
+        asl
+        adc #$2F
+        sta isplit
+        iny
+        lda (IP),y
+        beq pi_h
+        lda #$18
+        ldx #$FF
+        bne pi_m
+pi_h:   lda #$08
+        ldx #0
+pi_m:   sta imode
+        stx ifill
+        iny
+        lda (IP),y
+        sta ibg
+        lda #4
+        jsr ipadd
+        lda #40
+        sec
+        sbc pcol
+        lsr
+        sta px0
+; pulisce bitmap (righe 0-17), colori e RAM colore delle prime righe: tutto nero
+        lda #$E0
+        ldx #23
+        ldy ifill
+        jsr fill
+        lda #$CC
+        ldx #3
+        ldy #0
+        jsr fill
+        lda #$D8
+        ldx #3
+        ldy #0
+        jsr fill
+; riga nera di separazione: spazi nella matrice dei colori (nel modo testo, a meta' riga, si vedono spazi)
+        lda prow
+        jsr mul40
+        lda skl
+        sta DST
+        lda skh
+        clc
+        adc #$CC
+        sta DST+1
+        lda #32
+        ldy #39
+pi_sp:  sta (DST),y
+        dey
+        bpl pi_sp
+; bitmap: per riga 2 x (colonne x 4) byte, passo 320
+        lda pcol
+        asl
+        asl
+        sta cpn
+        lda px0
+        asl
+        asl
+        asl
+        sta DST
+        lda #$E0
+        sta DST+1
+        lda #2
+        sta pmul
+        lda #<320
+        sta stl
+        lda #>320
+        sta sth
+        jsr pass
+; colori dello schermo, passo 40
+        lda pcol
+        sta cpn
+        lda #1
+        sta pmul
+        lda #40
+        sta stl
+        lda #0
+        sta sth
+        lda px0
+        sta DST
+        lda #$CC
+        sta DST+1
+        jsr pass
+        lda imode
+        cmp #$18
+        bne pi_e
+        lda px0
+        sta DST
+        lda #$D8
+        sta DST+1
+        jsr pass
+pi_e:   jsr irqon
+        ldx itop
+        dex
+        ldy #0
+        clc
+        jsr PLOT
+        lda #0
+        sta col
+        sta nlin
+        sta tout
+        rts
+; Y nelle X pagine da A00 in poi
+fill:   sta DST+1
+        lda #0
+        sta DST
+        tya
+        ldy #0
+fl1:    sta (DST),y
+        iny
+        bne fl1
+        inc DST+1
+        dex
+        bne fl1
+        rts
+; IP += A
+ipadd:  clc
+        adc IP
+        sta IP
+        bcc ia_r
+        inc IP+1
+ia_r:   rts
+; prow righe: per ognuna pmul copie di cpn byte da IP (che avanza) a DST; poi DST = inizio riga + passo
+pass:   lda prow
+        sta pcnt
+pa1:    lda DST
+        sta rsl
+        lda DST+1
+        sta rsh
+        ldx pmul
+pa2:    ldy #0
+pa3:    lda (IP),y
+        sta (DST),y
+        iny
+        cpy cpn
+        bne pa3
+        tya
+        jsr ipadd
+        tya
+        clc
+        adc DST
+        sta DST
+        bcc pa4
+        inc DST+1
+pa4:    dex
+        bne pa2
+        lda rsl
+        clc
+        adc stl
+        sta DST
+        lda rsh
+        adc sth
+        sta DST+1
+        dec pcnt
+        bne pa1
+        rts
+; interrupt di raster (il timer del CIA e' spento: tastiera e orologio del KERNAL girano una volta per quadro, dopo il cambio a testo)
+; in cima bitmap (modo e fondo dell'immagine), a meta' della riga nera torna il testo
+irqon:  sei
+        lda #$7F
+        sta $DC0D
+        lda $DC0D
+        lda #<irq
+        sta $0314
+        lda #>irq
+        sta $0315
+        lda #0
+        sta irqst
+        lda #$10
+        sta $D012
+        lda #$1B
+        sta $D011
+        lda #1
+        sta $D01A
+        sta $D019
+        cli
+        rts
+irqoff: sei
+        lda #0
+        sta $D01A
+        lda #$81
+        sta $DC0D
+        lda #$31
+        sta $0314
+        lda #$EA
+        sta $0315
+        lda #1
+        sta $D019
+        jsr ir_tm
+        cli
+        rts
+irq:    lda $D019
+        and #1
+        beq ir_k
+        sta $D019
+        lda irqst
+        bne ir_t
+        lda #$3B
+        sta $D011
+        lda imode
+        sta $D016
+        lda #$38
+        sta $D018
+        lda ibg
+        sta $D021
+        lda isplit
+        sta $D012
+        inc irqst
+        jmp $EA81
+ir_t:   jsr ir_tm
+        lda #0
+        sta irqst
+        lda #$10
+        sta $D012
+        jmp $EA31
+ir_k:   jmp $EA31
+; modo testo: schermo a $C800, font a $D000, fondo nero
+ir_tm:  lda #$1B
+        sta $D011
+        lda #$08
+        sta $D016
+        lda #$24
+        sta $D018
+        lda #0
+        sta $D021
+        rts
+
 ; somma 40 all'indirizzo (2 byte) dentro l'istruzione che sta all'indirizzo skpp+1/skpp+2 (+1)
 add40:  stx tmpd
         ldx #1
@@ -1169,6 +1544,7 @@ mo1:    jsr GETIN
         beq mo1
         lda #0
         sta kwait
+        sta tout
         sec
         jsr PLOT
         stx frow
@@ -1273,7 +1649,7 @@ rl3:    cmp #32
         cmp #96
         bcs rl1
         ldx llen
-        cpx #38
+        cpx #37
         bcs rl1
         sta LINE,x
         inc llen

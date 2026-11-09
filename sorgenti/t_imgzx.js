@@ -8,7 +8,10 @@ const r=await p.evaluate(async([a,b2])=>{
   put(0,a,640,400);put(1,b2,96,64);c.stanze[0].immagine.zx.col=32;
   for(const s of c.stanze)if(s.immagine)await convertiImmagine(s.immagine,'zx');
   const f=immaginiRetro(c,'zx');const blk=compilaZX(c,{},f),rig=compilaZX(c,{righe:true},f),senza=compilaZX(c,{});
-  return {blk:[...blk.immagine],rig:[...rig.immagine],n:f.map(x=>x&&[x.w,x.h]),diff:blk.immagine.length-senza.immagine.length,stanze:c.stanze.map(s=>[s.id,!!s.buia,Object.keys(s.uscite||{}).join('/')])};
+  for(const s of c.stanze)if(s.immagine)await convertiImmagine(s.immagine,'c64');
+  const g=immaginiRetro(c,'c64');const c64b=compilaC64(c,{},g).prg,c64r=compilaC64(c,{righe:true},g).prg;
+  c.stanze[0].immagine.c64.modo='hires';await convertiImmagine(c.stanze[0].immagine,'c64');const c64h=compilaC64(c,{},immaginiRetro(c,'c64')).prg;
+  return {c64b:[...c64b],c64r:[...c64r],c64h:[...c64h],blk:[...blk.immagine],rig:[...rig.immagine],n:f.map(x=>x&&[x.w,x.h]),diff:blk.immagine.length-senza.immagine.length,stanze:c.stanze.map(s=>[s.id,!!s.buia,Object.keys(s.uscite||{}).join('/')])};
 },[png,pp]);
-fs.writeFileSync('zx/img_blk.bin',Buffer.from(r.blk));fs.writeFileSync('zx/img_rig.bin',Buffer.from(r.rig));
+fs.writeFileSync('zx/img_blk.bin',Buffer.from(r.blk));fs.writeFileSync('c64/img_blk.prg',Buffer.from(r.c64b));fs.writeFileSync('c64/img_rig.prg',Buffer.from(r.c64r));fs.writeFileSync('c64/img_hi.prg',Buffer.from(r.c64h));fs.writeFileSync('zx/img_rig.bin',Buffer.from(r.rig));
 console.log(JSON.stringify(r.n),'byte immagini',r.diff,JSON.stringify(r.stanze));console.log('errs',errs);await b.close()})();

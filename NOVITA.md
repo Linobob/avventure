@@ -2,6 +2,12 @@
 
 Le novità del motore e dell'app, dalla più recente. / What's new in the engine and the app, most recent first.
 
+## Immagini sul Commodore 64 (2026-11-09)
+
+Anche il gioco per C64 mostra le immagini delle stanze, in multicolore o in alta risoluzione: l'immagine sta in alto, separata da una riga nera, e il testo scorre sotto. Si comporta come lo Spectrum: quando l'immagine cambia lo schermo si pulisce, e nelle stanze senza immagine il testo torna a tutto schermo.
+
+*Images on the Commodore 64:* The C64 game now shows room images too, in multicolour or high resolution: the image sits at the top, separated by a black line, and the text scrolls below it. It behaves like the Spectrum: when the image changes the screen is cleared, and in rooms without an image the text goes back to full screen.
+
 ## Immagini sullo Spectrum (2026-11-09)
 
 Il gioco per ZX Spectrum mostra l'immagine della stanza in alto, e il testo scorre sotto. Quando l'immagine cambia lo schermo si pulisce (prima aspetta un tasto, se c'è testo nuovo da leggere); nelle stanze senza immagine il testo torna a tutto schermo.
