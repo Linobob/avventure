@@ -2,6 +2,12 @@
 
 Le novità del motore e dell'app, dalla più recente. / What's new in the engine and the app, most recent first.
 
+## Oggetti con lo stesso nome e ordine delle schede (2026-11-09)
+
+Quando due oggetti si chiamano allo stesso modo, in tutta l'app compaiono con un aggettivo che li distingue (per esempio «chiave (arrugginita)» e «chiave (dorata)»; se non hanno aggettivi, con l'identificativo). Nelle schede Stanze, Oggetti e Regole (e negli eventi) un menu permette di vedere le voci in ordine alfabetico o raggruppate (per funzione, per posizione, per comando, per oggetto, per distanza dalla stanza iniziale): è solo una vista temporanea, il gioco non cambia. Nella scheda Soluzione l'etichetta di ogni passo ora segue le scelte dei menu.
+
+*Objects with the same name and card order:* When two objects have the same name, they now appear everywhere in the app with a distinguishing adjective (for example "chiave (arrugginita)" and "chiave (dorata)"; with no adjectives, with their identifier). In the Rooms, Objects and Rules tabs (and in the entry events) a menu lets you view the entries in alphabetical order or grouped (by function, by position, by command, by object, by distance from the starting room): it is only a temporary view, the game does not change. In the Solution tab the label of each step now follows the choices in the menus.
+
 ## Immagini degli oggetti (2026-11-09)
 
 Anche gli oggetti e i personaggi possono avere un'immagine. Nel gioco Web compare prima della risposta quando il giocatore usa sull'oggetto uno dei comandi scelti nella scheda Parole: di serie «guarda», ma puoi aggiungere per esempio «parla». Sul C64 l'immagine dell'oggetto prende il posto di quella della stanza, finché la stanza non viene descritta di nuovo; lo Spectrum arriverà dopo.
