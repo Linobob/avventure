@@ -36,7 +36,8 @@ Progetto: motore per avventure testuali. App di authoring in una sola pagina HTM
 ## Memoria dei sistemi retro
 - C64: codice da $080D, deve finire sotto $1C00 (font, copiato a $F000); dati da $2000; variabili $C000-$C2DF; buffer testo a blocchi $C300-$C7FF. Margine codice rimasto: circa 230 byte (la prossima funzione dovrà spostare font e dati).
 - Spectrum: codice da $8000, sotto $9400; dati da $9400; variabili $F000-$F427; buffer $F500-$F9FF. Riga di input max 28 caratteri.
+- Immagini: `s.immagine` = riferimento e opzioni (dimensioni in blocchi per sistema); i dati stanno in IndexedDB, non nel core, e tornano nel core solo nel file salvato (`immagini`) e nel gioco Web. Convertitore in `// ==== IMMAGINI ====`, test `node t_immagini.js`. C64/Spectrum: solo anteprima, gli interpreti non le mostrano ancora.
 - Intestazione dati 32 byte; HDR+11 = opzioni (bit 0 testo a blocchi, bit 1 attesa dopo l'introduzione).
 
 ## Da fare (decide l'utente)
-Esempio più ricco; .d64 e testi su disco/compressi per avventure grandi; immagini e musica con convertitore (vedi documento di design); opzioni cambiabili dentro il gioco; scorrimento morbido C64 e zona fissa in alto; personaggi che si muovono, dialoghi a menu; salvataggio partita.
+Esempio più ricco; .d64 e testi su disco/compressi per avventure grandi; immagini negli interpreti Spectrum e C64 (schermo diviso; poi compressione); musica; opzioni cambiabili dentro il gioco; scorrimento morbido C64 e zona fissa in alto; personaggi che si muovono, dialoghi a menu; salvataggio partita.

@@ -2,6 +2,12 @@
 
 Le novità del motore e dell'app, dalla più recente. / What's new in the engine and the app, most recent first.
 
+## Immagini nelle stanze (2026-11-09)
+
+Ogni stanza può avere un'immagine, anche piccola: il gioco Web la mostra sopra il testo. Per C64 e Spectrum c'è il convertitore con anteprima fedele (dimensioni, modo, dithering e memoria occupata); le immagini non entrano ancora nei file compilati.
+
+*Images in rooms:* Each room can have an image, even a small one: the Web game shows it above the text. For C64 and Spectrum there is a converter with a faithful preview (size, mode, dithering and memory used); images do not go into the compiled files yet.
+
 ## Scorrimento del testo su C64 e Spectrum (2026-11-08)
 
 Nella scheda Compila, nuove opzioni per i giochi retro: il testo può scorrere a blocchi (ogni risposta compare tutta insieme, con un solo scatto) o una riga alla volta. Se una risposta è più lunga dello schermo il gioco si ferma e aspetta un tasto, e può aspettare un tasto anche dopo l'introduzione.

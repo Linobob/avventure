@@ -53,6 +53,8 @@ Una stanza ha un nome, una descrizione e le uscite. Tocca **+ Nuova stanza** in 
 
 **Stanza buia.** Con la casella «Stanza buia» la stanza si vede solo se c'è una luce accesa nella stanza o in mano al giocatore. Senza luce il giocatore legge «È buio pesto», non vede gli oggetti e non può prenderli, ma può muoversi. La luce è un oggetto con «Fa luce quando è acceso» (sezione Oggetti).
 
+**Immagine.** Con **+ Carica immagine** dai alla stanza un'immagine, anche piccola: il gioco Web la mostra sopra il testo, nella larghezza che scegli. Per C64 e Spectrum scegli quante colonne e righe occupa, il modo e il dithering, e vedi lo schermo come apparirà e quanta memoria serve. Per ora le immagini non entrano nei file per C64 e Spectrum. Salvando il progetto in un file le immagini vengono con lui.
+
 **Stanza iniziale.** Una stanza ha il segno «inizio»: è quella da cui parte il gioco. Si cambia con **Fai partire il gioco da qui**, e la stanza iniziale non si può eliminare.
 
 **Mappa.** La scheda Mappa disegna le stanze e i collegamenti. Una linea continua è un passaggio libero; una tratteggiata è un'uscita con condizioni, bloccata o nascosta; una freccia indica un passaggio in una sola direzione. Le stanze più in alto o più in basso (su e giù) sono in livelli a parte. Tocca una stanza per aprirla.
