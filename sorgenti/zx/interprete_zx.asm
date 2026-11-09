@@ -2408,7 +2408,9 @@ po_l:   dec b
         jp pi_set
 
 ; scrive «premi un tasto», aspetta un tasto e cancella la riga (kwait = 1 mentre aspetta: serve ai test)
-more:   ld a,1
+more:   ld a,(fcol)
+        push af                 ; il colore del testo, da rimettere dopo il messaggio
+        ld a,1
         ld (dflag),a
         ld a,T_TASTO
         call prdir
@@ -2434,7 +2436,8 @@ mo1:    ld a,32
         ld (dflag),a
         inc a
         ld (nlin),a
-        ret
+        pop af
+        jp setcol
 waitkey:
         ld a,1
         ld (kwait),a

@@ -1588,7 +1588,9 @@ skw2:   sta $FFFF,x
 sktab:  .byte <s1, <d1, <s2, <d2, >s1, >d1, >s2, >d2
 
 ; scrive «premi un tasto», aspetta un tasto e cancella la riga (kwait = 1 mentre aspetta: serve ai test)
-more:   lda #1
+more:   lda $0286
+        pha                     ; il colore del testo, da rimettere dopo il messaggio
+        lda #1
         sta dflag
         lda #T_TASTO
         jsr prdir
@@ -1618,6 +1620,8 @@ mo2:    lda #32
         sta dflag
         lda #1
         sta nlin
+        pla
+        sta $0286
         rts
 
 ; stampa direttamente il messaggio A (senza passare per outc), conservando P1, P2 e xk

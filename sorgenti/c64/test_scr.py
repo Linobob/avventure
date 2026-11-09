@@ -3,6 +3,9 @@
 import sys
 from cpu6502 import CPU
 SCR, COL = 0xC800, 0xD800
+# codici PETSCII dei colori -> numero di colore; COLORI = colori di tutto lo schermo alla fine (per le prove)
+PETCOL = {144: 0, 5: 1, 28: 2, 159: 3, 156: 4, 30: 5, 31: 6, 158: 7, 129: 8, 149: 9, 150: 10, 151: 11, 152: 12, 153: 13, 154: 14, 155: 15}
+COLORI = []
 def run(prg_path, inputs, maxsteps=20000000, kwait=0xC2D3, foto=None):
     prg = open(prg_path, 'rb').read()
     cpu = CPU(); base = prg[0] | prg[1] << 8
@@ -28,8 +31,10 @@ def run(prg_path, inputs, maxsteps=20000000, kwait=0xC2D3, foto=None):
             m[SCR:SCR + 1000] = bytes([32]) * 1000; m[0xD6] = m[0xD3] = 0
         elif a == 20:
             if m[0xD3] > 0: m[0xD3] -= 1; m[SCR + 40 * m[0xD6] + m[0xD3]] = 32
+        elif a in PETCOL:
+            m[0x0286] = PETCOL[a]
         elif a < 32 or 128 <= a < 160:
-            pass  # colori e controlli
+            pass  # altri controlli
         else:
             if 64 <= a < 96: sc = a - 64
             elif 96 <= a < 128: sc = a - 32
@@ -69,6 +74,7 @@ def run(prg_path, inputs, maxsteps=20000000, kwait=0xC2D3, foto=None):
     try:
         for _ in range(maxsteps): cpu.step()
     except Done: pass
+    COLORI[:] = [m[COL + i] & 15 for i in range(1000)]
     return schermo(), scatti, scorrimenti[0]
 if __name__ == '__main__':
     s, sc, n = run(sys.argv[1], sys.argv[2].replace('\\n', '\r'))
