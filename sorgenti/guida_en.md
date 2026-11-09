@@ -75,6 +75,8 @@ An object is anything the player can name: a key, a door, a table, a person, eve
 
 **If it changes state.** An object can be open or closed, lit or unlit: rules change that. For each state you can give a different label and description, for example "an open door", "a lit lantern".
 
+**Image.** An object or character can have an image, like rooms. In the Web game it appears before the answer when the player uses on the object one of the commands that show images: only "look" by default; the others (for example "talk") are chosen in the Words tab, Commands section. For now object images are only in the Web game.
+
 **The special kinds**
 
 | Kind | What it does |
