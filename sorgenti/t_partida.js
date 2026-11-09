@@ -3,7 +3,7 @@ const {chromium}=require('playwright');
 (async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:900}});const errs=[];p.on('pageerror',e=>errs.push(e.message));
 await p.goto('file://'+process.cwd()+'/authoring.html');await p.evaluate(()=>localStorage.clear());await p.reload();await p.waitForTimeout(300);
 await p.evaluate(()=>{CORE=copia(CORE_ESEMPIO);});
-await p.click('.scheda[data-tab=prova]');await p.waitForTimeout(300);
+await p.evaluate(()=>schedeAperte(true));await p.click('.scheda[data-tab=prova]');await p.waitForTimeout(300);
 const a=await p.evaluate(()=>({sel:[...document.querySelectorAll('#lingua-prova select:has(option[value=capanno]) option')].map(o=>o.value+'='+o.textContent),reg:el('registro').innerText.slice(0,90)}));console.log(JSON.stringify(a));
 await p.selectOption('#lingua-prova select:has(option[value=capanno])','capanno');await p.waitForTimeout(200);
 const c=await p.evaluate(()=>({reg:el('registro').innerText,stanza:G.st.stanza,inizio:CORE.inizio}));console.log(JSON.stringify(c));

@@ -2,6 +2,12 @@
 
 Le novità del motore e dell'app, dalla più recente. / What's new in the engine and the app, most recent first.
 
+## Schede comprimibili sul telefono (2026-11-10)
+
+Sul telefono le schede in alto sono chiuse: resta una barra con il nome della scheda attuale. Toccala per aprire l'elenco; dopo la scelta si richiude e lascia più spazio, per esempio nella Prova.
+
+*Collapsible tabs on the phone:* On the phone the tabs at the top are collapsed: a bar shows the current tab. Tap it to open the list; after you choose it closes again and leaves more room, for example in the Test tab.
+
 ## Prova da una stanza qualsiasi (2026-11-09)
 
 Nella scheda Prova il menu «Parti da» fa iniziare il gioco da una stanza a scelta, per provare subito le parti più avanti. Gli oggetti restano dove li hai messi all'inizio; la scelta vale solo per la prova e non cambia il gioco.

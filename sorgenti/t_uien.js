@@ -6,7 +6,7 @@ const tabs=['stanze','mappa','oggetti','parole','regole','soluzione','lingue','c
 const it=/\b(il|la|di|che|non|una|per|della|delle|nella|sono|anche|questo|quando|stanza|oggetto|regola|scheda|gioco|Aggiungi|Togli|Elimina|Nuov[oa]|Crea|Prima|dopo|ogni|parole|uscita)\b/;
 const out={};
 for(const t of tabs){
-  await p.click('.scheda[data-tab='+t+']');await p.waitForTimeout(300);
+  await p.evaluate(()=>schedeAperte(true));await p.click('.scheda[data-tab='+t+']');await p.waitForTimeout(300);
   await p.evaluate(()=>{document.querySelectorAll('.pannello:not([hidden]) details').forEach(d=>d.open=true)});await p.waitForTimeout(150);
   if(t==='regole'){await p.evaluate(()=>{aperte.add('p-modelli');ridisegna()});await p.locator('#p-regole details.p-modelli select').first().selectOption('blocca');await p.waitForTimeout(200);}
   if(t==='soluzione'){await p.locator('#p-soluzione button.primario').click();await p.waitForTimeout(15000);}

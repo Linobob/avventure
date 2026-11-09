@@ -1,0 +1,29 @@
+const {chromium}=require('playwright');
+(async()=>{const b=await chromium.launch();const errs=[];
+const url='file://'+process.cwd()+'/../index.html';
+// telefono
+const p=await b.newPage({viewport:{width:390,height:844}});p.on('pageerror',e=>errs.push(e.message));
+await p.goto(url);await p.waitForTimeout(500);
+const vis=s=>p.evaluate(s=>{const e=document.querySelector(s);return !!e&&e.offsetParent!==null&&getComputedStyle(e).display!=='none'},s);
+const h0=await p.evaluate(()=>document.querySelector('header').getBoundingClientRect().height);
+if(!await vis('#schede-toggle'))errs.push('toggle non visibile su telefono');
+if(await vis('.schede'))errs.push('schede aperte all\'avvio su telefono');
+if((await p.textContent('#schede-toggle-nome')).trim()!=='Stanze')errs.push('nome iniziale errato');
+await p.click('#schede-toggle');
+if(!await vis('.schede'))errs.push('le schede non si aprono');
+if(await p.getAttribute('#schede-toggle','aria-expanded')!=='true')errs.push('aria-expanded non true');
+const h1=await p.evaluate(()=>document.querySelector('header').getBoundingClientRect().height);
+if(!(h1>h0+60))errs.push('altezza aperta non maggiore: '+h0+' '+h1);
+await p.click('.scheda[data-tab=prova]');await p.waitForTimeout(300);
+if(await vis('.schede'))errs.push('le schede non si richiudono dopo la scelta');
+if((await p.textContent('#schede-toggle-nome')).trim()!=='Prova')errs.push('nome non aggiornato: '+await p.textContent('#schede-toggle-nome'));
+if(!await vis('#p-prova'))errs.push('pannello Prova non mostrato');
+console.log('altezza testata chiusa/aperta',Math.round(h0),Math.round(h1));
+// desktop
+const d=await b.newPage({viewport:{width:1100,height:800}});d.on('pageerror',e=>errs.push('desk '+e.message));
+await d.goto(url);await d.waitForTimeout(500);
+if(await d.evaluate(()=>getComputedStyle(document.querySelector('#schede-toggle')).display)!=='none')errs.push('toggle visibile su desktop');
+if(!await d.evaluate(()=>document.querySelector('.schede').offsetParent!==null))errs.push('schede nascoste su desktop');
+await d.click('.scheda[data-tab=oggetti]');
+if(!await d.evaluate(()=>document.querySelector('.schede').offsetParent!==null))errs.push('schede nascoste su desktop dopo clic');
+console.log('errs',errs);await b.close();})();

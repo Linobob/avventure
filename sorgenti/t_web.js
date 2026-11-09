@@ -10,7 +10,7 @@ await g.goto('file://'+process.cwd()+'/la-casa-vuota.html'); await g.waitForTime
 for(const c of ['prendi chiave','n','apri porta con chiave','e','xyz']){await g.fill('#cmd',c);await g.press('#cmd','Enter');}
 console.log((await g.textContent('#registro')).slice(-260));
 // scheda Compila e anteprima
-await p.click('.scheda[data-tab=compila]');await p.waitForTimeout(800);
+await p.evaluate(()=>schedeAperte(true));await p.click('.scheda[data-tab=compila]');await p.waitForTimeout(800);
 console.log(await p.textContent('#p-compila .dato'));
 await p.click('text=Anteprima');await p.waitForTimeout(800);
 const fr=p.frameLocator('iframe.anteprima'); console.log('anteprima:',(await fr.locator('#registro').textContent()).slice(0,60));

@@ -1,7 +1,7 @@
 const {chromium}=require('playwright');
 (async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:390,height:2200}});const errs=[];p.on('pageerror',e=>errs.push(e.message));
 await p.goto('file://'+process.cwd()+'/authoring.html');await p.evaluate(()=>localStorage.clear());await p.reload();
-await p.click('.scheda[data-tab=controlli]');await p.waitForTimeout(400);
+await p.evaluate(()=>schedeAperte(true));await p.click('.scheda[data-tab=controlli]');await p.waitForTimeout(400);
 console.log(await p.evaluate(()=>el('p-controlli').innerText));
 await p.screenshot({path:'sh_ctrl1.png'});
 // core con problemi

@@ -11,7 +11,7 @@ const u='file://'+process.cwd()+'/authoring.html';await p.goto(u);await p.waitFo
 // limiti per blocco su dati casuali
 console.log('limiti',await p.evaluate(()=>{const out=[];for(const [s,m,cw,lim] of [['c64','multi',4,4],['c64','hires',8,2],['zx',undefined,8,2]])for(const d of ['nessuno','ordinato','diffusione']){const col=9,ri=5,w=col*cw,h=ri*8,a=new Uint8ClampedArray(w*h*4);for(let i=0;i<a.length;i++)a[i]=(i*7919)%251;const t0=performance.now();const r=convertiPixel(a,col,ri,s,m,d);let max=0,fondi=new Set(),ok=true;for(let c=0;c<col*ri;c++){const S=new Set();for(let y=0;y<8;y++)for(let x=0;x<cw;x++)S.add(r.px[(Math.floor(c/col)*8+y)*w+(c%col)*cw+x]);max=Math.max(max,S.size);if(m==='multi'&&!S.has(r.fondo)&&S.size===4)ok=false;if(s==='zx'){const v=[...S].filter(x=>x!==0&&x!==8);if(v.some(x=>x<8)&&v.some(x=>x>=8))ok=false}}out.push([s,m||'',d,max<=lim&&ok])}return out}));
 console.log('tempo pieno ms',await p.evaluate(()=>{const a=new Uint8ClampedArray(160*200*4);for(let i=0;i<a.length;i++)a[i]=(i*7919)%251;const t=performance.now();convertiPixel(a,40,25,'c64','multi','diffusione');return Math.round(performance.now()-t)}));
-await p.click('.scheda[data-tab=stanze]');await p.evaluate(()=>{aperte.add(CORE.stanze[0].id);ridisegna()});await p.waitForTimeout(200);
+await p.evaluate(()=>schedeAperte(true));await p.click('.scheda[data-tab=stanze]');await p.evaluate(()=>{aperte.add(CORE.stanze[0].id);ridisegna()});await p.waitForTimeout(200);
 await p.locator('#p-stanze details[open].card input[type=file]').first().setInputFiles('/tmp/t_img.png');await p.waitForTimeout(800);
 const im1=await p.evaluate(()=>CORE.stanze[0].immagine);console.log('opz',JSON.stringify(im1));
 await p.locator('.img-sistemi').first().scrollIntoViewIfNeeded();await p.screenshot({path:'sh_img_edit.png',fullPage:false});
@@ -25,7 +25,7 @@ await p.evaluate(()=>{const r=document.querySelectorAll('#p-stanze details[open]
 await p.locator('.img-sistemi').first().scrollIntoViewIfNeeded();await p.screenshot({path:'sh_img_piccola.png'});
 console.log('col',await p.evaluate(()=>CORE.stanze[0].immagine.c64.col),'nel localStorage niente base64',await p.evaluate(()=>!localStorage.getItem(P_PREFISSO+PROGETTI.attivo).includes('base64')));
 // Prova
-await p.click('.scheda[data-tab=prova]');await p.waitForTimeout(400);
+await p.evaluate(()=>schedeAperte(true));await p.click('.scheda[data-tab=prova]');await p.waitForTimeout(400);
 console.log('prova',await p.evaluate(()=>{const i=document.querySelector('#registro img.fig'),c=document.getElementById('testo-comando').getBoundingClientRect();return [!!i,i&&i.naturalWidth,i&&i.style.width,i&&i.className,'comando in vista',c.bottom<=innerHeight,'immagine in vista',i.getBoundingClientRect().top>=document.getElementById('registro').getBoundingClientRect().top-1]}));await p.screenshot({path:'sh_img_prova.png'});
 // Web compilato
 const html=await p.evaluate(async()=>compilaWeb(coreDelGioco().core));fs.writeFileSync('/tmp/t_img.html',html);
@@ -43,7 +43,7 @@ await p.reload();await p.waitForTimeout(700);console.log('dopo ricarica',await p
 console.log('file',await p.evaluate(()=>{const j=JSON.parse(JSON.stringify(coreConImmagini(CORE)));const id=CORE.stanze[0].immagine.id,n=Object.keys(j.immagini).length;delete IMMAGINI[id];estraiImmagini(j);return [n,!!IMMAGINI[id],'immagini' in j]}));
 console.log('senza immagini: core uguale',await p.evaluate(()=>{const c=copia(CORE_ESEMPIO);return coreConImmagini(c)===c&&validaCore(c).length===0}));
 console.log('retro compila',await p.evaluate(()=>[compilaC64(coreDelGioco().core).prg.length,compilaZX(coreDelGioco().core).tap.length]));
-await p.click('.scheda[data-tab=controlli]');await p.waitForTimeout(600);
+await p.evaluate(()=>schedeAperte(true));await p.click('.scheda[data-tab=controlli]');await p.waitForTimeout(600);
 await p.evaluate(()=>{document.querySelectorAll('.pannello:not([hidden]) details').forEach(d=>d.open=true)});
 console.log('controlli',(await p.locator('#p-controlli').innerText()).split('\n').filter(x=>/immagini|Images/i.test(x)));
 console.log('errs',errs);await b.close()})();
