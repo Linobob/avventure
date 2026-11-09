@@ -1543,15 +1543,18 @@ ir_t:   jsr ir_tm
         sta $D012
         jmp $EA31
 ir_k:   jmp $EA31
-; modo testo: schermo a $C800, font a $D000, fondo nero
-ir_tm:  lda #$1B
+; modo testo: schermo a $C800, font a $D000, fondo nero.
+; L'ordine conta: il cambio avviene a meta' della riga nera e un pezzo di riga si vede nel modo intermedio.
+; Prima il fondo (nel bitmap la riga nera non lo usa), poi il modo testo (i pixel che legge sono neri su nero),
+; poi il font e per ultimo il multicolore: cosi' nessun passaggio mostra colori.
+ir_tm:  lda #0
+        sta $D021
+        lda #$1B
         sta $D011
-        lda #$08
-        sta $D016
         lda #$24
         sta $D018
-        lda #0
-        sta $D021
+        lda #$08
+        sta $D016
         rts
 
 ; somma 40 all'indirizzo (2 byte) dentro l'istruzione che sta all'indirizzo skpp+1/skpp+2 (+1)
