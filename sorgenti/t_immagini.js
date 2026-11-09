@@ -26,14 +26,18 @@ await p.locator('.img-sistemi').first().scrollIntoViewIfNeeded();await p.screens
 console.log('col',await p.evaluate(()=>CORE.stanze[0].immagine.c64.col),'nel localStorage niente base64',await p.evaluate(()=>!localStorage.getItem(P_PREFISSO+PROGETTI.attivo).includes('base64')));
 // Prova
 await p.click('.scheda[data-tab=prova]');await p.waitForTimeout(400);
-console.log('prova',await p.evaluate(()=>{const i=document.querySelector('#quadro-prova img');return [document.getElementById('quadro-prova').hidden,i.naturalWidth,i.style.width]}));await p.screenshot({path:'sh_img_prova.png'});
+console.log('prova',await p.evaluate(()=>{const i=document.querySelector('#registro img.fig'),c=document.getElementById('testo-comando').getBoundingClientRect();return [!!i,i&&i.naturalWidth,i&&i.style.width,i&&i.className,'comando in vista',c.bottom<=innerHeight,'immagine in vista',i.getBoundingClientRect().top>=document.getElementById('registro').getBoundingClientRect().top-1]}));await p.screenshot({path:'sh_img_prova.png'});
 // Web compilato
 const html=await p.evaluate(async()=>compilaWeb(coreDelGioco().core));fs.writeFileSync('/tmp/t_img.html',html);
 const g=await b.newPage({viewport:{width:390,height:700}});g.on('pageerror',e=>errs.push('gioco: '+e.message));await g.goto('file:///tmp/t_img.html');await g.waitForTimeout(400);
-const q=()=>g.evaluate(()=>{const i=document.querySelector('#quadro img');return [document.getElementById('quadro').hidden,i.naturalWidth,i.style.width,i.style.imageRendering]});
+const q=()=>g.evaluate(()=>{const l=document.querySelectorAll('#registro img.fig'),i=l[l.length-1];return i?[l.length,i.naturalWidth,i.style.width,i.style.imageRendering,i.className]:null});
 console.log('web1',await q());await g.screenshot({path:'sh_img_web.png'});
 const usc=await p.evaluate(()=>{const s=CORE.stanze[0];const d=Object.entries(s.uscite).find(([,u])=>(typeof u==='object'?u.a:u)===CORE.stanze[1].id);return d&&d[0]});
 await g.fill('#cmd',usc);await g.press('#cmd','Enter');await g.waitForTimeout(200);console.log('web2 ('+usc+')',await q());
+await p.evaluate(()=>{CORE.stanze[0].immagine.disp='sinistra';CORE.stanze[1].immagine.disp='destra';salva()});
+fs.writeFileSync('/tmp/t_img2.html',await p.evaluate(async()=>compilaWeb(coreDelGioco().core)));
+for(const [w,hh,nome] of [[390,700,'tel'],[1100,800,'desk']]){const g2=await b.newPage({viewport:{width:w,height:hh}});g2.on('pageerror',e=>errs.push('g2: '+e.message));await g2.goto('file:///tmp/t_img2.html');await g2.waitForTimeout(500);
+console.log(nome,JSON.stringify(await g2.evaluate(()=>{const c=document.getElementById('cmd').getBoundingClientRect(),i=document.querySelector('#registro img.fig');const r=i.getBoundingClientRect();return {cmdBottom:Math.round(c.bottom),vh:innerHeight,img:[Math.round(r.width),Math.round(r.height)],cls:i.className,float:getComputedStyle(i).float}})));await g2.screenshot({path:'sh_img_'+nome+'.png'});await g2.close()}
 // ricarica: l'immagine resta (IndexedDB); file salvato e riaperto
 await p.reload();await p.waitForTimeout(700);console.log('dopo ricarica',await p.evaluate(()=>!!IMMAGINI[CORE.stanze[0].immagine.id]));
 console.log('file',await p.evaluate(()=>{const j=JSON.parse(JSON.stringify(coreConImmagini(CORE)));const id=CORE.stanze[0].immagine.id,n=Object.keys(j.immagini).length;delete IMMAGINI[id];estraiImmagini(j);return [n,!!IMMAGINI[id],'immagini' in j]}));

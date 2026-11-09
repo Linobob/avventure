@@ -4,9 +4,9 @@ Le novità del motore e dell'app, dalla più recente. / What's new in the engine
 
 ## Immagini nelle stanze (2026-11-09)
 
-Ogni stanza può avere un'immagine, anche piccola: il gioco Web la mostra sopra il testo. Per C64 e Spectrum c'è il convertitore con anteprima fedele (dimensioni, modo, dithering e memoria occupata); le immagini non entrano ancora nei file compilati.
+Ogni stanza può avere un'immagine, anche piccola: il gioco Web la mostra dentro il testo, sopra o a lato con il testo che le scorre attorno. Per C64 e Spectrum c'è il convertitore con anteprima fedele (dimensioni, modo, dithering e memoria occupata); le immagini non entrano ancora nei file compilati.
 
-*Images in rooms:* Each room can have an image, even a small one: the Web game shows it above the text. For C64 and Spectrum there is a converter with a faithful preview (size, mode, dithering and memory used); images do not go into the compiled files yet.
+*Images in rooms:* Each room can have an image, even a small one: the Web game shows it inside the text, above it or at the side with the text flowing around it. For C64 and Spectrum there is a converter with a faithful preview (size, mode, dithering and memory used); images do not go into the compiled files yet.
 
 ## Scorrimento del testo su C64 e Spectrum (2026-11-08)
 

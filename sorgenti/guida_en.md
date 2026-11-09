@@ -53,7 +53,7 @@ A room has a name, a description and exits. Tap **+ New room** at the bottom of 
 
 **Dark room.** With the "Dark room" checkbox the room can be seen only if there is a light on in the room or in the player's hands. Without light the player reads "It is pitch black", cannot see the objects and cannot take them, but can still move. The light is an object with "Gives light when lit" (Objects section).
 
-**Image.** With **+ Upload image** you give the room an image, even a small one: the Web game shows it above the text, at the width you choose. For C64 and Spectrum you choose how many columns and rows it takes, the mode and the dithering, and you see the screen as it will look and how much memory it needs. For now images do not go into the C64 and Spectrum files. Saving the project to a file takes the images with it.
+**Image.** With **+ Upload image** you give the room an image, even a small one: the Web game shows it inside the text when the room is described: above the text, or at the side with the text flowing around it; you also choose the width. For C64 and Spectrum you choose how many columns and rows it takes, the mode and the dithering, and you see the screen as it will look and how much memory it needs. For now images do not go into the C64 and Spectrum files. Saving the project to a file takes the images with it.
 
 **Starting room.** One room has the "start" mark: the game begins there. You change it with **Start the game here**, and the starting room cannot be deleted.
 
