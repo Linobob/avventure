@@ -53,7 +53,7 @@ Una stanza ha un nome, una descrizione e le uscite. Tocca **+ Nuova stanza** in 
 
 **Stanza buia.** Con la casella «Stanza buia» la stanza si vede solo se c'è una luce accesa nella stanza o in mano al giocatore. Senza luce il giocatore legge «È buio pesto», non vede gli oggetti e non può prenderli, ma può muoversi. La luce è un oggetto con «Fa luce quando è acceso» (sezione Oggetti).
 
-**Immagine.** Con **+ Carica immagine** dai alla stanza un'immagine, anche piccola: il gioco Web la mostra dentro il testo, quando la stanza viene descritta: sopra il testo oppure a lato, con il testo che le scorre attorno; scegli anche la larghezza. Per C64 e Spectrum scegli quante colonne e righe occupa, il modo e il dithering, e vedi lo schermo come apparirà e quanta memoria serve. Per ora le immagini non entrano nei file per C64 e Spectrum. Salvando il progetto in un file le immagini vengono con lui.
+**Immagine.** Con **+ Carica immagine** dai alla stanza un'immagine, anche piccola: il gioco Web la mostra dentro il testo, quando la stanza viene descritta: sopra il testo oppure a lato, con il testo che le scorre attorno; scegli anche la larghezza. Per C64 e Spectrum scegli quante colonne e righe occupa, il modo e il dithering, e vedi lo schermo come apparirà e quanta memoria serve. Lo Spectrum mostra l'immagine in alto e il testo scorre sotto; quando l'immagine cambia lo schermo si pulisce, e se c'è testo nuovo da leggere prima aspetta un tasto. Per ora le immagini non entrano nel file per C64. Salvando il progetto in un file le immagini vengono con lui.
 
 **Stanza iniziale.** Una stanza ha il segno «inizio»: è quella da cui parte il gioco. Si cambia con **Fai partire il gioco da qui**, e la stanza iniziale non si può eliminare.
 

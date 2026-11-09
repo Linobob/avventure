@@ -2,6 +2,12 @@
 
 Le novità del motore e dell'app, dalla più recente. / What's new in the engine and the app, most recent first.
 
+## Immagini sullo Spectrum (2026-11-09)
+
+Il gioco per ZX Spectrum mostra l'immagine della stanza in alto, e il testo scorre sotto. Quando l'immagine cambia lo schermo si pulisce (prima aspetta un tasto, se c'è testo nuovo da leggere); nelle stanze senza immagine il testo torna a tutto schermo.
+
+*Images on the Spectrum:* The ZX Spectrum game shows the room image at the top, and the text scrolls below it. When the image changes the screen is cleared (after a key press, if there is new text to read); in rooms without an image the text goes back to full screen.
+
 ## Immagini nelle stanze (2026-11-09)
 
 Ogni stanza può avere un'immagine, anche piccola: il gioco Web la mostra dentro il testo, sopra o a lato con il testo che le scorre attorno. Per C64 e Spectrum c'è il convertitore con anteprima fedele (dimensioni, modo, dithering e memoria occupata); le immagini non entrano ancora nei file compilati.

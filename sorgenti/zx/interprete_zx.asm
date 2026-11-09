@@ -19,6 +19,14 @@ frow   = $F424
 kkz    = $F425
 bptr   = $F426
 BUF    = $F500
+; immagini: itop = prima riga del testo (sotto l'immagine), nrig = righe prima della pausa, curimg = immagine mostrata, tout = testo scritto dopo il comando
+itop   = $F428
+nrig   = $F429
+curimg = $F42A
+tout   = $F42C
+prow   = $F42D
+px0    = $F42E
+pcol   = $F42F
 T_TASTO = 47
 NRIGHE = 21
 SPOSN  = 23688
@@ -182,6 +190,13 @@ start:  ld hl,udg
         ld (kwait),a
         ld hl,BUF
         ld (bptr),hl
+        ld (itop),a
+        ld (tout),a
+        ld h,a
+        ld l,a
+        ld (curimg),hl
+        ld a,NRIGHE
+        ld (nrig),a
 in1:    ld a,(HDR+10)
         ld b,a
         ld a,(idx)
@@ -239,6 +254,7 @@ main:   ld a,T_PROMPT
         call readline
         xor a
         ld (col),a
+        ld (tout),a
         ld a,255
         ld (SCRCT),a
         ld a,(fin)
@@ -471,6 +487,7 @@ dx_end: ld a,(seen)
 
 ; stampa il testo della stanza corrente e le uscite
 describe:
+        call pic
         call isdark
         jr nc,ds_ok
         ld a,T_BUIO
@@ -2000,6 +2017,11 @@ putc:   ld (pch),a
         push bc
         push de
         push hl
+        cp 32
+        jr c,pu_t
+        ld a,1
+        ld (tout),a
+pu_t:
         ld a,(dflag)
         or a
         jr nz,pu_dir
@@ -2011,8 +2033,25 @@ pu_dir: ld a,(pch)
         jr nc,pu_out
         call setcol
         jr pu_end
-pu_out: rst 16
-        ld a,(pch)
+pu_out: cp 13
+        jr nz,pu_o2
+        ld a,(itop)
+        or a
+        jr z,pu_o2
+        ld a,(SPOSN+1)
+        cp 3
+        jr nz,pu_o2
+        ld a,1
+        ld (kkz),a
+        call scrollk
+        ld a,21
+        ld (frow),a
+        xor a
+        call atrc
+        jr pu_o3
+pu_o2:  ld a,(pch)
+        rst 16
+pu_o3:  ld a,(pch)
         cp 13
         jr nz,pu_end
         ld a,255
@@ -2023,7 +2062,8 @@ pu_out: rst 16
         ld hl,nlin
         inc (hl)
         ld a,(hl)
-        cp NRIGHE
+        ld hl,nrig
+        cp (hl)
         call nc,more
 pu_end: pop hl
         pop de
@@ -2040,7 +2080,8 @@ pu_blk: ld hl,(bptr)
         ld hl,nlin
         inc (hl)
         ld a,(hl)
-        cp NRIGHE
+        ld hl,nrig
+        cp (hl)
         jr c,pb2
         call flushb
         call more
@@ -2065,17 +2106,24 @@ flushb: ld hl,(bptr)
         sub 21
         jr c,fb_p
         jr z,fb_p
-        cp 22
-        jr c,fb1
+        ld b,a
         ld a,22
+        ld hl,itop
+        sub (hl)
+        cp b
+        jr c,fb1
+        ld a,b
 fb1:    ld (kkz),a
         call scrollk
         ld a,(kkz)
         ld b,a
         ld a,(frow)
+        ld hl,itop
         sub b
+        jr c,fb0
+        cp (hl)
         jr nc,fb2
-        xor a
+fb0:    ld a,(hl)
 fb2:    ld (frow),a
         ld a,(SPOSN)
         ld b,a
@@ -2117,7 +2165,8 @@ atrc:   push af
 
 ; fa scorrere in su di kkz righe (1-22) le 22 righe in alto (pixel e attributi), poi pulisce quelle liberate
 scrollk:
-        ld c,0
+        ld a,(itop)
+        ld c,a
 sk1:    ld a,(kkz)
         add a,c
         cp 22
@@ -2213,12 +2262,127 @@ attadr: ld l,a
         ld h,a
         ret
 
+; immagine della stanza (HDR+32: tabella, 2 byte per stanza; record [colonne][righe][pixel per riga di caratteri][attributi]).
+; Se cambia: pulisce lo schermo (dopo un tasto, se c'e' testo nuovo da leggere), la disegna in alto e il testo scorre sotto.
+; Senza immagine (o al buio) il testo torna a tutto schermo e la vecchia immagine scorre via con il testo.
+pic:    ld hl,0
+        call isdark
+        jr c,pi_set
+        ld hl,(HDR+32)
+        ld a,h
+        or l
+        jr z,pi_set
+        ld a,(room)
+        ld e,a
+        ld d,0
+        add hl,de
+        add hl,de
+        ld a,(hl)
+        inc hl
+        ld h,(hl)
+        ld l,a
+pi_set: ld de,(curimg)
+        or a
+        sbc hl,de
+        add hl,de
+        ret z
+        ld (curimg),hl
+        ld a,h
+        or l
+        jr nz,pi_drw
+        ld (itop),a
+        ld a,NRIGHE
+        ld (nrig),a
+        ret
+pi_drw: push hl
+        call flushw
+        call flushb
+        ld a,(tout)
+        or a
+        call nz,more
+        call $0D6B
+        ld a,2
+        call $1601
+        pop hl
+        ld a,(hl)
+        ld (pcol),a
+        ld b,a
+        ld a,32
+        sub b
+        srl a
+        ld (px0),a
+        inc hl
+        ld a,(hl)
+        ld (itop),a
+        ld b,a
+        ld a,NRIGHE
+        sub b
+        ld (nrig),a
+        inc hl
+        xor a
+        ld (prow),a
+pi_r:   push hl
+        ld a,(prow)
+        call rowadr
+        call pi_x
+        ld b,8
+pi_y:   push bc
+        push de
+        call pi_cp
+        pop de
+        inc d
+        pop bc
+        djnz pi_y
+        call pi_nx
+        jr nz,pi_r
+pi_a:   push hl
+        ld a,(prow)
+        call attadr
+        call pi_x
+        call pi_cp
+        call pi_nx
+        jr nz,pi_a
+        ld a,(itop)
+        ld (frow),a
+        xor a
+        ld (col),a
+        ld (nlin),a
+        ld (tout),a
+        jp atrc
+; DE = HL + px0 (destinazione sullo schermo), HL = sorgente
+pi_x:   ld a,(px0)
+        add a,l
+        ld e,a
+        ld d,h
+        pop bc
+        pop hl
+        push bc
+        ret
+pi_cp:  ld a,(pcol)
+        ld c,a
+        ld b,0
+        ldir
+        ret
+; riga successiva; Z quando le righe dell'immagine sono finite (e riparte da 0 per gli attributi)
+pi_nx:  ld a,(prow)
+        inc a
+        ld (prow),a
+        ld b,a
+        ld a,(itop)
+        cp b
+        ret nz
+        xor a
+        ld (prow),a
+        ret
+
 ; scrive «premi un tasto», aspetta un tasto e cancella la riga (kwait = 1 mentre aspetta: serve ai test)
 more:   ld a,1
         ld (dflag),a
         ld a,T_TASTO
         call prdir
         call waitkey
+        xor a
+        ld (tout),a
         ld a,(SPOSN+1)
         ld b,a
         ld a,24

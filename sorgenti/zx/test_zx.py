@@ -64,7 +64,7 @@ def run(img_path, testo, veloce=(6000,12000,40000), base=0x8000, maxsteps=200000
         posn(); c.pc=c.pop()
     def cls(c):
         for r in grid: r[:]=[' ']*32
-        m[0x4000:0x5800]=bytes(0x1800)
+        m[0x4000:0x5800]=bytes(0x1800); m[0x5800:0x5B00]=bytes([m[23693]])*0x300
         posn()
         cur[0]=cur[1]=0; c.pc=c.pop()
     def ret(c): c.pc=c.pop()
