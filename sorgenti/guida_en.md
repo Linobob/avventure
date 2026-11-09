@@ -75,7 +75,7 @@ An object is anything the player can name: a key, a door, a table, a person, eve
 
 **If it changes state.** An object can be open or closed, lit or unlit: rules change that. For each state you can give a different label and description, for example "an open door", "a lit lantern".
 
-**Image.** An object or character can have an image, like rooms. In the Web game it appears before the answer when the player uses on the object one of the commands that show images: only "look" by default; the others (for example "talk") are chosen in the Words tab, Commands section. On the C64 the object image replaces the room image at the top until the room is described again (for example with "look"); an object without an image leaves the screen as it is. For now object images are not on the Spectrum.
+**Image.** An object or character can have an image, like rooms. In the Web game it appears before the answer when the player uses on the object one of the commands that show images: only "look" by default; the others (for example "talk") are chosen in the Words tab, Commands section. On C64 and Spectrum the object image replaces the room image at the top until the room is described again (for example with "look"); an object without an image leaves the screen as it is.
 
 **The special kinds**
 

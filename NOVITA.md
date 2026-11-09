@@ -2,6 +2,12 @@
 
 Le novità del motore e dell'app, dalla più recente. / What's new in the engine and the app, most recent first.
 
+## Immagini degli oggetti sullo Spectrum (2026-11-09)
+
+Anche sullo ZX Spectrum un oggetto o un personaggio può avere la sua immagine: compare in alto quando il giocatore usa su di esso uno dei comandi che mostrano le immagini.
+
+*Object images on the Spectrum:* On the ZX Spectrum too, an object or character can have its own image: it appears at the top when the player uses on it one of the commands that show images.
+
 ## Oggetti con lo stesso nome e ordine delle schede (2026-11-09)
 
 Quando due oggetti si chiamano allo stesso modo, in tutta l'app compaiono con un aggettivo che li distingue (per esempio «chiave (arrugginita)» e «chiave (dorata)»; se non hanno aggettivi, con l'identificativo). Nelle schede Stanze, Oggetti e Regole (e negli eventi) un menu permette di vedere le voci in ordine alfabetico o raggruppate (per funzione, per posizione, per comando, per oggetto, per distanza dalla stanza iniziale): è solo una vista temporanea, il gioco non cambia. Nella scheda Soluzione l'etichetta di ogni passo ora segue le scelte dei menu.

@@ -9,7 +9,7 @@
 ;   +14 regole   +16 tabella uscite con condizioni   +18 nomi delle direzioni   +20 numero di direzioni   +22 frammenti (vedi la versione C64)
 ; Vocabolario: [lunghezza][lettere minuscole][tipo][id] ... 0   (tipo 1 = comando, 2 = direzione, 3 = parola ignorata (id 1 = preposizione), 4 = nome di oggetto, 5 = aggettivo)
 
-HDR    = $9400
+HDR    = $9500
 ; uscita a blocchi e pausa a schermo pieno
 pch    = $F420
 nlin   = $F421
@@ -27,6 +27,7 @@ tout   = $F42C
 prow   = $F42D
 px0    = $F42E
 pcol   = $F42F
+fobj   = $F430
 T_TASTO = 47
 NRIGHE = 21
 SPOSN  = 23688
@@ -2375,6 +2376,37 @@ pi_nx:  ld a,(prow)
         ld (prow),a
         ret
 
+; immagine dell'oggetto del comando (HDR+34: tabella per oggetto), se il verbo e' tra quelli dell'elenco HDR+36 ([n][id dei verbi]).
+; Un oggetto senza immagine lascia lo schermo com'e'.
+picobj: ld a,(fobj)
+        cp $FF
+        ret z
+        ld hl,(HDR+36)
+        ld a,h
+        or l
+        ret z
+        ld b,(hl)
+        inc b
+        ld a,(verb)
+po_l:   dec b
+        ret z
+        inc hl
+        cp (hl)
+        jr nz,po_l
+        ld a,(fobj)
+        ld e,a
+        ld d,0
+        ld hl,(HDR+34)
+        add hl,de
+        add hl,de
+        ld a,(hl)
+        inc hl
+        ld h,(hl)
+        ld l,a
+        or h
+        ret z
+        jp pi_set
+
 ; scrive «premi un tasto», aspetta un tasto e cancella la riga (kwait = 1 mentre aspetta: serve ai test)
 more:   ld a,1
         ld (dflag),a
@@ -2714,13 +2746,21 @@ ex_have:
         ld a,4
         call findtol
         ld (robj2),a
-        call swapobj
+        ld a,(robj)
+        ld (fobj),a
+        xor a
+        call sempty
+        jr nz,ex_fo
+        ld a,(robj2)
+        ld (fobj),a
+ex_fo:  call swapobj
         xor a
         call sempty
         ld a,0
         jr nz,ex_pb
         ld a,4
 ex_pb:  ld (pbase),a
+        call picobj
         call runrules
         ret nz
 ex_run: ld a,(verb)
