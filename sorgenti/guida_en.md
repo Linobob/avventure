@@ -183,7 +183,7 @@ Each item has **Go**, which opens the place to fix. "Only errors and warnings" h
 
 ## prova | Play and Build
 
-**Play.** Here you play the open core right away, with the same engine as the final game. If there is a translation, choose the language at the top. Below the log are quick commands (the exits, look, inventory), handy on a phone; if the game has variables, their values are shown underneath. To start again, type "restart" (or "ricomincia" in Italian) at the end of the game.
+**Play.** Here you play the open core right away, with the same engine as the final game. If there is a translation, choose the language at the top. With the **Start from** menu the test begins in another room, so you can reach the later parts at once: objects stay where you put them at the start, and the choice does not change the game. Below the log are quick commands (the exits, look, inventory), handy on a phone; if the game has variables, their values are shown underneath. To start again, type "restart" (or "ricomincia" in Italian) at the end of the game.
 
 **Build.** Turns the core into a game to share, in the chosen language. The solution is never included.
 

@@ -30,6 +30,7 @@ Progetto: motore per avventure testuali. App di authoring in una sola pagina HTM
 - Interfaccia (Playwright, Chromium già installato): `node t_ctrl.js`, `t_uien.js`, `t_novita.js`, `t_combina.js`, `t_dl.js`… (stampano `errs []` se va bene).
 - Motore: `node t_expl.js` deve dare `stati 30024 true` (esplorazione completa dell'esempio).
 - Parità Web/retro: un test `t_*.js` scrive `pr_in.json`, `c64/pr.prg`, `zx/pr.bin`; poi `python3 cmp_c64.py pr_in.json c64/pr.prg` e `cd zx && python3 cmp_zx.py ../pr_in.json pr.bin` (lo Spectrum è lento: minuti). Differenze già note e normali: accenti («noncè», «dilà») e l'ultimo comando dopo la fine partita.
+- Scheda Prova, menu «Parti da» (variabile `PROVA_DA`, solo per la prova: non tocca `CORE.inizio`): `node t_partida.js`.
 - Colori dopo «premi un tasto» (il testo deve riprendere nel suo colore): `node t_pausacol.js` scrive `c64/pc.prg` e `zx/pc.bin` con una descrizione lunga; `c64/test_scr.py` imposta il colore corrente e lascia i colori dello schermo in `COLORI`; lo Spectrum mostra i colori con `zx/test_zx.py file.bin '…' 6000,12000,40000 1`.
 - Schermo: `c64/test_scr.py file.prg 'comando\n…'` e `zx/test_zx.py file.bin 'comando\n…'` simulano lo schermo e mostrano le pause.
 - Interfaccia in inglese: testi avvolti in `T('…')` con la traduzione nel blocco `ui-en`; i testi fissi dell'HTML usano come chiave il testo intero.

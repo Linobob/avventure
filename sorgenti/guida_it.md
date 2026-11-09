@@ -183,7 +183,7 @@ Ogni voce ha **Vai**, che apre il punto da correggere. Con «Solo errori e avvis
 
 ## prova | Prova e Compila
 
-**Prova.** Qui giochi subito con il core aperto, con lo stesso motore del gioco finale. Se c'è una traduzione, scegli la lingua in alto. Sotto il registro ci sono i comandi rapidi (le uscite, guarda, inventario), comodi sul telefono; se il gioco ha variabili, i loro valori sono mostrati sotto. Per ricominciare scrivi «ricomincia» a fine partita.
+**Prova.** Qui giochi subito con il core aperto, con lo stesso motore del gioco finale. Se c'è una traduzione, scegli la lingua in alto. Con il menu **Parti da** fai iniziare la prova da un'altra stanza, per arrivare subito alle parti più avanti: gli oggetti restano dove li hai messi all'inizio e la scelta non cambia il gioco. Sotto il registro ci sono i comandi rapidi (le uscite, guarda, inventario), comodi sul telefono; se il gioco ha variabili, i loro valori sono mostrati sotto. Per ricominciare scrivi «ricomincia» a fine partita.
 
 **Compila.** Trasforma il core in un gioco da distribuire, nella lingua scelta. La soluzione non viene mai inclusa.
 

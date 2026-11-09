@@ -2,6 +2,12 @@
 
 Le novità del motore e dell'app, dalla più recente. / What's new in the engine and the app, most recent first.
 
+## Prova da una stanza qualsiasi (2026-11-09)
+
+Nella scheda Prova il menu «Parti da» fa iniziare il gioco da una stanza a scelta, per provare subito le parti più avanti. Gli oggetti restano dove li hai messi all'inizio; la scelta vale solo per la prova e non cambia il gioco.
+
+*Test from any room:* In the Test tab the «Start from» menu starts the game in a room of your choice, so you can try the later parts right away. Objects stay where you put them at the start; the choice only applies to the test and does not change the game.
+
 ## Immagini in bianco e nero su C64 e Spectrum (2026-11-09)
 
 Nel convertitore delle immagini, per ogni sistema, si può scegliere «Bianco e nero».
