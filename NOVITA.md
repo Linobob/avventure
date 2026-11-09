@@ -2,6 +2,12 @@
 
 Le novità del motore e dell'app, dalla più recente. / What's new in the engine and the app, most recent first.
 
+## Immagini in bianco e nero su C64 e Spectrum (2026-11-09)
+
+Nel convertitore delle immagini, per ogni sistema, si può scegliere «Bianco e nero».
+
+*Black and white images on C64 and Spectrum:* In the image converter you can now choose «Black and white» for each system.
+
 ## Immagini degli oggetti sullo Spectrum (2026-11-09)
 
 Anche sullo ZX Spectrum un oggetto o un personaggio può avere la sua immagine: compare in alto quando il giocatore usa su di esso uno dei comandi che mostrano le immagini.
