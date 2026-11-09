@@ -75,7 +75,7 @@ Un oggetto è qualunque cosa il giocatore possa nominare: una chiave, una porta,
 
 **Se cambia stato.** Un oggetto può essere aperto o chiuso, acceso o spento: lo cambiano le regole. Per ogni stato puoi dare un'etichetta e una descrizione diverse, per esempio «una porta aperta», «una lanterna accesa».
 
-**Immagine.** Un oggetto o un personaggio può avere un'immagine, come le stanze. Nel gioco Web compare prima della risposta quando il giocatore usa sull'oggetto uno dei comandi che mostrano le immagini: di serie solo «guarda»; gli altri (per esempio «parla») si scelgono nella scheda Parole, sezione Comandi. Per ora le immagini degli oggetti ci sono solo nel gioco Web.
+**Immagine.** Un oggetto o un personaggio può avere un'immagine, come le stanze. Nel gioco Web compare prima della risposta quando il giocatore usa sull'oggetto uno dei comandi che mostrano le immagini: di serie solo «guarda»; gli altri (per esempio «parla») si scelgono nella scheda Parole, sezione Comandi. Sul C64 l'immagine dell'oggetto prende il posto di quella della stanza in alto, finché la stanza non viene descritta di nuovo (per esempio con «guarda»); un oggetto senza immagine lascia lo schermo com'è. Per ora le immagini degli oggetti non ci sono sullo Spectrum.
 
 **I tipi speciali**
 

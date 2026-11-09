@@ -120,6 +120,8 @@ rsl    = $C2F0
 rsh    = $C2F1
 stl    = $C2F2
 sth    = $C2F3
+; oggetto del comando, per la sua immagine
+fobj   = $C2F4
 T_TASTO = 47
 NRIGHE = 24
 vars   = $C180
@@ -1220,12 +1222,26 @@ pic:    lda #0
         jsr isdark
         bcs pi_set
         lda HDR+32
-        sta pi_t+1
-        lda HDR+33
-        sta pi_t+2
-        ora HDR+32
-        beq pi_set
-        lda room
+        ldx HDR+33
+        ldy room
+        jsr pi_get
+pi_set: lda IP
+        cmp curl
+        bne pi_cj
+        lda IP+1
+        cmp curl+1
+        bne pi_cj
+        rts
+pi_cj:  jmp pi_ch
+pi_t:   lda $FFFF,y
+        rts
+; IP = elemento Y della tabella di puntatori A/X (se la tabella c'e')
+pi_get: sta pi_t+1
+        stx pi_t+2
+        txa
+        ora pi_t+1
+        beq pg_r
+        tya
         asl
         tay
         jsr pi_t
@@ -1233,15 +1249,50 @@ pic:    lda #0
         iny
         jsr pi_t
         sta IP+1
-pi_set: lda IP
-        cmp curl
-        bne pi_ch
-        lda IP+1
-        cmp curl+1
-        bne pi_ch
+pg_r:   rts
+; immagine dell'oggetto del comando (HDR+34: tabella per oggetto), se il verbo e' tra quelli dell'elenco HDR+36 ([n][id dei verbi]).
+; Un oggetto senza immagine lascia lo schermo com'e'.
+picobj: lda fobj
+        cmp #$FF
+        beq po_r
+        lda HDR+36
+        sta po_v+1
+        lda HDR+37
+        sta po_v+2
+        ora HDR+36
+        beq po_r
+        ldy #0
+        jsr po_v
+        tax
+        beq po_r
+po_l:   iny
+        jsr po_v
+        cmp verb
+        beq po_ok
+        dex
+        bne po_l
+po_r:   rts
+po_v:   lda $FFFF,y
         rts
-pi_t:   lda $FFFF,y
-        rts
+po_ok:  lda #0
+        sta IP
+        sta IP+1
+        lda HDR+34
+        ldx HDR+35
+        ldy fobj
+        jsr pi_get
+        lda IP
+        ora IP+1
+        beq po_r
+        jsr pi_set
+; dopo il disegno il cursore e' sulla riga nera: la risposta (che non comincia andando a capo) parte dalla riga sotto
+        ldx $D6
+        inx
+        cpx itop
+        bne po_r
+        ldy #0
+        clc
+        jmp PLOT
 pi_ch:  lda IP
         sta curl
         lda IP+1
@@ -1881,12 +1932,20 @@ ex_sv2: jsr mergeadj
         ldx #4
         jsr findtol
         sta robj2
-        jsr swapobj
+        lda robj
+        sta fobj
+        ldx #0
+        jsr sempty
+        bne ex_fo
+        lda robj2
+        sta fobj
+ex_fo:  jsr swapobj
         ldx #0
         jsr sempty
         bne ex_pb
         ldx #4
 ex_pb:  stx pbase
+        jsr picobj
         jsr runrules
         beq ex_run
         rts

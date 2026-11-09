@@ -4,9 +4,9 @@ Le novità del motore e dell'app, dalla più recente. / What's new in the engine
 
 ## Immagini degli oggetti (2026-11-09)
 
-Anche gli oggetti e i personaggi possono avere un'immagine. Nel gioco Web compare prima della risposta quando il giocatore usa sull'oggetto uno dei comandi scelti nella scheda Parole: di serie «guarda», ma puoi aggiungere per esempio «parla». Su C64 e Spectrum arriveranno dopo.
+Anche gli oggetti e i personaggi possono avere un'immagine. Nel gioco Web compare prima della risposta quando il giocatore usa sull'oggetto uno dei comandi scelti nella scheda Parole: di serie «guarda», ma puoi aggiungere per esempio «parla». Sul C64 l'immagine dell'oggetto prende il posto di quella della stanza, finché la stanza non viene descritta di nuovo; lo Spectrum arriverà dopo.
 
-*Object images:* Objects and characters can have an image too. In the Web game it appears before the answer when the player uses on the object one of the commands chosen in the Words tab: "look" by default, but you can add for example "talk". C64 and Spectrum will come later.
+*Object images:* Objects and characters can have an image too. In the Web game it appears before the answer when the player uses on the object one of the commands chosen in the Words tab: "look" by default, but you can add for example "talk". On the C64 the object image replaces the room image until the room is described again; the Spectrum will come later.
 
 ## Immagini sul Commodore 64 (2026-11-09)
 
