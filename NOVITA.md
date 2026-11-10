@@ -4,9 +4,9 @@ Le novità del motore e dell'app, dalla più recente. / What's new in the engine
 
 ## Schede comprimibili sul telefono (2026-11-10)
 
-Sul telefono le schede in alto sono chiuse: resta una barra con il nome della scheda attuale. Toccala per aprire l'elenco; dopo la scelta si richiude e lascia più spazio, per esempio nella Prova.
+Sul telefono le schede in alto sono chiuse: resta una barra con il nome della scheda attuale. Toccala per aprire o chiudere l'elenco: resta com'è finché non la tocchi di nuovo, così hai più spazio, per esempio nella Prova.
 
-*Collapsible tabs on the phone:* On the phone the tabs at the top are collapsed: a bar shows the current tab. Tap it to open the list; after you choose it closes again and leaves more room, for example in the Test tab.
+*Collapsible tabs on the phone:* On the phone the tabs at the top are collapsed: a bar shows the current tab. Tap it to open or close the list: it stays as it is until you tap it again, so you get more room, for example in the Test tab.
 
 ## Prova da una stanza qualsiasi (2026-11-09)
 

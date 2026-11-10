@@ -15,9 +15,12 @@ if(await p.getAttribute('#schede-toggle','aria-expanded')!=='true')errs.push('ar
 const h1=await p.evaluate(()=>document.querySelector('header').getBoundingClientRect().height);
 if(!(h1>h0+60))errs.push('altezza aperta non maggiore: '+h0+' '+h1);
 await p.click('.scheda[data-tab=prova]');await p.waitForTimeout(300);
-if(await vis('.schede'))errs.push('le schede non si richiudono dopo la scelta');
+if(!await vis('.schede'))errs.push('le schede si sono chiuse da sole dopo la scelta');
 if((await p.textContent('#schede-toggle-nome')).trim()!=='Prova')errs.push('nome non aggiornato: '+await p.textContent('#schede-toggle-nome'));
 if(!await vis('#p-prova'))errs.push('pannello Prova non mostrato');
+await p.click('#schede-toggle');
+if(await vis('.schede'))errs.push('le schede non si chiudono toccando la barra');
+if(await p.getAttribute('#schede-toggle','aria-expanded')!=='false')errs.push('aria-expanded non false');
 console.log('altezza testata chiusa/aperta',Math.round(h0),Math.round(h1));
 // desktop
 const d=await b.newPage({viewport:{width:1100,height:800}});d.on('pageerror',e=>errs.push('desk '+e.message));
