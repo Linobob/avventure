@@ -2,6 +2,18 @@
 
 Le novità del motore e dell'app, dalla più recente. / What's new in the engine and the app, most recent first.
 
+## Luminosità e contrasto delle immagini (2026-11-11)
+
+Per C64 e Spectrum ogni immagine ha due cursori, Luminosità e Contrasto, che regolano l'immagine prima della conversione: utili per foto scure o slavate.
+
+*Image brightness and contrast:* For C64 and Spectrum each image has two sliders, Brightness and Contrast, that adjust the picture before conversion: useful for dark or washed-out photos.
+
+## Immagine del titolo (2026-11-11)
+
+Nella scheda Stanze, in «Titolo e introduzione», puoi caricare un'immagine che compare all'inizio del gioco, prima del titolo, su Web, C64 e Spectrum.
+
+*Title image:* In the Rooms tab, under «Title and introduction», you can load an image shown at the start of the game, before the title, on Web, C64 and Spectrum.
+
 ## Schede comprimibili sul telefono (2026-11-10)
 
 Sul telefono le schede in alto sono chiuse: resta una barra con il nome della scheda attuale. Toccala per aprire o chiudere l'elenco: resta com'è finché non la tocchi di nuovo, così hai più spazio, per esempio nella Prova.

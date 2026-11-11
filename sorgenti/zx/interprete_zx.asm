@@ -237,7 +237,12 @@ in2:    ld hl,ostate
         ld hl,(HDR+24)
         ld de,vars
         ldir
-iv_end: ld a,T_INTRO
+; immagine del titolo (HDR+38), prima del titolo e dell'introduzione
+iv_end: ld hl,(HDR+38)
+        ld a,h
+        or l
+        call nz,pi_set
+        ld a,T_INTRO
         call prtext
         call flushw
         call flushb

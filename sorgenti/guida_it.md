@@ -31,7 +31,7 @@ Ogni avventura è un progetto a sé, salvato da solo in questo browser a ogni mo
 - **Duplica quello aperto**: una copia per provare una variante senza rischi.
 - Ogni progetto dell'elenco ha **Apri** ed **Elimina** (con conferma).
 
-Il nome del progetto è il titolo del gioco. Lo cambi nella scheda **Stanze**, nel riquadro «Titolo e introduzione» in cima, dove scrivi anche il testo che compare una volta all'inizio della partita.
+Il nome del progetto è il titolo del gioco. Lo cambi nella scheda **Stanze**, nel riquadro «Titolo e introduzione» in cima, dove scrivi anche il testo che compare una volta all'inizio della partita. Lì puoi anche caricare un'**immagine del titolo**, che compare all'inizio, prima del titolo e dell'introduzione (su C64 e Spectrum, in questo caso, il gioco aspetta sempre un tasto dopo l'introduzione).
 
 **Annulla e Rifai.** I bottoni ↶ e ↷ in alto annullano e rifanno le modifiche del progetto aperto, una alla volta. Ogni progetto ha la sua storia.
 
@@ -53,7 +53,7 @@ Una stanza ha un nome, una descrizione e le uscite. Tocca **+ Nuova stanza** in 
 
 **Stanza buia.** Con la casella «Stanza buia» la stanza si vede solo se c'è una luce accesa nella stanza o in mano al giocatore. Senza luce il giocatore legge «È buio pesto», non vede gli oggetti e non può prenderli, ma può muoversi. La luce è un oggetto con «Fa luce quando è acceso» (sezione Oggetti).
 
-**Immagine.** Con **+ Carica immagine** dai alla stanza un'immagine, anche piccola: il gioco Web la mostra dentro il testo, quando la stanza viene descritta: sopra il testo oppure a lato, con il testo che le scorre attorno; scegli anche la larghezza. Per C64 e Spectrum scegli quante colonne e righe occupa, il modo, i colori (anche bianco e nero: sul C64 con i grigi, sullo Spectrum solo nero e bianco) e il dithering, e vedi lo schermo come apparirà e quanta memoria serve. Su C64 e Spectrum l'immagine sta in alto e il testo scorre sotto (sul C64 separato da una riga nera); quando l'immagine cambia lo schermo si pulisce, e se c'è testo nuovo da leggere prima aspetta un tasto. Più alta è l'immagine, meno righe restano al testo. Salvando il progetto in un file le immagini vengono con lui.
+**Immagine.** Con **+ Carica immagine** dai alla stanza un'immagine, anche piccola: il gioco Web la mostra dentro il testo, quando la stanza viene descritta: sopra il testo oppure a lato, con il testo che le scorre attorno; scegli anche la larghezza. Per C64 e Spectrum scegli quante colonne e righe occupa, il modo, i colori (anche bianco e nero: sul C64 con i grigi, sullo Spectrum solo nero e bianco) e il dithering, regoli **luminosità** e **contrasto** (utili per foto scure o slavate), e vedi lo schermo come apparirà e quanta memoria serve. Su C64 e Spectrum l'immagine sta in alto e il testo scorre sotto (sul C64 separato da una riga nera); quando l'immagine cambia lo schermo si pulisce, e se c'è testo nuovo da leggere prima aspetta un tasto. Più alta è l'immagine, meno righe restano al testo. Salvando il progetto in un file le immagini vengono con lui.
 
 **Stanza iniziale.** Una stanza ha il segno «inizio»: è quella da cui parte il gioco. Si cambia con **Fai partire il gioco da qui**, e la stanza iniziale non si può eliminare.
 

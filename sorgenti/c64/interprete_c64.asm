@@ -262,7 +262,15 @@ iv1:    cpy HDR+26
         sta vars,y
         iny
         bne iv1
-iv2:    lda #T_INTRO
+; immagine del titolo (HDR+38), prima del titolo e dell'introduzione
+iv2:    lda HDR+38
+        sta IP
+        lda HDR+39
+        sta IP+1
+        ora IP
+        beq iv2t
+        jsr pi_set
+iv2t:   lda #T_INTRO
         jsr prtext
         jsr flushw
         jsr flushb
