@@ -8,7 +8,7 @@ def esegui(cmd, cwd=S):
 esegui(['python3', 'sync_engine.py'])
 # La pagina vale come frammento dentro Claude; fuori serve un documento completo (doctype e viewport per i telefoni).
 corpo = open(os.path.join(S, 'authoring.html'), encoding='utf-8').read()
-intest = '<!doctype html>\n<html lang="it">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n</head>\n<body>\n'
+intest = '<!doctype html>\n<html lang="it">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n<link rel="manifest" href="manifest.webmanifest">\n<link rel="apple-touch-icon" href="apple-touch-icon.png">\n<meta name="apple-mobile-web-app-capable" content="yes">\n<meta name="mobile-web-app-capable" content="yes">\n<meta name="apple-mobile-web-app-title" content="Avventure">\n<meta name="theme-color" content="#4b3ab0">\n</head>\n<body>\n'
 # Elenco delle novità (stesso blocco che mostra il pulsante ✦ dell'app), leggibile anche su GitHub.
 import json, re
 _n = json.loads(re.search(r'<script type="application/json" id="novita">(.*?)</script>', open(os.path.join(S, 'authoring.html'), encoding='utf-8').read(), re.S).group(1).replace('<\\/', '</'))
@@ -23,7 +23,14 @@ torna = ('<div class="app">\n  <style>.torna{display:inline-block;margin-bottom:
          '.torna:hover,.torna:focus-visible{color:var(--accent);text-decoration:underline}</style>\n'
          '  <a class="torna" href="../">\u2190 Linobob</a>\n  <header>')
 corpo = corpo.replace(punto, torna)
-open(os.path.join(R, 'index.html'), 'w', encoding='utf-8').write(intest + corpo + '\n</body>\n</html>\n')
+# Uso offline (iOS: aggiunta alla schermata Home): service worker con cache versionata sul contenuto di index.html.
+reg = ('<script>if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})}</script>\n')
+html = intest + corpo + '\n' + reg + '</body>\n</html>\n'
+open(os.path.join(R, 'index.html'), 'w', encoding='utf-8').write(html)
+import hashlib
+ver = hashlib.sha1(html.encode('utf-8')).hexdigest()[:10]
+sw = open(os.path.join(S, 'sw_modello.js'), encoding='utf-8').read().replace('__VERSIONE__', ver)
+open(os.path.join(R, 'sw.js'), 'w', encoding='utf-8').write(sw)
 esegui(['node', 'build_prg.js'], os.path.join(S, 'c64'))
 esegui(['node', 'build_en.js'], os.path.join(S, 'c64'))
 esegui(['node', 'build_tap.js'], os.path.join(S, 'zx'))
