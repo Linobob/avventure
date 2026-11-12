@@ -2,6 +2,12 @@
 
 Le novità del motore e dell'app, dalla più recente. / What's new in the engine and the app, most recent first.
 
+## Testi compressi su C64 e Spectrum (2026-11-12)
+
+I testi dei giochi retro ora sono compressi con un dizionario delle coppie di lettere più frequenti: occupano circa la metà. Nella scheda Compila, il riquadro «Memoria» di ogni sistema mostra quanto spazio usano interprete, testi, vocabolario, regole, immagini e quanto ne resta libero.
+
+*Compressed texts on C64 and Spectrum:* The texts of retro games are now compressed with a dictionary of the most frequent letter pairs: they take about half the space. In the Build tab, the «Memory» box of each system shows how much space the interpreter, texts, vocabulary, rules and images use, and how much is still free.
+
 ## Luminosità e contrasto delle immagini (2026-11-11)
 
 Per C64 e Spectrum ogni immagine ha due cursori, Luminosità e Contrasto, che regolano l'immagine prima della conversione: utili per foto scure o slavate.

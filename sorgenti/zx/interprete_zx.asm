@@ -383,7 +383,7 @@ prstr:  push bc
 ps1:    ld a,(hl)
         xor b
         jr z,ps_e
-        call outc
+        call outx
         ld a,b
         add a,TSTEP
         ld b,a
@@ -391,6 +391,41 @@ ps1:    ld a,(hl)
         jr ps1
 ps_e:   pop bc
         ret
+
+; stampa il carattere A espandendo i codici del dizionario (testi compressi, bit 2 di HDR+11):
+; il dizionario sta a HDR+40, 2 byte per ogni codice da $80 a $FF; una coppia che inizia con 0 = carattere normale
+outx:   cp 128
+        jp c,outc
+        push hl
+        push af
+        ld a,(HDR+11)
+        and 4
+        jr z,ox_l
+        pop af
+        push af
+        add a,a
+        add a,$28
+        ld l,a
+        ld a,$95
+        adc a,0
+        ld h,a
+        ld a,(hl)
+        or a
+        jr z,ox_l
+        inc hl
+        ld h,(hl)
+        ld l,a
+        pop af
+        push hl
+        ld a,l
+        call outx
+        pop hl
+        ld a,h
+        pop hl
+        jp outx
+ox_l:   pop af
+        pop hl
+        jp outc
 
 ; stampa la stringa in chiaro (in RAM) puntata da HL
 prplain:

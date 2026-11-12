@@ -434,7 +434,7 @@ prstr:  ldy #0
 ps1:    lda (P1),y
         eor xk
         beq psend
-        jsr outc
+        jsr outx
         lda xk
         clc
         adc #TSTEP
@@ -444,6 +444,30 @@ ps1:    lda (P1),y
         inc P1+1
         jmp ps1
 psend:  rts
+
+; stampa il carattere A espandendo i codici del dizionario (testi compressi, bit 2 di HDR+11):
+; il dizionario sta a HDR+40, 2 byte per ogni codice da $80 a $FF; una coppia che inizia con 0 = carattere normale
+outx:   cmp #$80
+        bcc ox_c
+        pha
+        lda HDR+11
+        and #4
+        beq ox_l
+        pla
+        pha
+        asl
+        tax
+        lda HDR+40,x
+        beq ox_l
+        pla
+        lda HDR+41,x
+        pha
+        lda HDR+40,x
+        jsr outx
+        pla
+        jmp outx
+ox_l:   pla
+ox_c:   jmp outc
 
 ; punta P3 al record dell'oggetto idx
 objptr: lda idx
