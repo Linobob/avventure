@@ -145,6 +145,9 @@ They are in the Rules tab: variables in the box at the top, entry events below t
 
 **Entry events.** An event is a rule that fires by itself when the player enters a room, right after the description. You choose the room (or "every room"), whether it applies **only the first time**, the conditions and the actions. They are for scenes: a shiver going down to the cellar, a character greeting you, a trap. Events have "Move to…" too, because they fire in list order.
 
+**Events when looking at an object.** In "When the player" you can choose **looks at an object** instead of "enters a room": the event fires right after the object's description, if no rule has already answered that "look". With **only the first time** it fires only the first time you look at it: for example "You notice initials carved on the handle".
+
+
 ## soluzione | Solution and verification
 
 The Solution tab holds the steps to win, at a high level: not the exact commands, but the things to achieve, in order. The solution stays in the core and never goes into the built game.
@@ -158,6 +161,8 @@ The Solution tab holds the steps to win, at a high level: not the exact commands
 - how many game situations it explored.
 
 The check has a limit of time and situations (about 60,000). A very large game can exceed it: in that case the app says the check is incomplete. Every variable that counts something multiplies the possible situations, so use them sparingly.
+
+**Side quest.** Below the solution there is a separate space for a quest that is not needed to finish the game, for example one that leads to a different ending. With **+ Add a side quest** you give it a name (optional) and write its steps, like the solution's; **Verify the side quest** checks that they can be reached in order from the start of the game. The side quest also stays in the core and is not compiled into the game.
 
 ## lingue | Languages and translations
 
@@ -230,7 +235,7 @@ A word the game does not know produces "I don't know the word "…"": that is th
 - **Memory:** about 38 KB on the C64 and 28 KB on the Spectrum for program, font and data. The Checks panel shows how much you use. Large adventures will come with loading from disk (.d64) and text compression.
 - **Command line:** at most 28 characters on the Spectrum; longer commands are cut.
 - **Variables:** at most 64 on the retro machines, including the ones the app uses for "only the first time" events.
-- **No saved games** for now, and only entry events: no timed events yet, no characters moving on their own, no menu dialogues.
+- **No saved games** for now, and only entry or look events: no timed events yet, no characters moving on their own, no menu dialogues.
 - **Game languages:** Italian and English; each built game has only one.
 
 **Tips**

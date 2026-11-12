@@ -2068,9 +2068,10 @@ dv3:    lda xtgt
         jmp events
 
 ; eventi d'ingresso: tutte le regole con comando $FE per la stanza attuale (o per ogni stanza)
-events: lda #$FE
-        sta verb
-        lda room
+; eventi «guardando»: comando $FD con l'oggetto guardato (evrun: A = stanza/oggetto, X = comando)
+events: lda room
+        ldx #$FE
+evrun:  stx verb
         sta robj
         lda #$FF
         sta robj2
@@ -2104,7 +2105,11 @@ dg1:    sta idx
         jsr getptr
         jsr prstr
         lda idx
-        jmp showcont
+        pha
+        jsr showcont
+        pla
+        ldx #$FD
+        jmp evrun
 amb_msg:
         lda #T_QUALE
         jmp prtext

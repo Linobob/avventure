@@ -1497,7 +1497,11 @@ dg1:    ld (idx),a
         call getptr
         call prstr
         ld a,(idx)
-        jp showcont
+        push af
+        call showcont
+        pop af
+        ld b,$FD
+        jp evrun
 amb_msg:
         ld a,T_QUALE
         jp prtext
@@ -2876,10 +2880,12 @@ dv3:    ld a,(xtgt)
         ld (room),a
         call describe
 ; eventi d'ingresso: tutte le regole con comando $FE per la stanza attuale (o per ogni stanza)
-events: ld a,$FE
+; eventi «guardando»: comando $FD con l'oggetto guardato (evrun: A = stanza/oggetto, B = comando)
+events: ld a,(room)
+        ld b,$FE
+evrun:  ld (robj),a
+        ld a,b
         ld (verb),a
-        ld a,(room)
-        ld (robj),a
         ld a,$FF
         ld (robj2),a
         ld a,1

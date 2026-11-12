@@ -2,6 +2,18 @@
 
 Le novità del motore e dell'app, dalla più recente. / What's new in the engine and the app, most recent first.
 
+## Quest secondaria nella Soluzione (2026-11-12)
+
+Sotto la soluzione c'è uno spazio a parte per una quest che non serve per finire il gioco, per esempio una che porta a un finale diverso: si scrivono i passi e si verificano come quelli della soluzione. Non entra nel gioco compilato.
+
+*Side quest in the Solution tab:* Below the solution there is a separate space for a quest that is not needed to finish the game, for example one leading to a different ending: you write its steps and verify them like the solution's. It is not compiled into the game.
+
+## Eventi guardando un oggetto (2026-11-12)
+
+Un evento può scattare anche quando il giocatore guarda un oggetto, dopo la sua descrizione; con «Solo la prima volta» scatta solo la prima volta. Funziona su Web, C64 e Spectrum.
+
+*Events when looking at an object:* An event can also fire when the player looks at an object, after its description; with "Only the first time" it fires only the first time. Works on Web, C64 and Spectrum.
+
 ## Testi compressi su C64 e Spectrum (2026-11-12)
 
 I testi dei giochi retro ora sono compressi con un dizionario delle coppie di lettere più frequenti: occupano circa la metà. Nella scheda Compila, il riquadro «Memoria» di ogni sistema mostra quanto spazio usano interprete, testi, vocabolario, regole, immagini e quanto ne resta libero.

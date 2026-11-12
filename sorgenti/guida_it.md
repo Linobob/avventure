@@ -145,6 +145,9 @@ Stanno nella scheda Regole: le variabili nel riquadro in cima, gli eventi d'ingr
 
 **Eventi d'ingresso.** Un evento è una regola che scatta da sola quando il giocatore entra in una stanza, subito dopo la descrizione. Si sceglie la stanza (o «ogni stanza»), se vale **solo la prima volta**, le condizioni e le azioni. Servono per le scene: un brivido scendendo in cantina, un personaggio che ti saluta, una trappola. Anche gli eventi hanno «Sposta in…», perché scattano nell'ordine dell'elenco.
 
+**Eventi guardando un oggetto.** In «Quando il giocatore» puoi scegliere **guarda un oggetto** invece di «entra in una stanza»: l'evento scatta subito dopo la descrizione dell'oggetto, se nessuna regola ha già risposto a quel «guarda». Con **solo la prima volta** scatta solo la prima volta che lo guardi: per esempio «Noti delle iniziali incise sul manico».
+
+
 ## soluzione | Soluzione e verifica
 
 La scheda Soluzione contiene i passi per vincere, ad alto livello: non i comandi esatti, ma le cose da ottenere nell'ordine. La soluzione resta nel core e non finisce mai nel gioco compilato.
@@ -158,6 +161,8 @@ La scheda Soluzione contiene i passi per vincere, ad alto livello: non i comandi
 - quante situazioni di gioco ha esplorato.
 
 La verifica ha un limite di tempo e di situazioni (circa 60.000). Un gioco molto grande può superarlo: in quel caso l'app dice che il controllo non è completo. Ogni variabile che conta qualcosa moltiplica le situazioni possibili, quindi usale con misura.
+
+**Quest secondaria.** Sotto la soluzione c'è uno spazio a parte per una quest che non serve per finire il gioco, per esempio una che porta a un finale diverso. Con **+ Aggiungi una quest secondaria** le dai un nome (facoltativo) e scrivi i suoi passi, come quelli della soluzione; **Verifica la quest secondaria** controlla che si raggiungano nell'ordine partendo dall'inizio del gioco. Anche la quest secondaria resta nel core e non entra nel gioco compilato.
 
 ## lingue | Lingue e traduzioni
 
@@ -230,7 +235,7 @@ Una parola che il gioco non conosce produce «Non conosco la parola «…»»: �
 - **Memoria:** circa 38 KB sul C64 e 28 KB sullo Spectrum per gioco, font e dati. Il pannello Controlli dice quanto ne usi. Le avventure grandi arriveranno con il caricamento da disco (.d64) e la compressione dei testi.
 - **Riga di comando:** sullo Spectrum al massimo 28 caratteri; i comandi più lunghi vengono tagliati.
 - **Variabili:** al massimo 64 sulle macchine retro, contando anche quelle che l'app usa per gli eventi «solo la prima volta».
-- **Niente salvataggio della partita** per ora, ed eventi solo d'ingresso: non ci sono ancora eventi a tempo, personaggi che si muovono da soli o dialoghi a menu.
+- **Niente salvataggio della partita** per ora, ed eventi solo d'ingresso o guardando un oggetto: non ci sono ancora eventi a tempo, personaggi che si muovono da soli o dialoghi a menu.
 - **Lingue del gioco:** italiano e inglese; ogni gioco compilato ne ha una sola.
 
 **Consigli**
