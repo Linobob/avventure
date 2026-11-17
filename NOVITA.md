@@ -2,6 +2,12 @@
 
 Le novità del motore e dell'app, dalla più recente. / What's new in the engine and the app, most recent first.
 
+## Piano terra scelto nella mappa (2026-11-17)
+
+Quando la mappa ha più livelli, un menu permette di scegliere quale è il piano terra: gli altri livelli si contano da lì (più in alto, più in basso). Di serie è il livello della stanza iniziale.
+
+*Ground floor chosen in the map:* When the map has several levels, a menu lets you choose which one is the ground floor: the other levels are counted from there (higher up, lower down). By default it is the level of the starting room.
+
 ## Quest secondaria nella Soluzione (2026-11-12)
 
 Sotto la soluzione c'è uno spazio a parte per una quest che non serve per finire il gioco, per esempio una che porta a un finale diverso: si scrivono i passi e si verificano come quelli della soluzione. Non entra nel gioco compilato.
