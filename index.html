@@ -3022,10 +3022,88 @@ function vistaMappa() {
     }
     return loc;
   };
+  // piazzamento con distanze variabili: ogni direzione dà un vincolo («est» = più a destra, non per forza accanto);
+  // le stanze unite da nord/sud stanno nella stessa colonna, quelle unite da est/ovest nella stessa riga.
+  // Se due stanze cadono nella stessa cella si prova a distanziarle allungando le linee (si sceglie la soluzione più corta
+  // e senza linee che passano sopra altre stanze). Se le direzioni sono contraddittorie torna null e si usa comp().
+  const compVar = root => {
+    const nodi = [root], vis = new Set([root]);
+    for (let i = 0; i < nodi.length; i++) vic.get(nodi[i]).forEach(({ id }) => { if (!vis.has(id)) { vis.add(id); nodi.push(id); } });
+    const zz = new Map([[root, 0]]);
+    for (let coda = [root]; coda.length;) {
+      const u = coda.shift();
+      for (const { id, v } of vic.get(u)) {
+        const z = zz.get(u) + v[2];
+        if (!zz.has(id)) { zz.set(id, z); coda.push(id); } else if (zz.get(id) !== z) return null;
+      }
+    }
+    const lati = [];
+    nodi.forEach(u => vic.get(u).forEach(({ id, v }) => lati.push([u, id, v])));
+    const asse = (a, extra) => {
+      const g = new Map(nodi.map(u => [u, u]));
+      const trova = u => { while (g.get(u) !== u) { g.set(u, g.get(g.get(u))); u = g.get(u); } return u; };
+      lati.forEach(([u, w, v]) => { if (v[a] === 0) g.set(trova(u), trova(w)); });
+      const radici = [...new Set(nodi.map(trova))];
+      const out = new Map(radici.map(r => [r, new Set()])), grado = new Map(radici.map(r => [r, 0]));
+      const arco = (f, t) => {
+        if (f === t) return false;
+        if (!out.get(f).has(t)) { out.get(f).add(t); grado.set(t, grado.get(t) + 1); }
+        return true;
+      };
+      for (const [u, w, v] of lati) if (v[a] > 0 && !arco(trova(u), trova(w))) return null;
+      for (const [p, q] of extra) if (!arco(trova(p), trova(q))) return null;
+      const val = new Map(radici.map(r => [r, 0])), gr = new Map(grado), coda = radici.filter(r => !grado.get(r)), ordine = [];
+      while (coda.length) {
+        const r = coda.shift(); ordine.push(r);
+        out.get(r).forEach(t => { val.set(t, Math.max(val.get(t), val.get(r) + 1)); gr.set(t, gr.get(t) - 1); if (!gr.get(t)) coda.push(t); });
+      }
+      if (ordine.length < radici.length) return null;
+      for (let i = ordine.length - 1; i >= 0; i--) { const r = ordine[i]; if (!grado.get(r) && out.get(r).size) val.set(r, Math.min(...[...out.get(r)].map(t => val.get(t))) - 1); }
+      return new Map(nodi.map(u => [u, val.get(trova(u))]));
+    };
+    const calcola = extra => { const X = asse(0, extra.x), Y = asse(1, extra.y); return X && Y ? { X, Y } : null; };
+    const chiave = (r, u) => r.X.get(u) + ',' + r.Y.get(u) + ',' + zz.get(u);
+    const collisione = r => {
+      const celle = new Map();
+      for (const u of nodi) { const k = chiave(r, u); if (celle.has(k)) return [celle.get(k), u]; celle.set(k, u); }
+      return null;
+    };
+    const costo = r => {
+      const celle = new Set(nodi.map(u => chiave(r, u)));
+      let c = 0;
+      lati.forEach(([u, w]) => {
+        if (u > w) return;
+        const dx = r.X.get(w) - r.X.get(u), dy = r.Y.get(w) - r.Y.get(u);
+        c += Math.abs(dx) + Math.abs(dy);
+        if (zz.get(u) !== zz.get(w) || (dx && dy)) return;
+        const n = Math.max(Math.abs(dx), Math.abs(dy));
+        for (let i = 1; i < n; i++) if (celle.has((r.X.get(u) + Math.sign(dx) * i) + ',' + (r.Y.get(u) + Math.sign(dy) * i) + ',' + zz.get(u))) c += 200;
+      });
+      return c;
+    };
+    let extra = { x: [], y: [] }, ris = calcola(extra);
+    if (!ris) return null;
+    for (let n = 0; n < 40; n++) {
+      const coll = collisione(ris);
+      if (!coll) break;
+      let meglio = null;
+      [[coll[0], coll[1]], [coll[1], coll[0]]].forEach(([p, q]) => ['x', 'y'].forEach(ax => {
+        const ex = { x: extra.x.slice(), y: extra.y.slice() }; ex[ax].push([p, q]);
+        const r = calcola(ex);
+        if (!r) return;
+        const c = costo(r);
+        if (!meglio || c < meglio.c) meglio = { c, ex, r };
+      }));
+      if (!meglio) return null;
+      extra = meglio.ex; ris = meglio.r;
+    }
+    if (collisione(ris)) return null;
+    return new Map(nodi.map(u => [u, { x: ris.X.get(u), y: ris.Y.get(u), z: zz.get(u) }]));
+  };
   let destra = 0;
   [CORE.inizio, ...S.map(s => s.id)].forEach(id => {
     if (pos.has(id) || !idx.has(id)) return;
-    const loc = comp(id);
+    const loc = compVar(id) || comp(id);
     const minX = Math.min(...[...loc.values()].map(p => p.x)), maxX = Math.max(...[...loc.values()].map(p => p.x));
     const dx = destra - minX;
     loc.forEach((p, i) => pos.set(i, { x: p.x + dx, y: p.y, z: p.z }));
