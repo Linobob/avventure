@@ -1,5 +1,5 @@
 // Service worker: l'app funziona anche senza connessione (cache versionata da pubblica.py).
-const CACHE = 'avventure-097fd42d81';
+const CACHE = 'avventure-e07f169e18';
 const BASE = ['./', 'index.html', 'manifest.webmanifest', 'apple-touch-icon.png', 'icon-192.png', 'icon-512.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => Promise.all(BASE.map(u => c.add(u).catch(() => {})))).then(() => self.skipWaiting()));

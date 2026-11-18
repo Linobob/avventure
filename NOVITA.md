@@ -2,6 +2,12 @@
 
 Le novità del motore e dell'app, dalla più recente. / What's new in the engine and the app, most recent first.
 
+## Due colonne e mappa a tutta larghezza (2026-11-18)
+
+Su desktop, sotto le schede, un selettore sceglie una colonna o due colonne affiancate, con una scheda diversa in ciascuna (menu «Scheda a destra»): utile per esempio per tenere la mappa o le regole accanto alle stanze. La scelta resta salvata. La mappa ora usa tutta la larghezza della finestra, senza scorrere di lato.
+
+*Two columns and full-width map:* On desktop, below the tabs, a selector chooses one column or two columns side by side, with a different tab in each ("Tab on the right" menu): handy for keeping the map or the rules next to the rooms. The choice is remembered. The map now uses the full width of the window, with no sideways scrolling.
+
 ## Piano terra scelto nella mappa (2026-11-17)
 
 Quando la mappa ha più livelli, un menu permette di scegliere quale è il piano terra: gli altri livelli si contano da lì (più in alto, più in basso). Di serie è il livello della stanza iniziale.
