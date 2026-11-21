@@ -459,6 +459,16 @@ details.card.piatta .primario { background: var(--tipo); color: var(--accent-fg)
 .mp-box { stroke: var(--line-forte); fill: var(--campo); }
 .mp-box.inizio { stroke: var(--stanza); }
 .mp-stanza:hover .mp-box, .mp-stanza:focus-visible .mp-box { stroke: var(--stanza); }
+
+/* ---- Contrasto forte (pagina, schede e campi ben distinti) ---- */
+:root { --bg: #c6c1df; --panel: #ffffff; --fg: #08061a; --muted: #322d58; --line: #7a72b2; --line-forte: #2f2878; --campo: #ecebf7; --fg-campo: #08061a; --accent: #2c1e8a; --accent-fg: #ffffff; --echo: #2c1e8a; --room: #1c1660; --stanza: #0f4280; --oggetto: #155f2b; --regola: #8f3e05; --uscita: #075a63; --err: #8e1b1f; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #000000; --panel: #2b2556; --fg: #ffffff; --muted: #dad6f5; --line: #7b71cc; --line-forte: #cfc8ff; --campo: #000000; --fg-campo: #ffffff; --accent: #c8c0ff; --accent-fg: #0d0a22; --echo: #c8c0ff; --stanza: #b8d8ff; --oggetto: #a3eab7; --regola: #ffc28c; --uscita: #94e6ee; --err: #ffb3ad; }
+}
+:root[data-theme="dark"] { --bg: #000000; --panel: #2b2556; --fg: #ffffff; --muted: #dad6f5; --line: #7b71cc; --line-forte: #cfc8ff; --campo: #000000; --fg-campo: #ffffff; --accent: #c8c0ff; --accent-fg: #0d0a22; --echo: #c8c0ff; --stanza: #b8d8ff; --oggetto: #a3eab7; --regola: #ffc28c; --uscita: #94e6ee; --err: #ffb3ad; }
+.schede, .sel-col, details.card, .mappa, .registro, .rapido, .secondario, .mini, .anteprima, .esito pre, .frammento, .riassunto-c, .lingua-riga, .tema, .tondo,
+.campo input[type=text], .campo textarea, .campo select, .riga-u select, .frammento select, .riga-f select, .col-dx-lab select, input[type=number], #core-json { border-width: 2px; }
+details.card[open] > summary { border-bottom-width: 2px; }
 </style>
 <div class="app">
   <header>
